@@ -1,5 +1,5 @@
 ;(function() {
-	var self = angular.module("aForm", []);
+	var self = angular.module("uForm", []);
 	self.directive("uForm", function() {
 		return {
 			templateUrl: '/form-templates/myForm.html', 			
