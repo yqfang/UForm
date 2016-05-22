@@ -1,0 +1,55 @@
+{
+    "fields": [
+        {
+            "name": "key1",
+            "type": "input",
+            "label": "用户名",
+            "required": true
+        },
+        {
+            "name": "password",
+            "type": "input:password",
+            "label": "密码",
+            "required": true
+        },
+        {
+            "name": "key2",
+            "type": "button",
+            "label": "点菜",
+            "buttonName": "编辑"
+        },
+        {
+            "name": "satisfied",
+            "type": "input:checkbox",
+            "label": "是否满意"
+        },
+        {
+            "name": "sex",
+            "label": "性别",
+            "type": "input:radio",
+            "candidates": [
+                {
+                    "value": "male",
+                    "label": "男性"
+                },
+                {
+                    "value": "female",
+                    "label": "女性"
+                }
+
+            ],            
+            "required": true
+        },
+        {
+            "name": "key3",
+            "type": "select",
+            "label": "label3",
+            "required": true,
+            "candidates": [
+                "kkkkkk",
+                "sadfasdf"
+            ]
+        }
+    ],
+    "showSubmit": false
+}

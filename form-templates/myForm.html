@@ -1,0 +1,52 @@
+<div>
+<div ng-form="myForm" ng-repeat="field in form.config.fields track by $index">
+	<h5>
+	  <span ng-show="field.required">*</span>
+	  {{ field.label }}:
+	</h5>
+	<div ng-switch="field.type">
+	  <div ng-switch-when="input">
+	    <div app-input-text-component field="field" model="form.result[field.name]">
+	    </div>
+	  </div>
+	  <div ng-switch-when="input:url">
+	    <div app-input-url-component field="field" model="form.result[field.name]">
+	    </div>
+	  </div>
+	  <div ng-switch-when="input:email">
+	    <div app-input-email-component field="field" model="form.result[field.name]">
+	    </div>
+	  </div>
+	  <div ng-switch-when="input:date">
+	    <div app-input-date-component field="field" model="form.result[field.name]">
+	    </div>
+	  </div>
+	  <div ng-switch-when="input:password">
+	    <div app-input-password-component field="field" model="form.result[field.name]">
+	    </div>
+	  </div>
+	  <div ng-switch-when="input:checkbox">
+	    <div app-input-checkbox-component field="field" model="form.result[field.name]">
+	    </div>
+	  </div>
+	  <div ng-switch-when="input:radio">
+	    <div app-input-radio-component field="field" model="form.result[field.name]">
+	    </div>
+	  </div>
+	  <div ng-switch-when="textarea">
+	    <div app-textarea-component field="field" model="form.result[field.name]">
+	    </div>
+	  </div>
+	  <div ng-switch-when="select">
+	    <div app-select-component field="field" model="form.result[field.name]">
+	    </div>
+	  </div>
+	  <div ng-switch-when="button">
+	    <div app-button-component field="field" model="form.result[field.name]">
+	    </div>
+	  </div>
+	</div>
+</div>
+<input type="submit" ng-if="form.config.showSubmit"/>
+<div ng-transclude></div>
+</div>

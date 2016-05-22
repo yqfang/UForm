@@ -1,0 +1,13 @@
+<div class="field">
+
+  <div ng-repeat="candidate in componentCtrl.field.candidates">
+  	<p>{{candidate.label}}</p>
+  	<input type="radio"
+         ng-model="componentCtrl.ref.model"
+         name="same"
+         value="{{candidate.value}}" 
+         ng-required="componentCtrl.field.required"
+         class="input" />
+  </div>
+  
+</div>
