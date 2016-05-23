@@ -2,19 +2,28 @@
 <html ng-app="myApp">
 <head>
 	<title>angular-data-driven-form</title>
+	<link href="//cdn.bootcss.com/bootstrap/3.1.1/css/bootstrap.css" rel="stylesheet">
+	<style>
+/*	.form-horizontal .control-group {
+		margin-bottom: 18px;
+	}*/
+	</style>
 </head>
 
 
 <body>
+<div style="width: 300px">
 	<form u-form 
+		  class="form-horizontal"
 	      ng-controller="pageController as pageCtrl"
 		  name="moduleForm"          
 		  config="pageCtrl.config" 
 		  ng-submit='pageCtrl.submit(moduleForm.$valid, pageCtrl.result)' 
 		  btn-handler="pageCtrl.click(field)" 
 		  result="pageCtrl.result">
-		  <input type="submit"/>
+		  <input class="btn btn-primary" type="submit"/>
 	</form>
+</div>
 
 <!--[if IE 8]>
 <script src="lib/json3/json3.js"></script>
@@ -22,7 +31,10 @@
 <script src="lib/html5shiv/html5shiv.js"></script>
 <![endif]-->
 <script type="text/javascript" src="/lib/angular.js"></script>
+<script type="text/javascript" src="lib/ui-bootstrap.js"></script>
+<script type="text/javascript" src="lib/ui-bootstrap-custom-tpls-0.12.0.min.js"></script>
 <script type="text/javascript" src="/upForm.js"></script>
+
 <script>
 
 ;(function() {
