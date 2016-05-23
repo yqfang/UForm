@@ -12,7 +12,7 @@
 
 
 <body>
-<div style="width: 300px">
+<div style="width: 300px;padding: 45px 15px">
 	<form u-form 
 		  class="form-horizontal"
 	      ng-controller="pageController as pageCtrl"
@@ -21,7 +21,7 @@
 		  ng-submit='pageCtrl.submit(moduleForm.$valid, pageCtrl.result)' 
 		  btn-handler="pageCtrl.click(field)" 
 		  result="pageCtrl.result">
-		  <input class="btn btn-primary" type="submit"/>
+
 	</form>
 </div>
 
@@ -38,7 +38,7 @@
 <script>
 
 ;(function() {
-	angular.module("myApp", ["uForm"])
+	angular.module("myApp", ["uForm",'ui.bootstrap'])
 		.controller("pageController", function($scope, $http) {
 			var vm = this;
 			vm.config = {};

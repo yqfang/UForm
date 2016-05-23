@@ -1,5 +1,5 @@
 ;(function() {
-	var self = angular.module("uForm", []);
+	var self = angular.module("uForm", ['ui.bootstrap']);
 	self.directive("uForm", function() {
 		return {
 			templateUrl: '/form-templates/myForm.html', 			
@@ -22,6 +22,7 @@
 		'input-password': 'appInputPasswordComponent',
 		'input-checkbox': 'appInputCheckboxComponent',
 		'input-radio': 'appInputRadioComponent',
+		'input-submit': 'appInputSubmitComponent',
 		'select': 'appSelectComponent',
 		'textarea': 'appTextareaComponent',
 		'button': 'appButtonComponent'

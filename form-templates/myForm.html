@@ -1,48 +1,52 @@
 <div>
 <div class="form-group" ng-form="myForm" ng-repeat="field in form.config.fields track by $index">
-	<label class="col-xs-4 control-label">
+	<label class="col-xs-4 control-label" ng-if="field.type!='input:checkbox' && field.type!='input:submit'">
 	  <span ng-show="field.required">*</span>
 	  {{ field.label }}:
 	</label>
 	<div ng-switch="field.type">
 	  <div ng-switch-when="input">
-	    <div class="col-xs-7" app-input-text-component field="field" model="form.result[field.name]">
+	    <div app-input-text-component field="field" model="form.result[field.name]">
 	    </div>
 	  </div>
 	  <div ng-switch-when="input:url">
-	    <div class="col-xs-7" app-input-url-component field="field" model="form.result[field.name]">
+	    <div app-input-url-component field="field" model="form.result[field.name]">
 	    </div>
 	  </div>
 	  <div ng-switch-when="input:email">
-	    <div class="col-xs-7" app-input-email-component field="field" model="form.result[field.name]">
+	    <div app-input-email-component field="field" model="form.result[field.name]">
 	    </div>
 	  </div>
 	  <div ng-switch-when="input:date">
-	    <div class="col-xs-7" app-input-date-component field="field" model="form.result[field.name]">
+	    <div app-input-date-component field="field" model="form.result[field.name]">
 	    </div>
 	  </div>
 	  <div ng-switch-when="input:password">
-	    <div class="col-xs-7" app-input-password-component field="field" model="form.result[field.name]">
+	    <div app-input-password-component field="field" model="form.result[field.name]">
 	    </div>
 	  </div>
 	  <div ng-switch-when="input:checkbox">
-	    <div class="col-xs-7" app-input-checkbox-component field="field" model="form.result[field.name]">
+	    <div app-input-checkbox-component field="field" model="form.result[field.name]">
 	    </div>
 	  </div>
 	  <div ng-switch-when="input:radio">
-	    <div class="col-xs-7" app-input-radio-component field="field" model="form.result[field.name]">
+	    <div app-input-radio-component field="field" model="form.result[field.name]">
+	    </div>
+	  </div>
+	  <div ng-switch-when="input:submit">
+	    <div app-input-submit-component field="field" model="form.result[field.name]">
 	    </div>
 	  </div>
 	  <div ng-switch-when="textarea">
-	    <div class="col-xs-7" app-textarea-component field="field" model="form.result[field.name]">
+	    <div app-textarea-component field="field" model="form.result[field.name]">
 	    </div>
 	  </div>
 	  <div ng-switch-when="select">
-	    <div class="col-xs-7" app-select-component field="field" model="form.result[field.name]">
+	    <div app-select-component field="field" model="form.result[field.name]">
 	    </div>
 	  </div>
 	  <div ng-switch-when="button">
-	    <div class="col-xs-7" app-button-component field="field" model="form.result[field.name]">
+	    <div app-button-component field="field" model="form.result[field.name]">
 	    </div>
 	  </div>
 	</div>
