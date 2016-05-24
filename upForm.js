@@ -2,7 +2,7 @@
 	var self = angular.module("uForm", ['ui.bootstrap']);
 	self.directive("uForm", function() {
 		return {
-			templateUrl: '/form-templates/myForm.html', 			
+			templateUrl: 'form-templates/myForm.html', 			
 			transclude: true,
 			controller: function($scope, $attrs) {
 				this.config = $scope.$eval($attrs.config);
@@ -29,13 +29,21 @@
 		'button': 'appButtonComponent'
 	}, function(directiveSelector, tpl) {
 		self
-		.directive(directiveSelector, function($injector, $compile) {
+		.directive(directiveSelector, function() {
 		  return {
 		  	restrict: 'EA',
 		    controller: function($scope, $attrs) {
 			    var directiveScope = $scope.$parent;
 			    this.field = directiveScope.$eval($attrs.field);
-			    this.ref = $scope;	    		   
+			    this.ref = $scope;
+			    this.init = function() {
+					//init date with value: today  
+			    	if(this.field.type === 'input:date') {
+			    		this.ref.model = new Date();
+			    	}
+			    }
+			    this.init(); 
+			     		   
   			},
 		    controllerAs: 'componentCtrl',
 		    templateUrl : './field-templates/' + tpl + '.html',
@@ -48,7 +56,7 @@
 			   		e.preventDefault();
 			   		e.stopPropagation()
 			   		form.btnHandler(field);
-			   	}	
+			   	}
 		    }
 		  }
 		})

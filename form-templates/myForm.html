@@ -1,8 +1,17 @@
 <div>
 	<style type="text/css">
-	.form-inline .inline-control {
-		display: inline-block;
-	}
+		.form-inline .inline-control {
+			display: inline-block;
+		}
+		.form-inline .form-control {
+			margin-right: 12px;
+		}
+		.form-inline .datepicker {
+			width: 120px;
+		}
+		.form-inline input[type='text'] {
+			width: 120px;
+		}	
 	</style>
 <div class="form-group" ng-form="myForm" ng-repeat="field in form.config.fields track by $index">
 	<label ng-class="form.config.style.labelClass" class="control-label">
