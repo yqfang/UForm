@@ -19,6 +19,7 @@
 		'input-url': 'appInputUrlComponent',
 		'input-email': 'appInputEmailComponent',
 		'input-date': 'appInputDateComponent',
+		'input-multiple': 'appInputMultipleComponent',
 		'input-password': 'appInputPasswordComponent',
 		'input-checkbox': 'appInputCheckboxComponent',
 		'input-radio': 'appInputRadioComponent',
@@ -28,7 +29,7 @@
 		'button': 'appButtonComponent'
 	}, function(directiveSelector, tpl) {
 		self
-		.directive(directiveSelector, [function() {
+		.directive(directiveSelector, function($injector, $compile) {
 		  return {
 		  	restrict: 'EA',
 		    controller: function($scope, $attrs) {
@@ -50,6 +51,6 @@
 			   	}	
 		    }
 		  }
-		}])
+		})
 	});
 })()

@@ -1,56 +1,40 @@
 <div>
+	<style type="text/css">
+	.form-inline .inline-control {
+		display: inline-block;
+	}
+	</style>
 <div class="form-group" ng-form="myForm" ng-repeat="field in form.config.fields track by $index">
-	<label class="col-xs-4 control-label" ng-if="field.type!='input:checkbox' && field.type!='input:submit'">
+	<label ng-class="form.config.style.labelClass" class="control-label">
 	  <span ng-show="field.required">*</span>
-	  {{ field.label }}:
+	  <span ng-if="field.type!='input:checkbox'">{{ field.label }}</span>
 	</label>
-	<div ng-switch="field.type">
-	  <div ng-switch-when="input">
-	    <div app-input-text-component field="field" model="form.result[field.name]">
-	    </div>
+	<div ng-switch="field.type" ng-class="form.config.style.inputClass">
+	  <div ng-switch-when="input" app-input-text-component field="field" model="form.result[field.name]">
 	  </div>
-	  <div ng-switch-when="input:url">
-	    <div app-input-url-component field="field" model="form.result[field.name]">
-	    </div>
+	  <div ng-switch-when="input:url" app-input-url-component field="field" model="form.result[field.name]">
 	  </div>
-	  <div ng-switch-when="input:email">
-	    <div app-input-email-component field="field" model="form.result[field.name]">
-	    </div>
+	  <div ng-switch-when="input:email" app-input-email-component field="field" model="form.result[field.name]">
+      </div>
+      <div ng-switch-when="input:multiple" app-input-multiple-component field="field" model="form.result[field.name]">
+      </div>
+	  <div ng-switch-when="input:date" app-input-date-component field="field" model="form.result[field.name]">
 	  </div>
-	  <div ng-switch-when="input:date">
-	    <div app-input-date-component field="field" model="form.result[field.name]">
-	    </div>
+	  <div ng-switch-when="input:password" app-input-password-component field="field" model="form.result[field.name]">
 	  </div>
-	  <div ng-switch-when="input:password">
-	    <div app-input-password-component field="field" model="form.result[field.name]">
-	    </div>
+	  <div ng-switch-when="input:checkbox" app-input-checkbox-component field="field" model="form.result[field.name]">
 	  </div>
-	  <div ng-switch-when="input:checkbox">
-	    <div app-input-checkbox-component field="field" model="form.result[field.name]">
-	    </div>
+	  <div ng-switch-when="input:radio" app-input-radio-component field="field" model="form.result[field.name]">
 	  </div>
-	  <div ng-switch-when="input:radio">
-	    <div app-input-radio-component field="field" model="form.result[field.name]">
-	    </div>
+	  <div ng-switch-when="input:submit" app-input-submit-component field="field" model="form.result[field.name]">
 	  </div>
-	  <div ng-switch-when="input:submit">
-	    <div app-input-submit-component field="field" model="form.result[field.name]">
-	    </div>
+	  <div ng-switch-when="textarea" app-textarea-component field="field" model="form.result[field.name]">
 	  </div>
-	  <div ng-switch-when="textarea">
-	    <div app-textarea-component field="field" model="form.result[field.name]">
-	    </div>
+	  <div ng-switch-when="select" app-select-component field="field" model="form.result[field.name]">
 	  </div>
-	  <div ng-switch-when="select">
-	    <div app-select-component field="field" model="form.result[field.name]">
-	    </div>
-	  </div>
-	  <div ng-switch-when="button">
-	    <div app-button-component field="field" model="form.result[field.name]">
-	    </div>
+	  <div ng-switch-when="button" app-button-component field="field" model="form.result[field.name]">
 	  </div>
 	</div>
 </div>
-<input type="submit" ng-if="form.config.showSubmit"/>
 <div ng-transclude></div>
 </div>

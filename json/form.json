@@ -13,18 +13,61 @@
             "required": true
         },
         {
+            "name": "write",
+            "type": "textarea",
+            "label": "备注"
+        },
+        {
             "name": "datefor",
             "type": "input:date",
             "label": "日期"
         },
         {
-            "name": "key3",
+            "name": "country",
             "type": "select",
-            "label": "label3",
+            "label": "国家",
             "required": true,
             "candidates": [
-                "kkkkkk",
-                "sadfasdf"
+                {
+                    "name": "美国",
+                    "value": "American"
+                },
+                {
+                    "name": "英国",
+                    "value": "English"
+                }
+            ]
+        },
+        {
+            "name": "city",
+            "type": "input:multiple",
+            "label": "城市",
+            "required": true,
+            "candidates": [
+                {
+                    "name": "上海",
+                    "value": "shanghai"
+                },
+                {
+                    "name": "北京",
+                    "value": "beijing"
+                },
+                {
+                    "name": "西安",
+                    "value": "xian"
+                },
+                {
+                    "name": "上海1",
+                    "value": "shanghai1"
+                },
+                {
+                    "name": "北京1",
+                    "value": "beijing1"
+                },
+                {
+                    "name": "西安1",
+                    "value": "xian1"
+                }
             ]
         },
         {
@@ -57,11 +100,15 @@
             ],            
             "required": true
         },
-
-
         {
-            "type": "input:submit"
+            "type": "input:submit",
+            "value": "提交"
         }
     ],
-    "showSubmit": false
+    "style": {        
+        "formClass": "form-horizontal",
+        "labelClass": "col-xs-4",
+        "inputClass": "col-xs-8"
+    }
+
 }

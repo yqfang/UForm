@@ -1,5 +1,13 @@
 # UForm
-Directive for data-driven form
+
+UForm is Directive for data-driven form for various field
+
+## UForm v1.0 Update
+
+1. add two form style: form-horizental and form-inline 
+2. add date-picker component
+3. add multiple input
+4. add labelClass and inputClass
 
 
 ## Example:
@@ -58,10 +66,7 @@ the result object, you can define it in the controller scope, or it would be aut
 
 ## TODO:
 
-1. add more field, ui-bootstrap datepicker, file uploader, multi-selector
-2. use bootstrap horizental form group
-3. user-defined class for field-group, label, field, etc
-
+1. add file uploader, two-way-multi-selector
 
 ## Contact me:
 
