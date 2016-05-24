@@ -1,0 +1,71 @@
+{
+    "fields": [
+        {
+            "name": "key1",
+            "type": "input",
+            "label": "用户名",
+            "required": true
+        },
+        {
+            "name": "password",
+            "type": "input:password",
+            "label": "密码",
+            "required": true
+        },
+        {
+            "name": "datefor",
+            "type": "input:date",
+            "label": "日期"
+        },
+        {
+            "name": "key3",
+            "type": "select",
+            "label": "label3",
+            "required": true,
+            "candidates": [
+                "kkkkkk",
+                "sadfasdf"
+            ]
+        },
+        {
+            "name": "key2",
+            "type": "button",
+            "label": "点菜",
+            "buttonName": "编辑"
+        },
+        {
+            "name": "satisfied",
+            "type": "input:checkbox",
+            "label": "是否满意"
+        },
+
+        {
+            "name": "sex",
+            "label": "性别",
+            "type": "input:radio",
+            "hide": true,
+            "candidates": [
+                {
+                    "value": "male",
+                    "label": "男性"
+                },
+                {
+                    "value": "female",
+                    "label": "女性"
+                }
+
+            ],            
+            "required": true
+        },
+        {
+            "type": "input:submit",
+            "value": "提交"
+        }
+    ],
+    "options": {
+        "showSubmit": false,
+        "formClass": "form-inline",
+        "inputClass": "inline-control"
+    }
+
+}
