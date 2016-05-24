@@ -42,7 +42,8 @@
 			    this.init = function() {
 					//init date with value: today  
 			    	if(this.field.type === 'input:date' 
-			    	|| this.field.type === 'input:time') {
+			    	|| this.field.type === 'input:time'
+			    	|| this.field.type === 'input:datetime') {
 			    		this.ref.model = new Date();
 			    	}
 			    }

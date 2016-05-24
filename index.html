@@ -7,7 +7,7 @@
 
 
 <body>
-<div style="width: 1000px;padding: 45px 15px">
+<div style="width: 1600px;padding: 45px 15px;background: grey">
 	<form u-form 		  
 	      ng-controller="pageController as pageCtrl"
 	      ng-class="pageCtrl.option.formClass"
@@ -45,7 +45,7 @@
 			var vm = this;
 			vm.fields = [];
 			vm.option = {};
-			$http.get("json/form-horizontal.json").success(function(data) {
+			$http.get("json/form-search.json").success(function(data) {
 				angular.extend(vm.fields, data.fields);
 				angular.extend(vm.option, data.option);
 			})

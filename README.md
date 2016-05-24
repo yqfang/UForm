@@ -2,12 +2,15 @@
 
 UForm is Directive for data-driven form for various field
 
-## UForm v1.0 Update
+## UForm v1.2 Feature
 
-1. add two form style: form-horizental and form-inline 
-2. add date-picker component
-3. add multiple input
-4. add labelClass and inputClass
+1. supports 14 kinds of fields for form
+2. support both horizontal and inline form in one template
+3. support require validation
+4. support bootstrap ui
+5. extraordinary slim, 60 line of code only
+6. completely support ie8
+7. JSON driven form
 
 
 ## Example:
@@ -64,9 +67,10 @@ so it's convinient to give all button a common proxy handler
 the result object, you can define it in the controller scope, or it would be automatically created according your `result` attr
 
 
-## TODO:
+## What will next in v2.0 ?
 
-1. add file uploader, two-way-multi-selector
+1. form-grouped directive feature (important)
+2. field watcher (important)
 
 ## Contact me:
 
