@@ -26,7 +26,7 @@
 	        "value": "查询"
 	    }
 	],
-	"style": {
+	"option": {
 	    "formClass": "form-inline",
 	    "inputClass": "inline-control"
 	}

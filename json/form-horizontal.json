@@ -105,7 +105,7 @@
             "value": "提交"
         }
     ],
-    "style": {        
+    "option": {        
         "formClass": "form-horizontal",
         "labelClass": "col-xs-4",
         "inputClass": "col-xs-8"

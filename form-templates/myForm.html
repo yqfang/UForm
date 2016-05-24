@@ -13,12 +13,12 @@
 			width: 120px;
 		}	
 	</style>
-<div class="form-group" ng-form="myForm" ng-repeat="field in form.config.fields track by $index">
-	<label ng-class="form.config.style.labelClass" class="control-label">
+<div class="form-group" ng-form="myForm" ng-repeat="field in form.fields track by $index">
+	<label ng-class="form.option.labelClass" class="control-label">
 	  <span ng-show="field.required">*</span>
 	  <span ng-if="field.type!='input:checkbox'">{{ field.label }}</span>
 	</label>
-	<div ng-switch="field.type" ng-class="form.config.style.inputClass">
+	<div ng-switch="field.type" ng-class="form.option.inputClass">
 	  <div ng-switch-when="input" app-input-text-component field="field" model="form.result[field.name]">
 	  </div>
 	  <div ng-switch-when="input:url" app-input-url-component field="field" model="form.result[field.name]">

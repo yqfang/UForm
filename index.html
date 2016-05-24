@@ -10,9 +10,10 @@
 <div style="width: 1000px;padding: 45px 15px">
 	<form u-form 		  
 	      ng-controller="pageController as pageCtrl"
-	      ng-class="pageCtrl.config.style.formClass"
+	      ng-class="pageCtrl.option.formClass"
 		  name="moduleForm"          
-		  config="pageCtrl.config" 
+		  fields="pageCtrl.fields"
+		  option="pageCtrl.option" 
 		  ng-submit='pageCtrl.submit(moduleForm.$valid, pageCtrl.result)' 
 		  btn-handler="pageCtrl.click(field)" 
 		  result="pageCtrl.result">
@@ -36,9 +37,11 @@
 	angular.module("myApp", ["uForm"])
 		.controller("pageController", function($scope, $http) {
 			var vm = this;
-			vm.config = {};
-			$http.get("json/form-inline.json").success(function(data) {
-				angular.extend(vm.config, data);
+			vm.fields = [];
+			vm.option = {};
+			$http.get("json/form-horizontal.json").success(function(data) {
+				angular.extend(vm.fields, data.fields);
+				angular.extend(vm.option, data.option);
 			})
 			this.click = function(field) {
 				console.info(field);
