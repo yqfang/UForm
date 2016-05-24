@@ -1,0 +1,60 @@
+{
+	"fields": [
+	    {
+	        "name": "due",
+	        "type": "select",
+	        "candidates": [
+	            {
+	                "name": "示例IP",
+	                "value": "American"
+	            },
+	            {
+	                "name": "英国",
+	                "value": "English"
+	            }
+	        ]
+	    },
+	    {
+	        "name": "place",
+	        "type": "select",
+	        "candidates": [
+	            {
+	            	"name": "华北 1（青岛）",
+	            	"value": "English"
+	            },
+	            {
+	                "name": "英国",
+	                "value": "English"
+	            }
+	        ]
+	    },
+	    {
+	        "name": "thing",
+	        "type": "select",
+	        "candidates": [
+	            {
+	                "name": "15天内到期",
+	                "value": "American"
+	            },
+	            {
+	                "name": "华北 1（青岛）",
+	                "value": "English"
+	            }
+	        ]
+	    },
+	    {
+	        "name": "keywords",
+	        "type": "input",
+	        "placeholder": "请输入示例IP进行精确查询",
+	        "style": {"width": "220px"}
+	    },
+	    {
+	        "type": "input:submit",
+	        "value": "搜索"
+	    }
+	],
+	"option": {
+	    "formClass": "form-inline",
+	    "inputClass": "inline-control"
+	}
+}
