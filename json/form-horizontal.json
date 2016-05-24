@@ -4,7 +4,8 @@
             "name": "key1",
             "type": "input",
             "label": "用户名",
-            "required": true
+            "required": true,
+            "placeholder": "请输入用户名"
         },
         {
             "name": "password",
@@ -21,6 +22,16 @@
             "name": "datefor",
             "type": "input:date",
             "label": "日期"
+        },
+        {
+            "name": "timefor",
+            "type": "input:time",
+            "label": "时间"
+        },
+        {
+            "name": "datetime",
+            "type": "input:datetime",
+            "label": "具体时间"
         },
         {
             "name": "country",
@@ -46,27 +57,51 @@
             "candidates": [
                 {
                     "name": "上海",
-                    "value": "shanghai"
+                    "value": "1"
                 },
                 {
                     "name": "北京",
-                    "value": "beijing"
+                    "value": "2"
                 },
                 {
                     "name": "西安",
-                    "value": "xian"
+                    "value": "3"
                 },
                 {
                     "name": "上海1",
-                    "value": "shanghai1"
+                    "value": "4"
                 },
                 {
                     "name": "北京1",
-                    "value": "beijing1"
+                    "value": "5"
                 },
                 {
                     "name": "西安1",
-                    "value": "xian1"
+                    "value": "6"
+                },
+                {
+                    "name": "上海1",
+                    "value": "7"
+                },
+                {
+                    "name": "北京1",
+                    "value": "8"
+                },
+                {
+                    "name": "西安1",
+                    "value": "9"
+                },
+                {
+                    "name": "上海1",
+                    "value": "10"
+                },
+                {
+                    "name": "北京1",
+                    "value": "11"
+                },
+                {
+                    "name": "西安1",
+                    "value": "12"
                 }
             ]
         },
@@ -108,7 +143,7 @@
     "option": {        
         "formClass": "form-horizontal",
         "labelClass": "col-xs-4",
-        "inputClass": "col-xs-8"
+        "inputClass": "col-xs-4"
     }
 
 }

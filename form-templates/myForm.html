@@ -11,6 +11,15 @@
 		}
 		.form-inline input[type='text'] {
 			width: 120px;
+		}
+		.form-horizontal .control-label {
+			text-align: right;
+		}
+		.form-horizontal .control-datepicker {
+			padding-left: 0;
+		}
+		.timepicker tr.text-center {
+			display: none;
 		}	
 	</style>
 <div class="form-group" ng-form="myForm" ng-repeat="field in form.fields track by $index">
@@ -28,6 +37,10 @@
       <div ng-switch-when="input:multiple" app-input-multiple-component field="field" model="form.result[field.name]">
       </div>
 	  <div ng-switch-when="input:date" app-input-date-component field="field" model="form.result[field.name]">
+	  </div>
+	  <div ng-switch-when="input:time" app-input-time-component field="field" model="form.result[field.name]">
+	  </div>
+	  <div ng-switch-when="input:datetime" app-input-datetime-component field="field" model="form.result[field.name]">
 	  </div>
 	  <div ng-switch-when="input:password" app-input-password-component field="field" model="form.result[field.name]">
 	  </div>

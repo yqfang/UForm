@@ -1,5 +1,5 @@
 ;(function() {
-	var self = angular.module("uForm", ['ui.bootstrap']);
+	var self = angular.module("uForm", ['ui.bootstrap','ng.shims.placeholder','ngLocale']);
 	self.directive("uForm", function() {
 		return {
 			templateUrl: 'form-templates/myForm.html', 			
@@ -20,6 +20,8 @@
 		'input-url': 'appInputUrlComponent',
 		'input-email': 'appInputEmailComponent',
 		'input-date': 'appInputDateComponent',
+		'input-time': 'appInputTimeComponent',
+		'input-datetime': 'appInputDatetimeComponent',
 		'input-multiple': 'appInputMultipleComponent',
 		'input-password': 'appInputPasswordComponent',
 		'input-checkbox': 'appInputCheckboxComponent',
@@ -39,7 +41,8 @@
 			    this.ref = $scope;
 			    this.init = function() {
 					//init date with value: today  
-			    	if(this.field.type === 'input:date') {
+			    	if(this.field.type === 'input:date' 
+			    	|| this.field.type === 'input:time') {
 			    		this.ref.model = new Date();
 			    	}
 			    }
@@ -62,4 +65,5 @@
 		  }
 		})
 	});
-})()
+})();
+
