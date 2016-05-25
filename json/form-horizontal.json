@@ -134,16 +134,12 @@
 
             ],            
             "required": true
-        },
-        {
-            "type": "input:submit",
-            "value": "提交"
         }
     ],
     "option": {        
         "formClass": "form-horizontal",
         "labelClass": "col-xs-2",
-        "inputClass": "col-xs-8"
+        "inputClass": "col-xs-4"
     }
 
 }

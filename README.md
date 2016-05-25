@@ -2,7 +2,7 @@
 
 UForm is Directive for data-driven form for various field
 
-## UForm v1.2 Feature
+## UForm v1.5 Feature
 
 1. supports 14 kinds of fields for form
 2. support both horizontal and inline form in one template
@@ -11,6 +11,7 @@ UForm is Directive for data-driven form for various field
 5. extraordinary slim, 60 line of code only
 6. completely support ie8
 7. JSON driven form
+8. Support Grouped form (new in v1.5)
 
 
 ## Example:
@@ -69,8 +70,8 @@ the result object, you can define it in the controller scope, or it would be aut
 
 ## What will next in v2.0 ?
 
-1. form-grouped directive feature (important)
-2. field watcher (important)
+
+1. field watcher (important)
 
 ## Contact me:
 

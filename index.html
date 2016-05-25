@@ -4,20 +4,31 @@
 	<title>angular-data-driven-form</title>
 	<link href="//cdn.bootcss.com/bootstrap/3.1.1/css/bootstrap.css" rel="stylesheet">
 </head>
-
-
 <body>
-<div style="width: 1600px;padding: 45px 15px;background: grey">
-	<form u-form 		  
-	      ng-controller="pageController as pageCtrl"
-	      ng-class="pageCtrl.option.formClass"
-		  name="moduleForm"          
-		  fields="pageCtrl.fields"
-		  option="pageCtrl.option" 
-		  ng-submit='pageCtrl.submit(moduleForm.$valid, pageCtrl.result)' 
-		  btn-handler="pageCtrl.click(field)" 
-		  result="pageCtrl.result">
-		  
+<div style="width: 1600px;padding: 45px 15px;background: #EEE">
+	<form u-form-group
+		 name="grouped"
+		 ng-controller="parentController as vm"
+		 fields="vm.fields"
+		 result="vm.result"
+		 ng-submit="vm.submit(grouped.$valid, vm.result)">
+
+		<div u-form
+			 ng-form	  
+		     ng-controller="child1Controller as vm"
+		     ng-class="vm.option.formClass"			           
+			 fields="vm.fields"
+			 option="vm.option"
+			 btn-handler="vm.click(field)"
+			 result="vm.result"></div>
+		<div u-form
+			 ng-form	  
+		     ng-controller="child2Controller as vm"
+		     ng-class="vm.option.formClass"		           
+			 fields="vm.fields"
+			 option="vm.option"
+			 btn-handler="vm.click(field)"
+			 result="vm.result"></div>
 	</form>
 </div>
 
@@ -33,7 +44,6 @@
 <script type="text/javascript" src="lib/angular-locale_zh.js"></script>
 <script type="text/javascript" src="lib/angular-shims-placeholder.min.js"></script>
 <script type="text/javascript" src="upForm.js"></script>
-
 <script>
 
 ;(function() {
@@ -41,29 +51,40 @@
 		.config(function(datepickerConfig) {
 			datepickerConfig.showWeeks = false;
 		})
-		.controller("pageController", function($scope, $http) {
+		.controller("parentController", function($scope) {
+			this.submit = function(valid, data) {
+				console.info(valid);
+				console.log('submitted:', JSON.stringify(data));
+			}
+		})
+		.controller("child1Controller", function($scope, $http) {
 			var vm = this;
 			vm.fields = [];
 			vm.option = {};
-			$http.get("json/form-search.json").success(function(data) {
+			$http.get("json/form-horizontal.json").success(function(data) {
 				angular.extend(vm.fields, data.fields);
 				angular.extend(vm.option, data.option);
 			})
-			this.now = new Date();
+			this.click = function(valid, field) {
+				console.info(field);
+				vm.result[field.name] = "test";
+			}
+		})
+		.controller("child2Controller", function($scope, $http) {
+			var vm = this;
+			vm.fields = [];
+			vm.option = {};
+			$http.get("json/form-inline.json").success(function(data) {
+				angular.extend(vm.fields, data.fields);
+				angular.extend(vm.option, data.option);
+			})
 			this.click = function(field) {
 				console.info(field);
 				vm.result[field.name] = "test";
 			}
-			this.submit = function(valid, data) {
-		      if (valid) {
-		        console.log('submitted', JSON.stringify(data));
-		      }
-			}
 		});
+
 })()
-
-
-
 
 </script>
 

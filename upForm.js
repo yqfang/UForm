@@ -1,5 +1,17 @@
 ;(function() {
 	var self = angular.module("uForm", ['ui.bootstrap','ng.shims.placeholder','ngLocale']);
+
+	self.directive("uFormGroup", function() {
+		return {
+			controller: function($scope, $attrs) {
+				this.fields = $scope.$eval($attrs.fields) || $scope.$eval($attrs.fields + "=[]");;
+				this.result = $scope.$eval($attrs.result) || $scope.$eval($attrs.result + "=[]");;
+			},
+			template: '<div ng-transclude></div>',
+			controllerAs: "uFormGroup",
+			transclude: true
+		}
+	});
 	self.directive("uForm", function() {
 		return {
 			templateUrl: 'form-templates/myForm.html', 			
@@ -12,9 +24,16 @@
 					$scope.$eval($attrs.btnHandler, {field: field});
 				}
 			},
-			controllerAs: "form"
+			controllerAs: "form",
+			require: ['?^uFormGroup'],
+			link: function(scope, elem, attr, ctrls) {
+				var uFormGroup = ctrls[0];
+				uFormGroup && uFormGroup.fields && uFormGroup.fields.push(scope.form.fields);
+				uFormGroup && uFormGroup.result && uFormGroup.result.push(scope.form.result);
+			}
+			
 		}
-	})
+	});
 	angular.forEach({
 		'input-text': 'appInputTextComponent',
 		'input-url': 'appInputUrlComponent',
