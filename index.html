@@ -12,23 +12,21 @@
 		 fields="vm.fields"
 		 result="vm.result"
 		 ng-submit="vm.submit(grouped.$valid, vm.result)">
-
-		<div u-form
-			 ng-form	  
-		     ng-controller="child1Controller as vm"
-		     ng-class="vm.option.formClass"			           
-			 fields="vm.fields"
-			 option="vm.option"
-			 btn-handler="vm.click(field)"
-			 result="vm.result"></div>
-		<div u-form
-			 ng-form	  
-		     ng-controller="child2Controller as vm"
-		     ng-class="vm.option.formClass"		           
-			 fields="vm.fields"
-			 option="vm.option"
-			 btn-handler="vm.click(field)"
-			 result="vm.result"></div>
+		 <div u-form
+			  ng-form	  
+		      ng-controller="child1Controller as vm"
+		      ng-class="vm.option.formClass"			           
+			  fields="vm.fields"
+			  option="vm.option"
+			  btn-handler="vm.click(field)"
+			  result="vm.result"></div>
+		 <div u-form
+			  ng-form	  
+		      ng-controller="child2Controller as vm"
+		      ng-class="vm.option.formClass"			           
+			  fields="vm.fields"
+			  option="vm.option"
+			  result="vm.result"></div>
 	</form>
 </div>
 
@@ -53,21 +51,22 @@
 		})
 		.controller("parentController", function($scope) {
 			this.submit = function(valid, data) {
-				console.info(valid);
-				console.log('submitted:', JSON.stringify(data));
+				if(valid){
+					console.log('submitted:', JSON.stringify(data));
+				}	
 			}
 		})
 		.controller("child1Controller", function($scope, $http) {
 			var vm = this;
-			vm.fields = [];
-			vm.option = {};
+			this.fields = [];
+			this.option = {};
 			$http.get("json/form-horizontal.json").success(function(data) {
 				angular.extend(vm.fields, data.fields);
 				angular.extend(vm.option, data.option);
 			})
-			this.click = function(valid, field) {
-				console.info(field);
+			this.click = function(field) {
 				vm.result[field.name] = "test";
+				console.info(field);
 			}
 		})
 		.controller("child2Controller", function($scope, $http) {
@@ -79,8 +78,8 @@
 				angular.extend(vm.option, data.option);
 			})
 			this.click = function(field) {
-				console.info(field);
 				vm.result[field.name] = "test";
+				console.info(field);
 			}
 		});
 
