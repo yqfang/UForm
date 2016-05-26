@@ -16,10 +16,11 @@
 		return {
 			templateUrl: 'form-templates/myForm.html', 			
 			transclude: true,
-			controller: function($scope, $attrs) {
+			controller: function($scope, $attrs, $rootScope) {
 				this.fields = $scope.$eval($attrs.fields);
 				this.option = $scope.$eval($attrs.option);
 				this.result = $scope.$eval($attrs.result) || $scope.$eval($attrs.result + "={}");
+				$rootScope.monitor.result = this.result;
 				this.btnHandler = function(field) {
 					$scope.$eval($attrs.btnHandler, {field: field});
 				}

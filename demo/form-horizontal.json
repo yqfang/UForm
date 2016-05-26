@@ -143,7 +143,7 @@
     "option": {        
         "formClass": "form-horizontal",
         "labelClass": "col-xs-2",
-        "inputClass": "col-xs-4"
+        "inputClass": "col-xs-9"
     }
 
 }
