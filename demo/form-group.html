@@ -1,0 +1,20 @@
+<form u-form-group
+	 name="grouped"
+	 fields="vm.fields"
+	 result="vm.result"
+	 ng-submit="vm.submit(grouped.$valid, vm.result)">
+	 <div u-form
+		  ng-form	  
+	      ng-class="vm.group1.option.formClass"			           
+		  fields="vm.group1.fields"
+		  option="vm.group1.option"		  
+		  result="vm.group1.result" style="margin-left: 80px;margin-bottom: 25px"></div>
+		  <hr/>
+	 <div u-form
+		  ng-form	  
+	      ng-class="vm.group2.option.formClass"			           
+		  fields="vm.group2.fields"
+		  option="vm.group2.option"
+		  btn-handler="vm.group2.click(field)"
+		  result="vm.group2.result"></div>
+</form>

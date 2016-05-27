@@ -12,25 +12,29 @@
 			transclude: true
 		}
 	});
-	self.directive("uForm", function() {
+	self.directive("uForm", function($rootScope) {
 		return {
 			templateUrl: 'form-templates/myForm.html', 			
 			transclude: true,
 			controller: function($scope, $attrs, $rootScope) {
-				this.fields = $scope.$eval($attrs.fields);
-				this.option = $scope.$eval($attrs.option);
-				this.result = $scope.$eval($attrs.result) || $scope.$eval($attrs.result + "={}");
+				var $parent = $scope.$parent;
+				this.fields = $parent.$eval($attrs.fields);
+				this.option = $parent.$eval($attrs.option);
+				this.result = $parent.$eval($attrs.result) || $parent.$eval($attrs.result + "={}");
 				$rootScope.monitor.result = this.result;
 				this.btnHandler = function(field) {
-					$scope.$eval($attrs.btnHandler, {field: field});
+					$parent.$eval($attrs.btnHandler, {field: field});
 				}
 			},
+			scope: {},
 			controllerAs: "form",
 			require: ['?^uFormGroup'],
 			link: function(scope, elem, attr, ctrls) {
 				var uFormGroup = ctrls[0];
 				uFormGroup && uFormGroup.fields && uFormGroup.fields.push(scope.form.fields);
 				uFormGroup && uFormGroup.result && uFormGroup.result.push(scope.form.result);
+				uFormGroup && ($rootScope.monitor.form = uFormGroup.fields);
+				uFormGroup && ($rootScope.monitor.result = uFormGroup.result);
 			}
 			
 		}
@@ -58,17 +62,7 @@
 		    controller: function($scope, $attrs) {
 			    var directiveScope = $scope.$parent;
 			    this.field = directiveScope.$eval($attrs.field);
-			    this.ref = $scope;
-			    this.init = function() {
-					//init date with value: today  
-			    	if(this.field.type === 'input:date' 
-			    	|| this.field.type === 'input:time'
-			    	|| this.field.type === 'input:datetime') {
-			    		this.ref.model = new Date();
-			    	}
-			    }
-			    this.init(); 
-			     		   
+			    this.ref = $scope;			     		   
   			},
 		    controllerAs: 'componentCtrl',
 		    templateUrl : './field-templates/' + tpl + '.html',

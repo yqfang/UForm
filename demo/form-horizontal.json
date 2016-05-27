@@ -1,7 +1,7 @@
 {
     "fields": [
         {
-            "name": "key1",
+            "name": "username",
             "type": "input",
             "label": "用户名",
             "required": true,

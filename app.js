@@ -10,79 +10,101 @@
 		})
 		.config(function($stateProvider, $urlRouterProvider) {
 			$urlRouterProvider
-				.when('/', '/demo')
-				.otherwise('/demo');
+				.when('/', '/form/common/horizontal')
+				.otherwise('/form/common/horizontal');
 			$stateProvider
-				.state('demo', {
+				.state('form', {
 					abstract: true,
-					url: '/demo',
+					url: '/form',
 					templateUrl: 'demo.html',
 					resolve: {
 						json: function($q, jsonHelper) {
 							var defer = $q.defer();
 							$q.all([
-								jsonHelper.loadHorizontal()
+								jsonHelper.loadHorizontal(),
+								jsonHelper.loadInline()
 								]).then(function(datas) {
 									defer.resolve({
-										horizontal: datas[0].data
+										horizontal: datas[0].data,
+										inline: datas[1].data
 									});
 								});
 							return defer.promise;
 						}
 					}
 				})
-				.state('demo.horizontal', {
-					url: '',
-					templateUrl: 'demo/form-horizontal.html',
-					controller: 'horizontalController',
+				.state('form.common', {
+					url: '/common/{type}',
+					templateUrl: 'demo/form-common.html',
+					controller: 'formCommonController',
+					controllerAs: 'vm'
+				})
+				.state('form.group', {
+					url: '/group',
+					templateUrl: 'demo/form-group.html',
+					controller: 'formGroupController',
 					controllerAs: 'vm'
 				})
 		})
 		.factory('jsonHelper', function($http) {
 			return ({
-				loadHorizontal: loadHorizontal
+				loadHorizontal: loadHorizontal,
+				loadInline: loadInline
 			});
 			function loadHorizontal() {
 				return $http.get("demo/form-horizontal.json")
+			};
+			function loadInline() {
+				return $http.get("demo/form-inline.json")
 			}
 					
 		})
 
-
-		// .controller("parentController", function($scope) {
-		// 	this.submit = function(valid, data) {
-		// 		if(valid){
-		// 			console.log('submitted:', JSON.stringify(data));
-		// 		}	
-		// 	}
-		// })
-		.controller("horizontalController", function(json, $rootScope) {
+		.controller("formCommonController", function(json, $rootScope, $stateParams) {
 			var vm = this;
-			$rootScope.monitor.form = json.horizontal;
-			this.fields = json.horizontal.fields;
-			this.option = json.horizontal.option;
+			$rootScope.monitor.form = json[$stateParams.type];
+			this.fields = json[$stateParams.type].fields;
+			this.option = json[$stateParams.type].option;
+			this.result = 'inline' === $stateParams.type 
+			? {startDate: new Date(), endDate: new Date()}
+			:{datefor: new Date(), datetime: new Date()};
 			this.click = function(field) {
 				vm.result[field.name] = "test";
 				console.info(field);
-			}
+			};
 			this.submit = function(valid, result) {
 				if(valid){
 					console.info(result);
 				}
 			}
 		})
-		// .controller("child2Controller", function($scope, $http) {
-		// 	var vm = this;
-		// 	vm.fields = [];
-		// 	vm.option = {};
-		// 	$http.get("json/form-inline.json").success(function(data) {
-		// 		angular.extend(vm.fields, data.fields);
-		// 		angular.extend(vm.option, data.option);
-		// 	})
-		// 	this.click = function(field) {
-		// 		vm.result[field.name] = "test";
-		// 		console.info(field);
-		// 	}
-		// });
+		.controller("formGroupController", function(json, $rootScope) {
+			var vm = this;
+			this.group1 = {
+				fields: json['inline'].fields,
+				option: json['inline'].option,
+				result: {
+					startDate: new Date(),
+					endDate: new Date()
+				}
+			};
+			this.group2 = {
+				fields: json['horizontal'].fields,
+				option: json['horizontal'].option,
+				result: {
+					datefor: new Date(),
+					datetime: new Date()
+				},
+				click: 	function(field) {
+					vm.group2.result[field.name] = "test";
+					console.info(field);
+				}
+			};	
+			this.submit = function(valid, result) {
+				if(valid){
+					console.info(result);
+				}
+			}
+		})
 
 })()
