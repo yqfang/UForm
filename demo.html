@@ -14,7 +14,9 @@
   $state full url = {{monitor.$state.$current.url.source }}
 		</pre>		
 	</div>
-	<div class="col-xs-7 well" ui-view style="border:none;"></div>
+	<div class="col-xs-7 well" ui-view="test1" ng-show="$state.includes('form.horizontal')" style="border:none;"></div>
+	<div class="col-xs-7 well" ui-view="test2" ng-show="$state.includes('form.inline')" style="border:none;"></div>
+	<div class="col-xs-7 well" ui-view="test3" ng-show="$state.includes('form.group')" style="border:none;"></div>
 	<div class="col-xs-3">
 		<pre style="border:none;">result = {{monitor.result | json}}</pre>
 		<pre style="border:none;">form = {{monitor.form | json}}</pre>

@@ -4,6 +4,8 @@
 			   $rootScope.monitor = {};
 			   $rootScope.monitor.$state = $state;
 			   $rootScope.monitor.$stateParams = $stateParams;
+			   $rootScope.$state = $state;
+			   $rootScope.$stateParams = $stateParams;
 		    })
 		.config(function(datepickerConfig) {
 			datepickerConfig.showWeeks = false;
@@ -14,8 +16,8 @@
 				.otherwise('/form/common/horizontal');
 			$stateProvider
 				.state('form', {
-					abstract: true,
 					url: '/form',
+					abstract: true,
 					templateUrl: 'demo.html',
 					resolve: {
 						json: function($q, jsonHelper) {
@@ -35,27 +37,42 @@
 				})
 				.state('form.horizontal', {
 					url: '/common/horizontal',
+					views: {
+				        'test1': {
+				            templateUrl: 'demo/form-common.html',
+							controller: 'formHorizontalController',
+							controllerAs: 'vm'
+				        }
+					},
 					sticky: true,
-					deepStateRedirect: true,
-					templateUrl: 'demo/form-common.html',
-					controller: 'formHorizontalController',
-					controllerAs: 'vm'
+					deepStateRedirect: true
+					
 				})
 				.state('form.inline', {
 					url: '/common/inline',
+					views: {
+				        'test2': {
+				        	templateUrl: 'demo/form-common.html',
+				        	controller: 'formInlineController',
+				        	controllerAs: 'vm'
+				        }
+					},
 					sticky: true,
-					deepStateRedirect: true,
-					templateUrl: 'demo/form-common.html',
-					controller: 'formInlineController',
-					controllerAs: 'vm'
+					deepStateRedirect: true
+
 				})
 				.state('form.group', {
 					url: '/group',
+					views: {
+				        'test3': {
+							templateUrl: 'demo/form-group.html',
+							controller: 'formGroupController',
+							controllerAs: 'vm'
+				        }
+					},
 					sticky: true,
-					deepStateRedirect: true,
-					templateUrl: 'demo/form-group.html',
-					controller: 'formGroupController',
-					controllerAs: 'vm'
+					deepStateRedirect: true
+
 				})
 		})
 		.factory('jsonHelper', function($http) {
