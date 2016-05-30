@@ -3,7 +3,7 @@
         {
             "name": "username",
             "type": "input",
-            "label": "用户名",
+            "label": "用户名", 
             "required": true,
             "placeholder": "请输入用户名"
         },
