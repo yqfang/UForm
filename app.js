@@ -1,5 +1,5 @@
 ;(function() {
-	angular.module("myApp", ["uForm", 'ui.bootstrap', 'ui.router'])
+	angular.module("myApp", ["uForm", 'ui.bootstrap', 'ui.router','ct.ui.router.extras'])
 		.run(function ($rootScope, $state, $stateParams) {
 			   $rootScope.monitor = {};
 			   $rootScope.monitor.$state = $state;
@@ -11,6 +11,7 @@
 			datepickerConfig.showWeeks = false;
 		})
 		.config(function($stateProvider, $urlRouterProvider) {
+			
 			$urlRouterProvider
 				.when('/', '/form/common/horizontal')
 				.otherwise('/form/common/horizontal');
@@ -38,7 +39,7 @@
 				.state('form.horizontal', {
 					url: '/common/horizontal',
 					views: {
-				        'test1': {
+				        'test1@form': {
 				            templateUrl: 'demo/form-common.html',
 							controller: 'formHorizontalController',
 							controllerAs: 'vm'
@@ -51,7 +52,7 @@
 				.state('form.inline', {
 					url: '/common/inline',
 					views: {
-				        'test2': {
+				        'test2@form': {
 				        	templateUrl: 'demo/form-common.html',
 				        	controller: 'formInlineController',
 				        	controllerAs: 'vm'
@@ -64,7 +65,7 @@
 				.state('form.group', {
 					url: '/group',
 					views: {
-				        'test3': {
+				        'test3@form': {
 							templateUrl: 'demo/form-group.html',
 							controller: 'formGroupController',
 							controllerAs: 'vm'
@@ -152,5 +153,6 @@
 				}
 			}
 		})
+
 
 })()
