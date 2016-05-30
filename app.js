@@ -33,14 +33,26 @@
 						}
 					}
 				})
-				.state('form.common', {
-					url: '/common/{type}',
+				.state('form.horizontal', {
+					url: '/common/horizontal',
+					sticky: true,
+					deepStateRedirect: true,
 					templateUrl: 'demo/form-common.html',
-					controller: 'formCommonController',
+					controller: 'formHorizontalController',
+					controllerAs: 'vm'
+				})
+				.state('form.inline', {
+					url: '/common/inline',
+					sticky: true,
+					deepStateRedirect: true,
+					templateUrl: 'demo/form-common.html',
+					controller: 'formInlineController',
 					controllerAs: 'vm'
 				})
 				.state('form.group', {
 					url: '/group',
+					sticky: true,
+					deepStateRedirect: true,
 					templateUrl: 'demo/form-group.html',
 					controller: 'formGroupController',
 					controllerAs: 'vm'
@@ -60,14 +72,30 @@
 					
 		})
 
-		.controller("formCommonController", function(json, $rootScope, $stateParams) {
+		.controller("formHorizontalController", function(json, $rootScope, $stateParams) {
+			console.info("formHorizontalController")
 			var vm = this;
-			$rootScope.monitor.form = json[$stateParams.type];
-			this.fields = json[$stateParams.type].fields;
-			this.option = json[$stateParams.type].option;
-			this.result = 'inline' === $stateParams.type 
-			? {startDate: new Date(), endDate: new Date()}
-			:{datefor: new Date(), datetime: new Date()};
+			$rootScope.monitor.form = json["horizontal"];
+			this.fields = json["horizontal"].fields;
+			this.option = json["horizontal"].option;
+
+			this.click = function(field) {
+				vm.result[field.name] = "test";
+				console.info(field);
+			};
+			this.submit = function(valid, result) {
+				if(valid){
+					console.info(result);
+				}
+			}
+		})
+		.controller("formInlineController", function(json, $rootScope, $stateParams) {
+			console.info("formInlineController")
+			var vm = this;
+			$rootScope.monitor.form = json["inline"];
+			this.fields = json["inline"].fields;
+			this.option = json["inline"].option;
+
 			this.click = function(field) {
 				vm.result[field.name] = "test";
 				console.info(field);
@@ -79,6 +107,7 @@
 			}
 		})
 		.controller("formGroupController", function(json, $rootScope) {
+			console.info("formGroupController")
 			var vm = this;
 			this.group1 = {
 				fields: json['inline'].fields,

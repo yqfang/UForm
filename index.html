@@ -2,35 +2,15 @@
 <html ng-app="myApp">
 <head>
 	<title>angular-data-driven-form</title>
+	<meta charset=utf-8> 
+	<meta http-equiv=X-UA-Compatible content="IE=edge">
+	<meta name=viewport content="width=device-width,initial-scale=1">
+	<meta name="author" content="yqfang">
 	<link href="//cdn.bootcss.com/bootstrap/3.1.1/css/bootstrap.css" rel="stylesheet">
 </head>
 <body>
 <div ui-view class="container-fliud"></div>
 
-<!-- <div style="width: 1600px;padding: 45px 15px;background: #EEE">
-	<form u-form-group
-		 name="grouped"
-		 ng-controller="parentController as vm"
-		 fields="vm.fields"
-		 result="vm.result"
-		 ng-submit="vm.submit(grouped.$valid, vm.result)">
-		 <div u-form
-			  ng-form	  
-		      ng-controller="child1Controller as vm"
-		      ng-class="vm.option.formClass"			           
-			  fields="vm.fields"
-			  option="vm.option"
-			  btn-handler="vm.click(field)"
-			  result="vm.result"></div>
-		 <div u-form
-			  ng-form	  
-		      ng-controller="child2Controller as vm"
-		      ng-class="vm.option.formClass"			           
-			  fields="vm.fields"
-			  option="vm.option"
-			  result="vm.result"></div>
-	</form>
-</div> -->
 
 <!--[if IE 8]>
 <script src="lib/json3/json3.js"></script>
@@ -44,6 +24,7 @@
 <script type="text/javascript" src="lib/angular-locale_zh.js"></script>
 <script type="text/javascript" src="lib/angular-shims-placeholder.min.js"></script>
 <script type="text/javascript" src="lib/angular-ui-router.js"></script>
+<script type="text/javascript" src="lib/ct-ui-router-extras.js"></script>
 
 <script type="text/javascript" src="upForm.js"></script>
 <script type="text/javascript" src="app.js"></script>

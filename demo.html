@@ -3,33 +3,20 @@
 		<div class="well" style="border:none;">
 			<ul class="nav nav-list">
 				<li class="nav-header">表单示例</li>
-				<li ui-sref-active="active"><a ui-sref="form.common({type:'horizontal'})">Form Horizontal</a></li>
-				<li ui-sref-active="active"><a ui-sref="form.common({type:'inline'})">Form Inline</a></li>
-				<li ng-class="{active: $state.includes('form.third')}"><a ui-sref="form.group({type:'group'})">Form Group</a></li>
+				<li ui-sref-active="active"><a ui-sref="form.horizontal">Form Horizontal</a></li>
+				<li ui-sref-active="active"><a ui-sref="form.inline">Form Inline</a></li>
+				<li ui-sref-active="active"><a ui-sref="form.group">Form Group</a></li>
 			</ul>
 		</div>
 		<pre style="border:none;">
-  $state = {{monitor.$state.current.name}} 
+  $state = {{monitor.$state | json}} 
   $stateParams = {{monitor.$stateParams}} 
   $state full url = {{monitor.$state.$current.url.source }}
-		</pre>
-		
+		</pre>		
 	</div>
 	<div class="col-xs-7 well" ui-view style="border:none;"></div>
 	<div class="col-xs-3">
 		<pre style="border:none;">result = {{monitor.result | json}}</pre>
 		<pre style="border:none;">form = {{monitor.form | json}}</pre>
 	</div>
-
-
-
 </div>
-<!-- <div class="navbar-inner">
-	<div class="container">
-		<ul>
-			<li ng-class="{active: $state.includes('form.horizontal')}"><a ui-sref="demo.horizontal">Form Horizontal</a></li>
-			<li ng-class="{active: $state.includes('demo.second')}"><a ui-sref="demo.second">demo2</a></li>
-			<li ng-class="{active: $state.includes('demo.third')}"><a ui-sref="demo.third">demo3</a></li>
-		</ul>
-	</div>
-</div> -->
