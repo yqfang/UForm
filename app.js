@@ -39,7 +39,7 @@
 				.state('form.horizontal', {
 					url: '/common/horizontal',
 					views: {
-				        'test1@form': {
+				        'horizontal@form': {
 				            templateUrl: 'demo/form-common.html',
 							controller: 'formHorizontalController',
 							controllerAs: 'vm'
@@ -52,7 +52,7 @@
 				.state('form.inline', {
 					url: '/common/inline',
 					views: {
-				        'test2@form': {
+				        'inline@form': {
 				        	templateUrl: 'demo/form-common.html',
 				        	controller: 'formInlineController',
 				        	controllerAs: 'vm'
@@ -65,7 +65,7 @@
 				.state('form.group', {
 					url: '/group',
 					views: {
-				        'test3@form': {
+				        'group@form': {
 							templateUrl: 'demo/form-group.html',
 							controller: 'formGroupController',
 							controllerAs: 'vm'
