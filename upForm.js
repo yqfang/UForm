@@ -15,14 +15,14 @@
 	});
 	self.directive("uForm", function($rootScope) {
 		return {
-			templateUrl: 'form-templates/myForm.html', 			
+			templateUrl: './form-templates/myForm.html',
 			transclude: true,
+			restrict: "EA",
 			controller: function($scope, $attrs, $rootScope) {
 				var $parent = $scope.$parent;
 				this.fields = $parent.$eval($attrs.fields);
 				this.option = $parent.$eval($attrs.option);
 				this.result = $parent.$eval($attrs.result) || $parent.$eval($attrs.result + "={}");
-				$rootScope.monitor.result = this.result;
 				this.btnHandler = function(field) {
 					$parent.$eval($attrs.btnHandler, {field: field});
 				}
@@ -34,8 +34,6 @@
 				var uFormGroup = ctrls[0];
 				uFormGroup && uFormGroup.fields && uFormGroup.fields.push(scope.form.fields);
 				uFormGroup && uFormGroup.result && uFormGroup.result.push(scope.form.result);
-				uFormGroup && ($rootScope.monitor.form = uFormGroup.fields);
-				uFormGroup && ($rootScope.monitor.result = uFormGroup.result);
 			}
 			
 		}

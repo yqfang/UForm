@@ -91,7 +91,6 @@
 		})
 
 		.controller("formHorizontalController", function(json, $rootScope, $stateParams) {
-			console.info("formHorizontalController")
 			var vm = this;
 			$rootScope.monitor.form = json["horizontal"];
 			this.fields = json["horizontal"].fields;
@@ -99,7 +98,6 @@
 
 			this.click = function(field) {
 				vm.result[field.name] = "test";
-				console.info(field);
 			};
 			this.submit = function(valid, result) {
 				if(valid){
@@ -108,7 +106,6 @@
 			}
 		})
 		.controller("formInlineController", function(json, $rootScope, $stateParams) {
-			console.info("formInlineController")
 			var vm = this;
 			$rootScope.monitor.form = json["inline"];
 			this.fields = json["inline"].fields;
@@ -125,7 +122,6 @@
 			}
 		})
 		.controller("formGroupController", function(json, $rootScope) {
-			console.info("formGroupController")
 			var vm = this;
 			this.group1 = {
 				fields: json['inline'].fields,
