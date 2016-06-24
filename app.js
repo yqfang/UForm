@@ -1,5 +1,5 @@
 ;(function() {
-	angular.module("myApp", ["uForm", 'ui.bootstrap', 'ui.router','ct.ui.router.extras'])
+	angular.module("myApp", ["uForm", 'ngSanitize', "ui.select", 'ui.bootstrap', 'ui.router','ct.ui.router.extras'])
 		.run(function ($rootScope, $state, $stateParams) {
 			   $rootScope.monitor = {};
 			   $rootScope.monitor.$state = $state;
@@ -44,9 +44,7 @@
 							controller: 'formHorizontalController',
 							controllerAs: 'vm'
 				        }
-					},
-					sticky: true,
-					deepStateRedirect: true
+					}
 					
 				})
 				.state('form.inline', {
@@ -57,9 +55,7 @@
 				        	controller: 'formInlineController',
 				        	controllerAs: 'vm'
 				        }
-					},
-					sticky: true,
-					deepStateRedirect: true
+					}
 
 				})
 				.state('form.group', {
@@ -70,9 +66,18 @@
 							controller: 'formGroupController',
 							controllerAs: 'vm'
 				        }
-					},
-					sticky: true,
-					deepStateRedirect: true
+					}
+
+				})
+				.state('form.select', {
+					url: '/select',
+					views: {
+				        'select@form': {
+							templateUrl: 'demo/select.html',
+							controller: 'selectController',
+							controllerAs: 'vm'
+				        }
+					}
 
 				})
 		})
@@ -95,6 +100,10 @@
 			$rootScope.monitor.form = json["horizontal"];
 			this.fields = json["horizontal"].fields;
 			this.option = json["horizontal"].option;
+			this.result = {
+				username: "方宇卿"
+			};
+			$rootScope.monitor.result = this.result;
 
 			this.click = function(field) {
 				vm.result[field.name] = "test";
@@ -110,7 +119,8 @@
 			$rootScope.monitor.form = json["inline"];
 			this.fields = json["inline"].fields;
 			this.option = json["inline"].option;
-
+			this.result = {};
+			$rootScope.monitor.result = this.result;
 			this.click = function(field) {
 				vm.result[field.name] = "test";
 				console.info(field);
@@ -123,6 +133,11 @@
 		})
 		.controller("formGroupController", function(json, $rootScope) {
 			var vm = this;
+			$rootScope.monitor.form = {
+				group1: json["inline"],
+				group2: json["horizontal"]
+			} 
+			
 			this.group1 = {
 				fields: json['inline'].fields,
 				option: json['inline'].option,
@@ -142,12 +157,35 @@
 					vm.group2.result[field.name] = "test";
 					console.info(field);
 				}
-			};	
+			};
+			$rootScope.monitor.result = {
+				result1: this.group1.result,
+				result2: this.group2.result
+			};
 			this.submit = function(valid, result) {
 				if(valid){
 					console.info(result);
 				}
 			}
+			
+		})
+		.controller("selectController", function($scope) {
+			var vm = this;
+			this.result = [];
+			this.itemArray = [
+				{id: 1, name: 'first'},
+				{id: 2, name: 'second'},
+				{id: 3, name: 'third'},
+				{id: 4, name: 'fourth'},
+				{id: 5, name: 'fifth'},
+			];
+			this.tagTransform = function (newTag) {
+				var item = {
+					id: newTag,
+					name: newTag,
+				};
+				return item;
+			};
 		})
 
 

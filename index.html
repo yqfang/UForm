@@ -6,7 +6,8 @@
 	<meta http-equiv=X-UA-Compatible content="IE=edge">
 	<meta name=viewport content="width=device-width,initial-scale=1">
 	<meta name="author" content="yqfang">
-	<link href="//cdn.bootcss.com/bootstrap/3.1.1/css/bootstrap.css" rel="stylesheet">
+	<link href="lib/bootstrap-3.1.1-dist/css/bootstrap.css" rel="stylesheet">
+	<link href="lib/ui-select/select.css" rel="stylesheet">
 </head>
 <body>
 <div ui-view class="container-fliud"></div>
@@ -16,11 +17,18 @@
 <script src="lib/json3/json3.js"></script>
 <script src="lib/es5/es5-shim.js"></script>
 <script src="lib/html5shiv/html5shiv.js"></script>
+<script>
+    document.createElement('ui-select');
+    document.createElement('ui-select-match');
+    document.createElement('ui-select-choices');
+</script>
 <![endif]-->
 <script type="text/javascript" src="lib/jquery.min.js"></script>
 <script type="text/javascript" src="lib/angular.js"></script>
+<script type="text/javascript" src="lib/angular-sanitize.min.js"></script>
 <script type="text/javascript" src="lib/ui-bootstrap.js"></script>
 <script type="text/javascript" src="lib/ui-bootstrap-tpls.js"></script>
+<script type="text/javascript" src="lib/ui-select/select.js"></script>
 <script type="text/javascript" src="lib/angular-locale_zh.js"></script>
 <script type="text/javascript" src="lib/angular-shims-placeholder.min.js"></script>
 <script type="text/javascript" src="lib/angular-ui-router.js"></script>

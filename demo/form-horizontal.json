@@ -5,7 +5,8 @@
             "type": "input",
             "label": "用户名", 
             "required": true,
-            "placeholder": "请输入用户名"
+            "placeholder": "请输入用户名",
+            "disabled": true
         },
         {
             "name": "password",
@@ -135,6 +136,20 @@
             ],            
             "required": true
         },
+		{
+            "name": "colorful",
+            "label": "颜色",
+			"type": "user-defined",
+			"template": "<div maya-ui-select></div>",
+            "candidates": [
+                {"id": 1, "name": "first"},
+				{"id": 2, "name": "second"},
+				{"id": 3, "name": "third"},
+				{"id": 4, "name": "fourth"},
+				{"id": 5, "name": "fifth"}
+
+            ]           
+		},
         {
             "type": "input:submit",
             "value": "查询"

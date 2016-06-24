@@ -4,7 +4,8 @@
 	        "name": "gid",
 	        "type": "input",
 	        "label": "工单编号：",
-	        "required": true
+	        "required": true ,
+			"placeholder": "工单编号" 
 	    },
 	    {
 	        "name": "startDate",
@@ -24,7 +25,11 @@
 	    {
 	        "type": "input:submit",
 	        "value": "查询"
-	    }
+	    },
+		{
+			"type": "user-defined",
+			"template": "<div maya-ui-select></div>"
+		}
 	],
 	"option": {
 	    "formClass": "form-inline",

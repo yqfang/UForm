@@ -59,6 +59,8 @@
 	  </div>
 	  <div ng-switch-when="button" app-button-component field="field" model="form.result[field.name]">
 	  </div>
+	  <div ng-switch-when="user-defined" bind-html-compile="field.template" field="field">
+	  </div>
 	</div>
 </div>
 <div ng-transclude></div>

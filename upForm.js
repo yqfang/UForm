@@ -38,6 +38,24 @@
 			
 		}
 	});
+	self.directive('bindHtmlCompile', ['$compile', function ($compile) {
+            return {
+                restrict: 'A',
+                link: function (scope, element, attrs) {
+                    scope.$watch(function () {
+                        return scope.$eval(attrs.bindHtmlCompile);
+                    }, function (value) {
+                        element.html(value && value.toString());
+                        // If scope is provided use it, otherwise use parent scope
+                        var compileScope = scope;
+                        if (attrs.bindHtmlScope) {
+                            compileScope = scope.$eval(attrs.bindHtmlScope);
+                        }
+                        $compile(element.contents())(compileScope);
+                    });
+                }
+            };
+        }])
 	angular.forEach({
 		'input-text': 'appInputTextComponent',
 		'input-url': 'appInputUrlComponent',
@@ -79,5 +97,35 @@
 		  }
 		})
 	});
+
+	self.directive('mayaUiSelect', function() {
+		return {
+			restrict: 'EA',
+			require: ['?^uForm', 'mayaUiSelect'],
+			controller: function($scope) {
+				var $formtplScope = $scope.$parent;
+				this.field = $formtplScope.$eval('field');
+				this.result = [];
+				this.itemArray = this.field.candidates;
+			},
+			scope: {},
+			controllerAs: 'vm',
+			templateUrl: './field-templates/ext/maya-ui-select/maya-ui-select.html',
+			link: function(scope, elem, attr, ctrls) {
+		    	var form = ctrls[0];
+				var me = ctrls[1];
+				scope.$watch(function() {
+					return me.result.length
+				}, function(newValue, oldValue) {
+					if( newValue !== oldValue) {
+						form.result[me.field.name] = [];
+						angular.forEach(me.result, function(item) {
+							form.result[me.field.name].push(item.id);
+						})
+					}	
+				})
+		    }
+		}
+	})
 })();
 

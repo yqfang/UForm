@@ -1,0 +1,10 @@
+<ui-select multiple close-on-select="true" sortable="true" ng-disabled="disabled" ng-model="vm.result" title="Choose a color">
+    <ui-select-match placeholder="Select colors...">{{$item.name}}: {{$item.id}}</ui-select-match>
+    <ui-select-choices repeat="item in (vm.itemArray | filter: $select.search)">
+        <div ng-bind-html="item.name + item.isTag| highlight: $select.search"></div>
+        <small>
+            id: {{item.id}}
+            name: <span ng-bind-html="''+item.name | highlight: $select.search"></span>
+        </small>
+    </ui-select-choices>
+</ui-select>
