@@ -25,7 +25,7 @@
 			display: none;
 		}
 	</style>
-<div class="form-group" ng-show="!field.hide" ng-class="field.name" ng-form="{{field.name}}" ng-repeat="field in form.fields | orderById: 'id'">
+<div class="form-group" ng-show="!field.hide" ng-class="field.name" ng-repeat="field in form.fields | orderById: 'id'">
 	<label ng-class="form.option.labelClass" class="control-label">
 	  <span ng-show="field.required && field.label">*</span>
 	  <span ng-if="field.type!='input:checkbox'">{{ field.label }}</span>

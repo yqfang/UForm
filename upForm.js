@@ -1,5 +1,36 @@
 ;(function() {
 	var self = angular.module("uForm", ['ui.bootstrap','ng.shims.placeholder','ngLocale', 'dialogs.main']);
+	self.config(function($provide) {
+		$provide.decorator('ngModelDirective', function($delegate) {
+			var ngModel = $delegate[0], controller = ngModel.controller;
+			ngModel.controller = ['$scope', '$element', '$attrs', '$injector', function(scope, element, attrs, $injector) {
+				var $interpolate = $injector.get('$interpolate');
+				attrs.$set('name', $interpolate(attrs.name || '')(scope));
+				$injector.invoke(controller, this, {
+				'$scope': scope,
+				'$element': element,
+				'$attrs': attrs
+				});
+			}];
+			return $delegate;
+		});
+		angular.forEach({'ng-form': 'ngFormDirective', 'form': 'formDirective'}, function(directive) {
+			$provide.decorator(directive, function($delegate) {
+			var form = $delegate[0], controller = form.controller;
+			form.controller = ['$scope', '$element', '$attrs', '$injector', function(scope, element, attrs, $injector) {
+				var $interpolate = $injector.get('$interpolate');
+				attrs.$set('name', $interpolate(attrs.name || attrs.ngForm || '')(scope));
+				$injector.invoke(controller, this, {
+				'$scope': scope,
+				'$element': element,
+				'$attrs': attrs
+				});
+			}];
+			return $delegate;
+		});
+		})
+		
+	});
 	self.filter('orderById', function() {
 		return function(items, field, reverse) {
 			var filtered = [];
