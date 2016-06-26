@@ -1,6 +1,19 @@
 ;(function() {
-	var self = angular.module("uForm", ['ui.bootstrap','ng.shims.placeholder','ngLocale']);
-
+	var self = angular.module("uForm", ['ui.bootstrap','ng.shims.placeholder','ngLocale', 'dialogs.main']);
+	self.filter('orderById', function() {
+		return function(items, field, reverse) {
+			var filtered = [];
+			angular.forEach(items, function(item, name) {
+				item["name"] = name;
+				filtered.push(item);
+			});
+			filtered.sort(function(a, b) {
+				return (a[field] > b[field] ? 1 : -1);
+			});
+			if(reverse) filtered.reverse();
+			return filtered;
+		};
+	});
 	self.directive("uFormGroup", function() {
 		return {
 			controller: function($scope, $attrs) {
@@ -23,9 +36,6 @@
 				this.fields = $parent.$eval($attrs.fields);
 				this.option = $parent.$eval($attrs.option);
 				this.result = $parent.$eval($attrs.result) || $parent.$eval($attrs.result + "={}");
-				this.btnHandler = function(field) {
-					$parent.$eval($attrs.btnHandler, {field: field});
-				}
 			},
 			scope: {},
 			controllerAs: "form",
@@ -69,8 +79,7 @@
 		'input-radio': 'appInputRadioComponent',
 		'input-submit': 'appInputSubmitComponent',
 		'select': 'appSelectComponent',
-		'textarea': 'appTextareaComponent',
-		'button': 'appButtonComponent'
+		'textarea': 'appTextareaComponent'
 	}, function(directiveSelector, tpl) {
 		self
 		.directive(directiveSelector, function() {
@@ -78,8 +87,8 @@
 		  	restrict: 'EA',
 		    controller: function($scope, $attrs) {
 			    var directiveScope = $scope.$parent;
-			    this.field = directiveScope.$eval($attrs.field);
-			    this.ref = $scope;			     		   
+			    this.field = directiveScope.$eval('field');
+			    this.ref = $scope;		     		   
   			},
 		    controllerAs: 'componentCtrl',
 		    templateUrl : './field-templates/' + tpl + '.html',
@@ -87,45 +96,13 @@
 		    replace: true,
 		    require: ['?^uForm'],
 		    link: function(scope, elem, attr, ctrls) {
-		    	var form = ctrls[0];
-		    	scope.componentCtrl.onClickHandler = function(e, field) {
-			   		e.preventDefault();
-			   		e.stopPropagation()
-			   		form.btnHandler(field);
-			   	}
+
 		    }
 		  }
 		})
 	});
+	
 
-	self.directive('mayaUiSelect', function() {
-		return {
-			restrict: 'EA',
-			require: ['?^uForm', 'mayaUiSelect'],
-			controller: function($scope) {
-				var $formtplScope = $scope.$parent;
-				this.field = $formtplScope.$eval('field');
-				this.result = [];
-				this.itemArray = this.field.candidates;
-			},
-			scope: {},
-			controllerAs: 'vm',
-			templateUrl: './field-templates/ext/maya-ui-select/maya-ui-select.html',
-			link: function(scope, elem, attr, ctrls) {
-		    	var form = ctrls[0];
-				var me = ctrls[1];
-				scope.$watch(function() {
-					return me.result.length
-				}, function(newValue, oldValue) {
-					if( newValue !== oldValue) {
-						form.result[me.field.name] = [];
-						angular.forEach(me.result, function(item) {
-							form.result[me.field.name].push(item.id);
-						})
-					}	
-				})
-		    }
-		}
-	})
+
 })();
 

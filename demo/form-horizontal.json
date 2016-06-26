@@ -1,41 +1,43 @@
 {
-    "fields": [
-        {
-            "name": "username",
+    "fields": {
+       "username": {
+            "id": 1,
             "type": "input",
             "label": "用户名", 
+            "style": {
+                "width": "200px"
+            },
             "required": true,
-            "placeholder": "请输入用户名",
-            "disabled": true
+            "placeholder": "请输入用户名"
         },
-        {
-            "name": "password",
+        "password":{
+            "id": 2,
             "type": "input:password",
-            "label": "密码",
-            "required": true
+            "hide": true,
+            "label": "密码"
         },
-        {
-            "name": "write",
+        "write": {
+            "id": 3,
             "type": "textarea",
             "label": "备注"
         },
-        {
-            "name": "datefor",
+        "datefor":{
+            "id": 4,
             "type": "input:date",
             "label": "日期"
         },
-        {
-            "name": "timefor",
+        "timefor":{
+            "id": 5,
             "type": "input:time",
             "label": "时间"
         },
-        {
-            "name": "datetime",
+        "datetime":{
+            "id": 6,
             "type": "input:datetime",
             "label": "具体时间"
         },
-        {
-            "name": "country",
+        "country":{
+            "id": 7,
             "type": "select",
             "label": "国家",
             "required": true,
@@ -50,8 +52,8 @@
                 }
             ]
         },
-        {
-            "name": "city",
+       "city": {
+            "id": 8,
             "type": "input:multiple",
             "label": "城市",
             "required": true,
@@ -106,20 +108,23 @@
                 }
             ]
         },
-        {
-            "name": "key2",
-            "type": "button",
+        "menu":{
+            "id": 9,
+            "type": "custom",
             "label": "点菜",
-            "buttonName": "编辑"
+            "model": {
+                "btnName": "编辑"
+            },
+            "template": "<div maya-config-menu></div>"
         },
-        {
-            "name": "satisfied",
+        "satisfied":{
+            "id": 10,
             "type": "input:checkbox",
             "label": "是否满意"
         },
 
-        {
-            "name": "sex",
+       "sex": {
+            "id": 11,
             "label": "性别",
             "type": "input:radio",
             "hide": true,
@@ -136,29 +141,47 @@
             ],            
             "required": true
         },
-		{
-            "name": "colorful",
+		"color":{
+            "id": 12,
             "label": "颜色",
-			"type": "user-defined",
+            "style": {
+                "width": "100%"
+            },
+			"type": "custom",
+            "disabled": false,
 			"template": "<div maya-ui-select></div>",
-            "candidates": [
-                {"id": 1, "name": "first"},
-				{"id": 2, "name": "second"},
-				{"id": 3, "name": "third"},
-				{"id": 4, "name": "fourth"},
-				{"id": 5, "name": "fifth"}
+            "model": [
+                {"id": 1, "name": "red"},
+				{"id": 2, "name": "black"},
+				{"id": 3, "name": "yello"},
+				{"id": 4, "name": "white"},
+				{"id": 5, "name": "black"},
+                {"id": 6, "name": "red"},
+				{"id": 7, "name": "black"},
+				{"id": 8, "name": "yello"},
+				{"id": 9, "name": "white"},
+				{"id": 10, "name": "black"}
 
             ]           
 		},
-        {
-            "type": "input:submit",
-            "value": "查询"
-        }
-    ],
+		"group":{
+            "id": 14,
+			"type": "custom",
+            "style": {
+                "textAlign": "right"
+            },
+            "model": {
+                "btn1": "提交",
+                "btn2": "收藏",
+                "btn3": "清空"
+            },
+			"template": "<div maya-config-group></div>"           
+		}
+    },
     "option": {        
         "formClass": "form-horizontal",
         "labelClass": "col-xs-2",
-        "inputClass": "col-xs-9"
+        "inputClass": "col-xs-5"
     }
 
 }

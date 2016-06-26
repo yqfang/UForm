@@ -1,5 +1,5 @@
 ;(function() {
-	angular.module("myApp", ["uForm", 'ngSanitize', "ui.select", 'ui.bootstrap', 'ui.router','ct.ui.router.extras'])
+	angular.module("myApp", ["uForm", 'ngSanitize', "ui.select", 'ui.bootstrap', 'ui.router'])
 		.run(function ($rootScope, $state, $stateParams) {
 			   $rootScope.monitor = {};
 			   $rootScope.monitor.$state = $state;
@@ -7,8 +7,26 @@
 			   $rootScope.$state = $state;
 			   $rootScope.$stateParams = $stateParams;
 		    })
-		.config(function(datepickerConfig) {
+		.config(function(datepickerConfig, $translateProvider, dialogsProvider) {
 			datepickerConfig.showWeeks = false;
+			dialogsProvider.setSize("md");
+			dialogsProvider.useBackdrop("static");
+			$translateProvider.translations('zh-CN',{
+				DIALOGS_ERROR: "错误",
+				DIALOGS_ERROR_MSG: "出现未知错误。",
+				DIALOGS_CLOSE: "关闭",
+				DIALOGS_PLEASE_WAIT: "请稍候",
+				DIALOGS_PLEASE_WAIT_ELIPS: "请稍候...",
+				DIALOGS_PLEASE_WAIT_MSG: "请等待操作完成。",
+				DIALOGS_PERCENT_COMPLETE: "% 已完成",
+				DIALOGS_NOTIFICATION: "通知",
+				DIALOGS_NOTIFICATION_MSG: "未知应用程序的通知。",
+				DIALOGS_CONFIRMATION: "确认",
+				DIALOGS_CONFIRMATION_MSG: "确认要求。",
+				DIALOGS_OK: "确定",
+				DIALOGS_YES: "确认",
+				DIALOGS_NO: "取消"
+			});
 		})
 		.config(function($stateProvider, $urlRouterProvider) {
 			
@@ -69,17 +87,7 @@
 					}
 
 				})
-				.state('form.select', {
-					url: '/select',
-					views: {
-				        'select@form': {
-							templateUrl: 'demo/select.html',
-							controller: 'selectController',
-							controllerAs: 'vm'
-				        }
-					}
-
-				})
+				
 		})
 		.factory('jsonHelper', function($http) {
 			return ({
@@ -95,21 +103,35 @@
 					
 		})
 
-		.controller("formHorizontalController", function(json, $rootScope, $stateParams) {
+		.controller("formHorizontalController", function(json, $scope, $rootScope, $stateParams) {
 			var vm = this;
 			$rootScope.monitor.form = json["horizontal"];
 			this.fields = json["horizontal"].fields;
+			
 			this.option = json["horizontal"].option;
 			this.result = {
 				username: "方宇卿"
 			};
+			$scope.$watch(function() {
+				return vm.result["username"];
+				
+			}, function(newv, oldv) {
+				if(oldv != newv) {
+					if(newv === 'hello') {
+						vm.fields["password"].hide = false;
+					}else {
+						vm.fields["password"].hide = true;
+						delete vm.result["password"]
+					}
+				}
+			});
+			
 			$rootScope.monitor.result = this.result;
 
-			this.click = function(field) {
-				vm.result[field.name] = "test";
-			};
-			this.submit = function(valid, result) {
-				if(valid){
+			this.submit = function(form, result) {
+				console.info(form);
+				console.info($scope);
+				if(form.$valid){
 					console.info(result);
 				}
 			}

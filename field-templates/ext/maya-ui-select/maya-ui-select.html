@@ -1,10 +1,40 @@
-<ui-select multiple close-on-select="true" sortable="true" ng-disabled="disabled" ng-model="vm.result" title="Choose a color">
+<div ng-style="vm.field.style">
+<ui-select multiple ng-disabled="vm.field.disabled" close-on-select="false" style="width:85%;display:inline-block" sortable="true" ng-model="vm.result" title="Choose a color">    
     <ui-select-match placeholder="Select colors...">{{$item.name}}: {{$item.id}}</ui-select-match>
-    <ui-select-choices repeat="item in (vm.itemArray | filter: $select.search)">
-        <div ng-bind-html="item.name + item.isTag| highlight: $select.search"></div>
-        <small>
-            id: {{item.id}}
-            name: <span ng-bind-html="''+item.name | highlight: $select.search"></span>
-        </small>
-    </ui-select-choices>
+        <ui-select-choices repeat="item in (vm.field.model | filter: $select.search)">
+            <div ng-bind-html="item.name | highlight: $select.search"></div>
+            <small>
+                id: {{item.id}}
+                name: <span ng-bind-html="''+item.name | highlight: $select.search"></span>
+            </small>
+    </ui-select-choices>          
 </ui-select>
+    
+<button type="button" ng-click="vm.result = undefined" class="btn btn-link" style="margin-top: -3px;display:inline-block;vertical-align:top;color: #000">
+    <i class="glyphicon glyphicon-trash"></i>
+</button>
+</div>
+    
+
+
+
+
+<!--<div>
+<div class="col-xs-6 control-datepicker">
+	<input type="text" 
+		   class="form-control datepicker" 
+	       datepicker-popup="yyyy-MM-dd" 
+	       ng-model="componentCtrl.ref.model" 
+	       ng-init="componentCtrl.ref.open=false" 
+	       is-open="componentCtrl.ref.open" 
+	       show-button-bar="false"
+	       ng-click="componentCtrl.ref.open=!componentCtrl.ref.open"/>
+</div>
+
+<div>
+	<div class="timepicker" timepicker ng-model="componentCtrl.ref.model"></div>
+</div>
+</div>-->
+
+
+
