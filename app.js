@@ -112,7 +112,9 @@
 			
 			this.option = json["horizontal"].option;
 			this.result = {
-				username: "方宇卿"
+				username: "方宇卿",
+				datetime: new Date(),
+				datefor: new Date()
 			};
 			
 			$scope.$watch(function() {
@@ -131,15 +133,15 @@
 			
 			$rootScope.monitor.result = this.result;
 			$timeout(function() {
-				$rootScope.monitor.uuform = $scope.uform;
+				$rootScope.monitor.uuform = $scope.uuform;
 			}, 1);
 			
 
 			this.submit = function(form, result) {
 				$rootScope.monitor.uuform = {};
 				$timeout(function() {
-				$rootScope.monitor.uuform = $scope.uform;
-			}, 500);
+				$rootScope.monitor.uuform = $scope.uuform;
+			}, 1000);
 				if(form.$valid){
 					console.info(result);
 				}
