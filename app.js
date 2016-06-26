@@ -1,5 +1,6 @@
 ;(function() {
-	angular.module("myApp", ["uForm", 'ngSanitize', "ui.select", 'ui.bootstrap', 'ui.router'])
+
+	angular.module("myApp", ["uForm", 'ngSanitize', "ui.select", 'ui.bootstrap', 'ui.router', 'ngPrettyJson'])
 		.run(function ($rootScope, $state, $stateParams) {
 			   $rootScope.monitor = {};
 			   $rootScope.monitor.$state = $state;
@@ -89,6 +90,7 @@
 				})
 				
 		})
+
 		.factory('jsonHelper', function($http) {
 			return ({
 				loadHorizontal: loadHorizontal,
@@ -103,7 +105,7 @@
 					
 		})
 
-		.controller("formHorizontalController", function(json, $scope, $rootScope, $stateParams) {
+		.controller("formHorizontalController", function($timeout, $interval, json, $scope, $rootScope, $stateParams) {
 			var vm = this;
 			$rootScope.monitor.form = json["horizontal"];
 			this.fields = json["horizontal"].fields;
@@ -112,6 +114,7 @@
 			this.result = {
 				username: "方宇卿"
 			};
+			
 			$scope.$watch(function() {
 				return vm.result["username"];
 				
@@ -127,16 +130,22 @@
 			});
 			
 			$rootScope.monitor.result = this.result;
+			$timeout(function() {
+				$rootScope.monitor.uuform = $scope.uform;
+			}, 1);
+			
 
 			this.submit = function(form, result) {
-				console.info(form);
-				console.info($scope);
+				$rootScope.monitor.uuform = {};
+				$timeout(function() {
+				$rootScope.monitor.uuform = $scope.uform;
+			}, 500);
 				if(form.$valid){
 					console.info(result);
 				}
 			}
 		})
-		.controller("formInlineController", function(json, $rootScope, $stateParams) {
+		.controller("formInlineController", function($timeout, $scope, json, $rootScope, $stateParams) {
 			var vm = this;
 			$rootScope.monitor.form = json["inline"];
 			this.fields = json["inline"].fields;
@@ -147,13 +156,17 @@
 				vm.result[field.name] = "test";
 				console.info(field);
 			};
-			this.submit = function(valid, result) {
-				if(valid){
+			$timeout(function() {
+				$rootScope.monitor.uform = $scope.uform;
+
+			}, 0)
+			this.submit = function(form, result) {
+				if(form.$valid){
 					console.info(result);
 				}
 			}
 		})
-		.controller("formGroupController", function(json, $rootScope) {
+		.controller("formGroupController", function($timeout, $scope, json, $rootScope) {
 			var vm = this;
 			$rootScope.monitor.form = {
 				group1: json["inline"],
@@ -184,8 +197,11 @@
 				result1: this.group1.result,
 				result2: this.group2.result
 			};
-			this.submit = function(valid, result) {
-				if(valid){
+			$timeout(function() {
+				$rootScope.monitor.uform = $scope.uform;
+			}, 0)
+			this.submit = function(grouped, result) {
+				if(grouped.$valid){
 					console.info(result);
 				}
 			}

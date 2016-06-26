@@ -181,7 +181,7 @@
     "option": {        
         "formClass": "form-horizontal",
         "labelClass": "col-xs-2",
-        "inputClass": "col-xs-5"
+        "inputClass": "col-xs-7"
     }
 
 }

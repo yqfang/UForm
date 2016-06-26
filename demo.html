@@ -1,26 +1,24 @@
 <div class="row-fliud" style="margin-top: 20px">
-	<div class="col-xs-2" >
+	<div class="col-xs-3" >
 		<div class="well" style="border:none;">
 			<ul class="nav nav-list">
 				<li class="nav-header">表单示例</li>
 				<li ui-sref-active="active"><a ui-sref="form.horizontal">Form Horizontal</a></li>
 				<li ui-sref-active="active"><a ui-sref="form.inline">Form Inline</a></li>
 				<li ui-sref-active="active"><a ui-sref="form.group">Form Group</a></li>
-				<li ui-sref-active="active"><a ui-sref="form.select">Form select</a></li>
 			</ul>
 		</div>
-		<pre style="border:none;">
-  $state = {{monitor.$state | json}} 
-  $stateParams = {{monitor.$stateParams}} 
-  $state full url = {{monitor.$state.$current.url.source }}
-		</pre>		
+
+		<pre pretty-json="monitor.uuform" />		
 	</div>
-	<div class="col-xs-7 well" ui-view="horizontal" ng-show="$state.includes('form.horizontal')" style="border:none;"></div>
-	<div class="col-xs-7 well" ui-view="inline" ng-show="$state.includes('form.inline')" style="border:none;"></div>
-	<div class="col-xs-7 well" ui-view="group" ng-show="$state.includes('form.group')" style="border:none;"></div>
+	<div class="col-xs-6 well" ui-view="horizontal" ng-show="$state.includes('form.horizontal')" style="border:none;"></div>
+	<div class="col-xs-6 well" ui-view="inline" ng-show="$state.includes('form.inline')" style="border:none;"></div>
+	<div class="col-xs-6 well" ui-view="group" ng-show="$state.includes('form.group')" style="border:none;"></div>
 	<div class="col-xs-3">
-		<pre style="border:none;">result = {{monitor.result | json}}</pre>
-		<pre style="border:none;">form = {{monitor.form | json}}</pre>
+		<!--<pre style="border:none;">result = {{monitor.result | json}}</pre>-->
+		<pre pretty-json="monitor.result" />	
+		<pre pretty-json="monitor.form" />	
+		<!--<pre style="border:none;">form = {{monitor.form | json}}</pre>-->
 	</div>
 	
 </div>

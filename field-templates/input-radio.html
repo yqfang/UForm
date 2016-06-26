@@ -4,7 +4,7 @@
 			<input type="radio"
 			ng-init="componentCtrl.ref.model=componentCtrl.field.candidates[0].value"
 	         ng-model="componentCtrl.ref.model"
-	         name
+	         name="{{componentCtrl.field.name}}"
 	         value="{{candidate.value}}" 
 	         ng-required="componentCtrl.field.required"/>{{candidate.label}}
 	    </label>

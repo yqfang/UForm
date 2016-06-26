@@ -99,7 +99,6 @@
         }])
 	angular.forEach({
 		'input-text': 'appInputTextComponent',
-		'input-url': 'appInputUrlComponent',
 		'input-email': 'appInputEmailComponent',
 		'input-date': 'appInputDateComponent',
 		'input-time': 'appInputTimeComponent',
