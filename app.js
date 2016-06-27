@@ -117,19 +117,6 @@
 				datefor: new Date()
 			};
 			
-			$scope.$watch(function() {
-				return vm.result["username"];
-				
-			}, function(newv, oldv) {
-				if(oldv != newv) {
-					if(newv === 'hello') {
-						vm.fields["password"].hide = false;
-					}else {
-						vm.fields["password"].hide = true;
-						delete vm.result["password"]
-					}
-				}
-			});
 			
 			$rootScope.monitor.result = this.result;
 			$timeout(function() {
