@@ -116,8 +116,19 @@
 				datetime: new Date(),
 				datefor: new Date()
 			};
-			
-			
+			this.validate = function(result) {
+				if(result.password === "hello"){
+					return "不能为 hello"
+				}
+				if(result.password === "world"){
+					return "不能为 world"
+				}
+				if(result.password === result.username) {
+					return "不能和用户名一样"
+				}
+				return true;
+			}
+			this.fields["password"]["validator"]  = "vm.validate(vm.result)",
 			$rootScope.monitor.result = this.result;
 			$timeout(function() {
 				$rootScope.monitor.uuform = $scope.uuform;
