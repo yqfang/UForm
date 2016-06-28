@@ -26,7 +26,7 @@
 		}
 	</style>
 <div class="form-group" ng-show="!field.hide" ng-class="field.name" ng-repeat="field in form.fields | orderById: 'id'">
-	<label ng-class="form.option.labelClass" class="control-label">
+	<label for="{{field.name}}" ng-class="form.option.labelClass" class="control-label">
 	  <span ng-show="field.required && field.label">*</span>
 	  <span ng-if="field.type!='input:checkbox'">{{ field.label }}</span>
 	</label>
@@ -59,7 +59,7 @@
 	  </div>
 	  <div ng-switch-when="button" app-button-component model="form.result[field.name]">
 	  </div>
-	  <div ng-switch-when="custom" bind-html-compile="field.template">
+	  <div ng-switch-default bind-directive-compile="field.type">
 	  </div>
 	</div>
 </div>

@@ -1,5 +1,5 @@
 ;(function() {
-	var self = angular.module("uForm", ['ui.bootstrap','ng.shims.placeholder','ngLocale', 'dialogs.main']);
+	var self = angular.module("uForm", ['ui.bootstrap','ng.shims.placeholder','ngLocale', 'dialogs.main', 'angularValidator']);
 	self.config(function($provide) {
 		$provide.decorator('ngModelDirective', function($delegate) {
 			var ngModel = $delegate[0], controller = ngModel.controller;
@@ -79,20 +79,22 @@
 			
 		}
 	});
-	self.directive('bindHtmlCompile', ['$compile', function ($compile) {
+	self.directive('bindDirectiveCompile', ['$compile', function ($compile) {
             return {
                 restrict: 'A',
                 link: function (scope, element, attrs) {
-                    scope.$watch(function () {
-                        return scope.$eval(attrs.bindHtmlCompile);
+                    var listener = scope.$watch(function () {						
+                        return scope.$eval(attrs.bindDirectiveCompile);
                     }, function (value) {
+						value = '<div ' + value + ' />'
                         element.html(value && value.toString());
                         // If scope is provided use it, otherwise use parent scope
                         var compileScope = scope;
-                        if (attrs.bindHtmlScope) {
-                            compileScope = scope.$eval(attrs.bindHtmlScope);
+                        if (attrs.bindDirectiveScope) {
+                            compileScope = scope.$eval(attrs.bindDirectiveScope);
                         }
                         $compile(element.contents())(compileScope);
+						listener(); //you don't need to watch the directive once it is compiled
                     });
                 }
             };
@@ -125,8 +127,7 @@
 		    scope: {"model": '='},
 		    replace: true,
 		    require: ['?^uForm'],
-		    link: function(scope, elem, attr, ctrls) {
-
+		    link: function(scope, elem, attr, ctrl) {
 		    }
 		  }
 		})
@@ -134,5 +135,8 @@
 	
 
 
+
 })();
+
+
 

@@ -4,19 +4,23 @@
             "id": 1,
             "type": "input",
             "label": "用户名", 
+            "requireMsg": "请输入用户名啊！！！",
+            "invalidMsg": "> 3 and < 10",
+            "maxlength": 10,
+            "minlength": 3,
+            "validateOn": "dirty",
+            "validator": true,
             "style": {
                 "width": "200px"
             },
             "required": true,
-            "maxlength": 10,
-            "minlength": 3,
             "placeholder": "请输入用户名"
         },
         "password":{
             "id": 2,
             "type": "input:password",
-            "hide": true,
-            "label": "密码"
+            "label": "密码",
+            "validateOn": "dirty"
         },
         "write": {
             "id": 3,
@@ -114,12 +118,11 @@
         },
         "menu":{
             "id": 9,
-            "type": "custom",
+            "type": "maya-config-menu",
             "label": "点菜",
             "model": {
                 "btnName": "编辑"
-            },
-            "template": "<div maya-config-menu></div>"
+            }
         },
         "satisfied":{
             "id": 10,
@@ -151,9 +154,8 @@
             "style": {
                 "width": "100%"
             },
-			"type": "custom",
+			"type": "maya-ui-select",
             "disabled": false,
-			"template": "<div maya-ui-select></div>",
             "model": [
                 {"id": 1, "name": "red"},
 				{"id": 2, "name": "black"},
@@ -170,7 +172,7 @@
 		},
 		"group":{
             "id": 14,
-			"type": "custom",
+			"type": "maya-config-group",
             "style": {
                 "textAlign": "right"
             },
@@ -178,8 +180,7 @@
                 "btn1": "提交",
                 "btn2": "收藏",
                 "btn3": "清空"
-            },
-			"template": "<div maya-config-group></div>"           
+            }        
 		}
     },
     "option": {        
