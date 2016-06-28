@@ -1,5 +1,7 @@
 <input type="email"
         name="{{componentCtrl.field.name}}"
+       ng-maxlength="{{componentCtrl.field.maxlength}}"
+       ng-minlength="{{componentCtrl.field.minlength}}"
          ng-model="componentCtrl.ref.model"
          ng-required="componentCtrl.field.required"
          class="form-control" />

@@ -133,16 +133,18 @@
 			
 			$rootScope.monitor.result = this.result;
 			$timeout(function() {
-				$rootScope.monitor.uuform = $scope.uuform;
+				$rootScope.monitor.uform = $scope.uform;
 			}, 1);
 			
 
 			this.submit = function(form, result) {
-				$rootScope.monitor.uuform = {};
+				$rootScope.monitor.uform = {};
 				$timeout(function() {
-				$rootScope.monitor.uuform = $scope.uuform;
+				$rootScope.monitor.uform = $scope.uform;
+				console.info($scope.uform);
 			}, 1000);
 				if(form.$valid){
+					
 					console.info(result);
 				}
 			}
@@ -154,15 +156,11 @@
 			this.option = json["inline"].option;
 			this.result = {};
 			$rootScope.monitor.result = this.result;
-			this.click = function(field) {
-				vm.result[field.name] = "test";
-				console.info(field);
-			};
 			$timeout(function() {
 				$rootScope.monitor.uform = $scope.uform;
-
-			}, 0)
+			}, 500)
 			this.submit = function(form, result) {
+				console.info($scope.uform);
 				if(form.$valid){
 					console.info(result);
 				}
@@ -189,10 +187,6 @@
 				result: {
 					datefor: new Date(),
 					datetime: new Date()
-				},
-				click: 	function(field) {
-					vm.group2.result[field.name] = "test";
-					console.info(field);
 				}
 			};
 			$rootScope.monitor.result = {
@@ -201,8 +195,9 @@
 			};
 			$timeout(function() {
 				$rootScope.monitor.uform = $scope.uform;
-			}, 0)
+			}, 500)
 			this.submit = function(grouped, result) {
+				console.info($scope.uform);
 				if(grouped.$valid){
 					console.info(result);
 				}

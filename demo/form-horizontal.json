@@ -8,6 +8,8 @@
                 "width": "200px"
             },
             "required": true,
+            "maxlength": 10,
+            "minlength": 3,
             "placeholder": "请输入用户名"
         },
         "password":{
@@ -19,6 +21,8 @@
         "write": {
             "id": 3,
             "type": "textarea",
+            "maxlength": 10,
+            "minlength": 3,
             "label": "备注"
         },
         "datefor":{
