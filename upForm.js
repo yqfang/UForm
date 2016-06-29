@@ -6,6 +6,7 @@
 			ngModel.controller = ['$scope', '$element', '$attrs', '$injector', function(scope, element, attrs, $injector) {
 				var $interpolate = $injector.get('$interpolate');
 				attrs.$set('name', $interpolate(attrs.name || '')(scope));
+				attrs.$set('validator', $interpolate(attrs.validator || '')(scope));
 				$injector.invoke(controller, this, {
 				'$scope': scope,
 				'$element': element,

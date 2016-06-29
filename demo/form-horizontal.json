@@ -8,8 +8,6 @@
             "invalidMsg": "> 3 and < 10",
             "maxlength": 10,
             "minlength": 3,
-            "validateOn": "dirty",
-            "validator": true,
             "style": {
                 "width": "200px"
             },
@@ -19,8 +17,7 @@
         "password":{
             "id": 2,
             "type": "input:password",
-            "label": "密码",
-            "validateOn": "dirty"
+            "label": "密码"
         },
         "write": {
             "id": 3,

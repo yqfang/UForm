@@ -170,6 +170,7 @@
 				group1: json["inline"],
 				group2: json["horizontal"]
 			} 
+
 			
 			this.group1 = {
 				fields: json['inline'].fields,
@@ -187,6 +188,22 @@
 					datetime: new Date()
 				}
 			};
+							this.validate = function(result) {
+				if(result.password === "hello"){
+					return "不能为 hello"
+				}
+				if(result.password === "world"){
+					return "不能为 world"
+				}
+				if(result.password === result.username) {
+					return "不能和用户名一样"
+				}
+				return true;
+			}
+			this.group2.fields["password"]["validator"]  = "vm.validate(vm.group2.result)",
+
+
+
 			$rootScope.monitor.result = {
 				result1: this.group1.result,
 				result2: this.group2.result
