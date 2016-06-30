@@ -1,6 +1,6 @@
 ;(function() {
 
-	angular.module("myApp", ["uForm", 'ngSanitize', "ui.select", 'ui.bootstrap', 'ui.router', 'ngPrettyJson'])
+	angular.module("myApp", ["uForm", 'angular-loading-bar','ngSanitize', "ui.select", 'ui.bootstrap', 'ui.router', 'ngPrettyJson'])
 		.run(function ($rootScope, $state, $stateParams) {
 			   $rootScope.monitor = {};
 			   $rootScope.monitor.$state = $state;
@@ -8,6 +8,11 @@
 			   $rootScope.$state = $state;
 			   $rootScope.$stateParams = $stateParams;
 		    })
+		.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+			// cfpLoadingBarProvider.includeSpinner = false;
+			// cfpLoadingBarProvider.spinnerTemplate = '<div><span class="fa fa-spinner">Loading...</div>';
+			cfpLoadingBarProvider.latencyThreshold = 100;
+		}])
 		.config(function(datepickerConfig, $translateProvider, dialogsProvider) {
 			datepickerConfig.showWeeks = false;
 			dialogsProvider.setSize("md");

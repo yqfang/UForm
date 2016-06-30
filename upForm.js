@@ -74,8 +74,8 @@
 			require: ['?^uFormGroup'],
 			link: function(scope, elem, attr, ctrls) {
 				var uFormGroup = ctrls[0];
-				uFormGroup && uFormGroup.fields && uFormGroup.fields.push(scope.form.fields);
-				uFormGroup && uFormGroup.result && uFormGroup.result.push(scope.form.result);
+				uFormGroup && uFormGroup.fields && uFormGroup.fields.push(ctrl[0].fields);
+				uFormGroup && uFormGroup.result && uFormGroup.result.push(ctrl[0].result);
 				scope.$on("$inputBlur",function(e,data){
 					//检测到事件的变化
 					// 告诉对应的域对应的
@@ -137,20 +137,18 @@
 		    require: ['?^uForm'],
 		    link: function(scope, ele, attr, ctrl) {
 		    	// 发送变化事件
-		    	if(scope.form && scope.form.fields && scope.form.fields[attr['name']] && scope.form.fields[attr['name']]['hideExpression']) {
-		    		scope.form.fields[attr['name']]['hide'] = scope.$eval(scope.form.fields[attr['name']]['hideExpression']);
-		    		console.log(scope.form.fields[attr['name']]['hide'],scope.form.fields[attr['name']])
+		    	
+		    	if(ctrl[0] && ctrl[0].fields && ctrl[0].fields[attr['name']] && ctrl[0].fields[attr['name']]['hideExpression']) {
+		    		ctrl[0].fields[attr['name']]['hide'] = scope.$eval(ctrl[0].fields[attr['name']]['hideExpression']);
 		    	}
 		    	ele.bind('input',function(){
-		    		scope.$emit("$inputBlur",{field: scope.form.fields[attr['name']],result: scope.form})
+		    		scope.$emit("$inputBlur",{field: ctrl[0].fields[attr['name']],result: ctrl[0]})
 		    	});
-		    	scope.result = scope.form.result;
+		    	scope.result = ctrl[0].result;
 		    	scope.$on('$someInputBlur',function(e,data){
-		    		if(scope.form.fields[attr['name']] && scope.form.fields[attr['name']]['hideExpression']) {
-		    			var hide  = scope.$eval(scope.form.fields[attr['name']]['hideExpression']);
-		    			scope.form.fields[attr['name']].hide = hide;
-
-		    			console.log(scope.form.fields[attr['name']],hide)
+		    		if(ctrl[0].fields[attr['name']] && ctrl[0].fields[attr['name']]['hideExpression']) {
+		    			var hide  = scope.$eval(ctrl[0].fields[attr['name']]['hideExpression']);
+		    			ctrl[0].fields[attr['name']].hide = hide;
 		    			$rootScope.$digest();
 		    		}
 		    	})
