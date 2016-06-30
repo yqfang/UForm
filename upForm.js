@@ -76,6 +76,11 @@
 				var uFormGroup = ctrls[0];
 				uFormGroup && uFormGroup.fields && uFormGroup.fields.push(scope.form.fields);
 				uFormGroup && uFormGroup.result && uFormGroup.result.push(scope.form.result);
+				scope.$on("$inputBlur",function(e,data){
+					//检测到事件的变化
+					// 告诉对应的域对应的
+					scope.$broadcast('$someInputBlur',data);
+				})
 			}
 			
 		}
@@ -115,7 +120,7 @@
 		'textarea': 'appTextareaComponent'
 	}, function(directiveSelector, tpl) {
 		self
-		.directive(directiveSelector, function() {
+		.directive(directiveSelector, function($parse,$rootScope) {
 		  return {
 		  	restrict: 'EA',
 		    controller: function($scope, $attrs) {
@@ -125,10 +130,30 @@
   			},
 		    controllerAs: 'componentCtrl',
 		    templateUrl : './field-templates/' + tpl + '.html',
-		    scope: {"model": '='},
+		    scope: {
+		    	"model": '=',
+			},
 		    replace: true,
 		    require: ['?^uForm'],
-		    link: function(scope, elem, attr, ctrl) {
+		    link: function(scope, ele, attr, ctrl) {
+		    	// 发送变化事件
+		    	if(scope.form && scope.form.fields && scope.form.fields[attr['name']] && scope.form.fields[attr['name']]['hideExpression']) {
+		    		scope.form.fields[attr['name']]['hide'] = scope.$eval(scope.form.fields[attr['name']]['hideExpression']);
+		    		console.log(scope.form.fields[attr['name']]['hide'],scope.form.fields[attr['name']])
+		    	}
+		    	ele.bind('input',function(){
+		    		scope.$emit("$inputBlur",{field: scope.form.fields[attr['name']],result: scope.form})
+		    	});
+		    	scope.result = scope.form.result;
+		    	scope.$on('$someInputBlur',function(e,data){
+		    		if(scope.form.fields[attr['name']] && scope.form.fields[attr['name']]['hideExpression']) {
+		    			var hide  = scope.$eval(scope.form.fields[attr['name']]['hideExpression']);
+		    			scope.form.fields[attr['name']].hide = hide;
+
+		    			console.log(scope.form.fields[attr['name']],hide)
+		    			$rootScope.$digest();
+		    		}
+		    	})
 		    }
 		  }
 		})
