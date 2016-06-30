@@ -88,14 +88,17 @@
 			restrict: 'A',
 			link: function(scope, element, attr, uform) {
 				var uFormScope = uform.ref;
+				var exp;
 				if('hide' in scope.field) {
 					scope.$watch(function() {
-					var res =  uFormScope.$parent.$eval(attr.upFieldHide);
+					if(attr.upFieldHide == 'true' || attr.upFieldHide == true)
+					 	return true;
+					var res =  uFormScope.$eval('form.' + attr.upFieldHide);
 					return res;
 				}, function(value) {
 					// hide the element
 					element.css('display', value ? 'none' : '');
-					// delete the hide element from result
+					// delete the hide element from resutl
 					if(value) {delete uform.result[scope.field.name];}
 				})
 				}
