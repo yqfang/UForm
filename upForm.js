@@ -46,6 +46,7 @@
 			return filtered;
 		};
 	});
+
 	self.directive("uFormGroup", function() {
 		return {
 			controller: function($scope, $attrs) {
@@ -68,6 +69,7 @@
 				this.fields = $parent.$eval($attrs.fields);
 				this.option = $parent.$eval($attrs.option);
 				this.result = $parent.$eval($attrs.result) || $parent.$eval($attrs.result + "={}");
+				this.ref = $scope;
 			},
 			scope: {},
 			controllerAs: "form",
@@ -80,6 +82,27 @@
 			
 		}
 	});
+	self.directive("upFieldHide", function() {
+		return {
+			require: "?^uForm",
+			restrict: 'A',
+			link: function(scope, element, attr, uform) {
+				var uFormScope = uform.ref;
+				if('hide' in scope.field) {
+					scope.$watch(function() {
+					var res =  uFormScope.$parent.$eval(attr.upFieldHide);
+					return res;
+				}, function(value) {
+					// hide the element
+					element.css('display', value ? 'none' : '');
+					// delete the hide element from result
+					if(value) {delete uform.result[scope.field.name];}
+				})
+				}
+				
+			}
+		}
+	})
 	self.directive('bindDirectiveCompile', ['$compile', function ($compile) {
             return {
                 restrict: 'A',
