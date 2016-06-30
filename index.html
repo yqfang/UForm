@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+	<title>angular-data-driven-form</title>
+	<meta charset=utf-8> 
+	<meta http-equiv=X-UA-Compatible content="IE=edge">
+	<meta name=viewport content="width=device-width,initial-scale=1">
+	<meta name="author" content="yqfang">
+	<link href="lib/bootstrap-3.1.1/css/bootstrap.css" rel="stylesheet">
+	<link href="lib/ui-select/select.css" rel="stylesheet">
+	<link rel="stylesheet" href="lib/angular-dialog-service/dist/dialogs.css">
+	<link rel="stylesheet" href="lib/ng-prettyjson/dist/ng-prettyjson.min.css">
+
+</head>
+<body>
+<div ui-view class="container-fliud"></div>
+<style>
+.modal.fade {
+  opacity: 1;
+}
+.modal-content {
+	border-radius: 0;
+}
+.modal-backdrop {
+	background-color: #FFF;
+}
+pre {
+	border: none;
+}
+
+</style>
+
+<!--[if IE 8]>
+<script src="lib/json3/json3.js"></script>
+<script src="lib/es5/es5-shim.js"></script>
+<script src="lib/html5shiv/html5shiv.js"></script>
+<script src="lib/respond.js"></script>
+<link href="lib/bootstrap-iebuttonfix/css/bootstrap-ie8buttonfix.css" rel="stylesheet">
+<script>
+    document.createElement('ui-select');
+    document.createElement('ui-select-match');
+    document.createElement('ui-select-choices');
+</script>
+<style>
+	.ui-select-bootstrap > .ui-select-choices {
+    	overflow-y: auto;
+	}
+	.btn:focus, .btn:active:focus, .btn.active:focus
+	, a:focus, a:active:focus, a.active:focus
+	, table:focus, table:active:focus, table.active:focus
+	{ outline: none; ! important; outline-style: none; }
+	
+</style>
+<![endif]-->
+
+<script type="text/javascript" src="lib/jquery.min.js"></script>
+<script type="text/javascript" src="lib/angular.js"></script>
+<script type="text/javascript" src="lib/angular-sanitize.min.js"></script>
+<script type="text/javascript" src="lib/bootstrap-0.12.1/dist/ui-bootstrap-0.12.1.js"></script>
+<script type="text/javascript" src="lib/bootstrap-0.12.1/dist/ui-bootstrap-tpls-0.12.1.js"></script>
+<script type="text/javascript" src="lib/angular-dialog-service/dist/dialogs.js"></script>
+<script type="text/javascript" src="lib/ui-select/select.js"></script>
+<script type="text/javascript" src="lib/angular-locale_zh.js"></script>
+<script type="text/javascript" src="lib/angular-shims-placeholder.min.js"></script>
+<script type="text/javascript" src="lib/angular-ui-router.js"></script>
+<script type="text/javascript" src="lib/ct-ui-router-extras.js"></script>
+<script type="text/javascript" src="lib/ng-prettyjson/dist/ng-prettyjson.min.js"></script>
+<script type="text/javascript" src="lib/angular-validator.js"></script>
+<script type="text/javascript" src="upForm.js"></script>
+<script type="text/javascript" src="field-templates/ext/maya-ui-select/index.js"></script>
+<script type="text/javascript" src="field-templates/ext/maya-config-group/index.js"></script>
+<script type="text/javascript" src="field-templates/ext/maya-config-menu/index.js"></script>
+<script type="text/javascript" src="app.js"></script>
+
+
+</body>
+</html>

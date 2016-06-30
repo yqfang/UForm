@@ -1,0 +1,11 @@
+<input type="email"
+        name="{{componentCtrl.field.name}}"
+        id="{{componentCtrl.field.name}}"
+         ng-model="componentCtrl.ref.model"
+         ng-required="componentCtrl.field.required"
+                ng-maxlength="{{componentCtrl.field.maxlength}}"
+       ng-minlength="{{componentCtrl.field.minlength}}"
+       required-message="'{{componentCtrl.field.requireMsg}}'"
+        invalid-message="'{{componentCtrl.field.invalidMsg}}'"
+       validate-on="{{componentCtrl.field.validateOn}}"
+         class="form-control" />
