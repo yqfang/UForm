@@ -1,7 +1,7 @@
 ;(function() {
 	var self = angular.module("uForm", ['ui.bootstrap','ng.shims.placeholder','ngLocale', 'dialogs.main', 'angularValidator']);
-	self.config(function($provide) {
-		$provide.decorator('ngModelDirective', function($delegate) {
+	self.config(["$provide", function($provide) {
+		$provide.decorator('ngModelDirective', ["$delegate", function($delegate) {
 			var ngModel = $delegate[0], controller = ngModel.controller;
 			ngModel.controller = ['$scope', '$element', '$attrs', '$injector', function(scope, element, attrs, $injector) {
 				var $interpolate = $injector.get('$interpolate');
@@ -14,9 +14,9 @@
 				});
 			}];
 			return $delegate;
-		});
+		}]);
 		angular.forEach({'ng-form': 'ngFormDirective', 'form': 'formDirective'}, function(directive) {
-			$provide.decorator(directive, function($delegate) {
+			$provide.decorator(directive, ["$delegate", function($delegate) {
 			var form = $delegate[0], controller = form.controller;
 			form.controller = ['$scope', '$element', '$attrs', '$injector', function(scope, element, attrs, $injector) {
 				var $interpolate = $injector.get('$interpolate');
@@ -28,10 +28,10 @@
 				});
 			}];
 			return $delegate;
-		});
+		}]);
 		})
 		
-	});
+	}]);
 	self.filter('orderById', function() {
 		return function(items, field, reverse) {
 			var filtered = [];
@@ -49,28 +49,28 @@
 
 	self.directive("uFormGroup", function() {
 		return {
-			controller: function($scope, $attrs) {
+			controller: ["$scope", "$attrs", function($scope, $attrs) {
 				this.fields = $scope.$parent.$eval($attrs.fields) || $scope.$parent.$eval($attrs.fields + "=[]");;
 				this.result = $scope.$parent.$eval($attrs.result) || $scope.$parent.$eval($attrs.result + "=[]");;
-			},
+			}],
 			scope: {},
 			template: '<div ng-transclude></div>',
 			controllerAs: "uFormGroup",
 			transclude: true
 		}
 	});
-	self.directive("uForm", function($rootScope) {
+	self.directive("uForm", ["$rootScope", function($rootScope) {
 		return {
 			templateUrl: 'templates/myForm.html',
 			transclude: true,
 			restrict: "EA",
-			controller: function($scope, $attrs, $rootScope) {
+			controller: ["$scope", "$attrs", "$rootScope", function($scope, $attrs, $rootScope) {
 				var $parent = $scope.$parent;
 				this.fields = $parent.$eval($attrs.fields);
 				this.option = $parent.$eval($attrs.option);
 				this.result = $parent.$eval($attrs.result) || $parent.$eval($attrs.result + "={}");
 				this.ref = $scope;
-			},
+			}],
 			scope: {},
 			controllerAs: "form",
 			require: ['?^uFormGroup'],
@@ -81,7 +81,7 @@
 			}
 			
 		}
-	});
+	}]);
 	self.directive("upFieldHide", function() {
 		return {
 			require: "?^uForm",
@@ -144,11 +144,11 @@
 		.directive(directiveSelector, function() {
 		  return {
 		  	restrict: 'EA',
-		    controller: function($scope, $attrs) {
+		    controller: ["$scope", "$attrs",function($scope, $attrs) {
 			    var directiveScope = $scope.$parent;
 			    this.field = directiveScope.$eval('field');
 			    this.ref = $scope;		     		   
-  			},
+  			}],
 		    controllerAs: 'componentCtrl',
 		    templateUrl : 'templates/' + tpl + '.html',
 		    scope: {"model": '='},
@@ -170,15 +170,15 @@
 
 ;(function() {
     angular.module("uForm")
-    	.directive('mayaConfigGroup', function($state, $timeout, dialogs) {
+    	.directive('mayaConfigGroup', ["$state", "$timeout", "dialogs", function($state, $timeout, dialogs) {
 		return {
 			restrict: 'EA',
 			require: ['?^uForm', 'mayaConfigGroup'],
-			controller: function($scope) {
+			controller: ["$scope", function($scope) {
 				var $formtplScope = $scope.$parent;
 				this.field = $formtplScope.$eval('field');
 				this.result = [];
-			},
+			}],
 			scope: {},
 			controllerAs: 'vm',
 			templateUrl: 'templates/maya-config-group.html',
@@ -196,19 +196,19 @@
                 }
 		    }
 		}
-	})
+	}])
 })();
 ;(function() {
     angular.module("uForm")
-    	.directive('mayaConfigMenu', function($state, $timeout, dialogs) {
+    	.directive('mayaConfigMenu', ["$state", "$timeout", "dialogs", function($state, $timeout, dialogs) {
 		return {
 			restrict: 'EA',
 			require: ['?^uForm', 'mayaConfigMenu'],
-			controller: function($scope) {
+			controller: ["$scope", function($scope) {
 				var $formtplScope = $scope.$parent;
 				this.field = $formtplScope.$eval('field');
 				this.result = [];
-			},
+			}],
 			scope: {},
 			controllerAs: 'vm',
 			templateUrl: 'templates/maya-config-menu.html',
@@ -224,7 +224,7 @@
                 
 		    }
 		}
-	})
+	}])
 })();
 ;(function() {
     angular.module("uForm")
@@ -232,11 +232,11 @@
 		return {
 			restrict: 'EA',
 			require: ['?^uForm', 'mayaUiSelect'],
-			controller: function($scope) {
+			controller: ["$scope", function($scope) {
 				var $formtplScope = $scope.$parent;
 				this.field = $formtplScope.$eval('field');
 				this.result = [];
-			},
+			}],
 			scope: {},
 			controllerAs: 'vm',
 			templateUrl: 'templates/maya-ui-select.html',

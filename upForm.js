@@ -144,11 +144,11 @@
 		.directive(directiveSelector, function() {
 		  return {
 		  	restrict: 'EA',
-		    controller: function($scope, $attrs) {
+		    controller: ["$scope", "$attrs",function($scope, $attrs) {
 			    var directiveScope = $scope.$parent;
 			    this.field = directiveScope.$eval('field');
 			    this.ref = $scope;		     		   
-  			},
+  			}],
 		    controllerAs: 'componentCtrl',
 		    templateUrl : 'templates/' + tpl + '.html',
 		    scope: {"model": '='},
