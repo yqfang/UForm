@@ -18,13 +18,11 @@
             "id": 2,
             "type": "input:password",
             "label": "密码",
-            "hide": "result.username!='yqfang'"
+            "hide": "username!='yqfang'|| write!='hello'"
         },
         "write": {
             "id": 3,
             "type": "textarea",
-            "maxlength": 10,
-            "minlength": 3,
             "label": "备注"
         },
         "datefor":{

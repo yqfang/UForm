@@ -82,27 +82,25 @@
 			
 		}
 	});
-	self.directive("upFieldHide", function() {
+	self.directive("upFieldHide", function($parse) {
 		return {
 			require: "?^uForm",
 			restrict: 'A',
 			link: function(scope, element, attr, uform) {
-				var uFormScope = uform.ref;
 				var exp;
 				if('hide' in scope.field) {
 					scope.$watch(function() {
-					if(attr.upFieldHide == 'true' || attr.upFieldHide == true)
-					 	return true;
-					var res =  uFormScope.$eval('form.' + attr.upFieldHide);
+					// if(attr.upFieldHide == 'true')
+					//  	return true;
+					var res =  $parse(attr.upFieldHide)(uform.result);
 					return res;
 				}, function(value) {
 					// hide the element
-					element.css('display', value ? 'none' : '');
-					// delete the hide element from resutl
-					if(value) {delete uform.result[scope.field.name];}
-				})
+						element.css('display', value ? 'none' : '');
+							// delete the hide element from resutl
+						if(value) {delete uform.result[scope.field.name];}
+					})
 				}
-				
 			}
 		}
 	})
