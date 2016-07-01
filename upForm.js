@@ -61,7 +61,7 @@
 	});
 	self.directive("uForm", function($rootScope) {
 		return {
-			templateUrl: './form-templates/myForm.html',
+			templateUrl: 'templates/myForm.html',
 			transclude: true,
 			restrict: "EA",
 			controller: function($scope, $attrs, $rootScope) {
@@ -150,7 +150,7 @@
 			    this.ref = $scope;		     		   
   			},
 		    controllerAs: 'componentCtrl',
-		    templateUrl : './field-templates/' + tpl + '.html',
+		    templateUrl : 'templates/' + tpl + '.html',
 		    scope: {"model": '='},
 		    replace: true,
 		    require: ['?^uForm'],

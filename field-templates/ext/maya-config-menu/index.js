@@ -1,4 +1,4 @@
-(function() {
+;(function() {
     angular.module("uForm")
     	.directive('mayaConfigMenu', function($state, $timeout, dialogs) {
 		return {
@@ -11,7 +11,7 @@
 			},
 			scope: {},
 			controllerAs: 'vm',
-			templateUrl: './field-templates/ext/maya-config-menu/maya-config-menu.html',
+			templateUrl: 'templates/maya-config-menu.html',
 			link: function(scope, elem, attr, ctrls) {
                 var self = ctrls[1],
                     form = ctrls[0];
@@ -25,4 +25,4 @@
 		    }
 		}
 	})
-})()
+})();
