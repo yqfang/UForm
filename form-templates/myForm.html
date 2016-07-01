@@ -33,10 +33,6 @@
 	<div ng-switch="field.type"  ng-class="form.option.inputClass">
 	  <div ng-switch-when="input" app-input-text-component model="form.result[field.name]">
 	  </div>
-	  <div ng-switch-when="input:url" app-input-url-component model="form.result[field.name]">
-	  </div>
-	  <div ng-switch-when="input:email" app-input-email-component model="form.result[field.name]">
-      </div>
       <div ng-switch-when="input:multiple" app-input-multiple-component model="form.result[field.name]">
       </div>
 	  <div ng-switch-when="input:date" app-input-date-component model="form.result[field.name]">
@@ -56,8 +52,6 @@
 	  <div ng-switch-when="textarea" app-textarea-component model="form.result[field.name]">
 	  </div>
 	  <div ng-switch-when="select" app-select-component model="form.result[field.name]">
-	  </div>
-	  <div ng-switch-when="button" app-button-component model="form.result[field.name]">
 	  </div>
 	  <div ng-switch-default bind-directive-compile="field.type">
 	  </div>

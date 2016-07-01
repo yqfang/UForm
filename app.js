@@ -108,15 +108,23 @@
 		.controller("formHorizontalController", function($timeout, $interval, json, $scope, $rootScope, $stateParams) {
 			var vm = this;
 			$rootScope.monitor.form = json["horizontal"];
-			this.fields = json["horizontal"].fields;
-			
+			this.fields = json["horizontal"].fields;			
 			this.option = json["horizontal"].option;
 			this.result = {
 				username: "方宇卿",
 				datetime: new Date(),
 				datefor: new Date()
 			};
-			this.validate = function(result) {
+			this.validatepw = function(result, form) {
+				if(form.password.$error.required) {
+					return "必填哦！"
+				}
+				if(form.password.$error.maxlength) {
+					return "不能超过3"
+				}
+				if(form.password.$error.minlength) {
+					return "最少1"
+				}
 				if(result.password === "hello"){
 					return "不能为 hello"
 				}
@@ -128,7 +136,17 @@
 				}
 				return true;
 			}
-			this.fields["password"]["validator"]  = "vm.validate(vm.result)",
+			this.fields["password"]["validator"]  = "vm.validatepw(vm.result, uform)";
+			this.validateun = function(result, form) {
+				if(form.username.$error.maxlength) {
+					return "最大10"
+				}
+				if(form.username.$error.minlength) {
+					return "最小3"
+				}
+				return true;
+			}
+			this.fields["username"]["validator"]  = "vm.validateun(vm.result, uform)";
 			$rootScope.monitor.result = this.result;
 			$timeout(function() {
 				$rootScope.monitor.uform = $scope.uform;

@@ -90,14 +90,12 @@
 				var exp;
 				if('hide' in scope.field) {
 					scope.$watch(function() {
-					// if(attr.upFieldHide == 'true')
-					//  	return true;
 					var res =  $parse(attr.upFieldHide)(uform.result);
 					return res;
 				}, function(value) {
-					// hide the element
+						// hide the element
 						element.css('display', value ? 'none' : '');
-							// delete the hide element from resutl
+						// delete the hide element from resutl
 						if(value) {delete uform.result[scope.field.name];}
 					})
 				}
@@ -126,7 +124,6 @@
         }])
 	angular.forEach({
 		'input-text': 'appInputTextComponent',
-		'input-email': 'appInputEmailComponent',
 		'input-date': 'appInputDateComponent',
 		'input-time': 'appInputTimeComponent',
 		'input-datetime': 'appInputDatetimeComponent',

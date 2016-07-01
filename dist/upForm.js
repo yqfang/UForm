@@ -82,30 +82,26 @@
 			
 		}
 	}]);
-	self.directive("upFieldHide", function() {
+	self.directive("upFieldHide", ["$parse", function($parse) {
 		return {
 			require: "?^uForm",
 			restrict: 'A',
 			link: function(scope, element, attr, uform) {
-				var uFormScope = uform.ref;
 				var exp;
 				if('hide' in scope.field) {
 					scope.$watch(function() {
-					if(attr.upFieldHide == 'true' || attr.upFieldHide == true)
-					 	return true;
-					var res =  uFormScope.$eval('form.' + attr.upFieldHide);
+					var res =  $parse(attr.upFieldHide)(uform.result);
 					return res;
 				}, function(value) {
-					// hide the element
-					element.css('display', value ? 'none' : '');
-					// delete the hide element from resutl
-					if(value) {delete uform.result[scope.field.name];}
-				})
+						// hide the element
+						element.css('display', value ? 'none' : '');
+						// delete the hide element from resutl
+						if(value) {delete uform.result[scope.field.name];}
+					})
 				}
-				
 			}
 		}
-	})
+	}])
 	self.directive('bindDirectiveCompile', ['$compile', function ($compile) {
             return {
                 restrict: 'A',
@@ -128,7 +124,6 @@
         }])
 	angular.forEach({
 		'input-text': 'appInputTextComponent',
-		'input-email': 'appInputEmailComponent',
 		'input-date': 'appInputDateComponent',
 		'input-time': 'appInputTimeComponent',
 		'input-datetime': 'appInputDatetimeComponent',
@@ -168,36 +163,6 @@
 
 
 
-;(function() {
-    angular.module("uForm")
-    	.directive('mayaConfigGroup', ["$state", "$timeout", "dialogs", function($state, $timeout, dialogs) {
-		return {
-			restrict: 'EA',
-			require: ['?^uForm', 'mayaConfigGroup'],
-			controller: ["$scope", function($scope) {
-				var $formtplScope = $scope.$parent;
-				this.field = $formtplScope.$eval('field');
-				this.result = [];
-			}],
-			scope: {},
-			controllerAs: 'vm',
-			templateUrl: 'templates/maya-config-group.html',
-			link: function(scope, elem, attr, ctrls) {
-                var form = ctrls[0],
-                    self = ctrls[1];
-                self.clear = function(e) {
-                    e.preventDefault();
-                    $state.go($state.current, {}, {reload: true}).then(function(){
-                        $timeout(function(){
-                           dialogs.success("", "清空成功！")
-                        }, 0)
-                        
-                    })
-                }
-		    }
-		}
-	}])
-})();
 ;(function() {
     angular.module("uForm")
     	.directive('mayaConfigMenu', ["$state", "$timeout", "dialogs", function($state, $timeout, dialogs) {
@@ -258,6 +223,36 @@
 		}
 	})
 })();
+;(function() {
+    angular.module("uForm")
+    	.directive('mayaConfigGroup', ["$state", "$timeout", "dialogs", function($state, $timeout, dialogs) {
+		return {
+			restrict: 'EA',
+			require: ['?^uForm', 'mayaConfigGroup'],
+			controller: ["$scope", function($scope) {
+				var $formtplScope = $scope.$parent;
+				this.field = $formtplScope.$eval('field');
+				this.result = [];
+			}],
+			scope: {},
+			controllerAs: 'vm',
+			templateUrl: 'templates/maya-config-group.html',
+			link: function(scope, elem, attr, ctrls) {
+                var form = ctrls[0],
+                    self = ctrls[1];
+                self.clear = function(e) {
+                    e.preventDefault();
+                    $state.go($state.current, {}, {reload: true}).then(function(){
+                        $timeout(function(){
+                           dialogs.success("", "清空成功！")
+                        }, 0)
+                        
+                    })
+                }
+		    }
+		}
+	}])
+})();
 (function(module) {
 try {
   module = angular.module('uForm');
@@ -301,10 +296,6 @@ module.run(['$templateCache', function($templateCache) {
     '	<div ng-switch="field.type"  ng-class="form.option.inputClass">\n' +
     '	  <div ng-switch-when="input" app-input-text-component model="form.result[field.name]">\n' +
     '	  </div>\n' +
-    '	  <div ng-switch-when="input:url" app-input-url-component model="form.result[field.name]">\n' +
-    '	  </div>\n' +
-    '	  <div ng-switch-when="input:email" app-input-email-component model="form.result[field.name]">\n' +
-    '      </div>\n' +
     '      <div ng-switch-when="input:multiple" app-input-multiple-component model="form.result[field.name]">\n' +
     '      </div>\n' +
     '	  <div ng-switch-when="input:date" app-input-date-component model="form.result[field.name]">\n' +
@@ -324,8 +315,6 @@ module.run(['$templateCache', function($templateCache) {
     '	  <div ng-switch-when="textarea" app-textarea-component model="form.result[field.name]">\n' +
     '	  </div>\n' +
     '	  <div ng-switch-when="select" app-select-component model="form.result[field.name]">\n' +
-    '	  </div>\n' +
-    '	  <div ng-switch-when="button" app-button-component model="form.result[field.name]">\n' +
     '	  </div>\n' +
     '	  <div ng-switch-default bind-directive-compile="field.type">\n' +
     '	  </div>\n' +
@@ -419,29 +408,6 @@ try {
   module = angular.module('uForm', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('templates/input-email.html',
-    '<input type="email"\n' +
-    '        name="{{componentCtrl.field.name}}"\n' +
-    '        id="{{componentCtrl.field.name}}"\n' +
-    '         ng-model="componentCtrl.ref.model"\n' +
-    '         ng-required="componentCtrl.field.required"\n' +
-    '                ng-maxlength="{{componentCtrl.field.maxlength}}"\n' +
-    '       ng-minlength="{{componentCtrl.field.minlength}}"\n' +
-    '       required-message="\'{{componentCtrl.field.requireMsg}}\'"\n' +
-    '        invalid-message="\'{{componentCtrl.field.invalidMsg}}\'"\n' +
-    '       validate-on="{{componentCtrl.field.validateOn}}"\n' +
-    '         class="form-control" />\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('uForm');
-} catch (e) {
-  module = angular.module('uForm', []);
-}
-module.run(['$templateCache', function($templateCache) {
   $templateCache.put('templates/input-multiple.html',
     '<select ng-init="componentCtrl.ref.model=componentCtrl.field.candidates[0].value"        class="form-control"\n' +
     '        ng-model="componentCtrl.ref.model"\n' +
@@ -463,17 +429,21 @@ try {
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('templates/input-password.html',
     '<input type="password"\n' +
-    '        name="{{componentCtrl.field.name}}"\n' +
     '        id="{{componentCtrl.field.name}}"\n' +
-    '         ng-model="componentCtrl.ref.model"\n' +
-    '         ng-required="componentCtrl.field.required"\n' +
-    '                ng-maxlength="{{componentCtrl.field.maxlength}}"\n' +
+    '        name="{{componentCtrl.field.name}}"\n' +
+    '       ng-model="componentCtrl.ref.model"\n' +
+    '       ng-required="componentCtrl.field.required"\n' +
+    '       required-message = "\'{{componentCtrl.field.requiredMsg}}\'"\n' +
+    '       ng-maxlength="{{componentCtrl.field.maxlength}}"\n' +
     '       ng-minlength="{{componentCtrl.field.minlength}}"\n' +
-    '              required-message="\'{{componentCtrl.field.requireMsg}}\'"\n' +
+    '       ng-pattern="{{componentCtrl.field.pattern}}"\n' +
     '       validate-on="{{componentCtrl.field.validateOn}}"\n' +
-    '              validator = "{{componentCtrl.field.validator}}"\n' +
-    '              invalid-message = "{{componentCtrl.field.validator}}"\n' +
-    '         class="form-control" />\n' +
+    '        validator = "{{componentCtrl.field.validator}}"\n' +
+    '        invalid-message = "{{componentCtrl.field.validator}}"\n' +
+    '       class="form-control" \n' +
+    '       ng-disabled="componentCtrl.field.disabled"\n' +
+    '       ng-attr-placeholder="{{componentCtrl.field.placeholder}}" \n' +
+    '       ng-style="componentCtrl.field.style" />\n' +
     '');
 }]);
 })();
@@ -526,13 +496,13 @@ module.run(['$templateCache', function($templateCache) {
     '        name="{{componentCtrl.field.name}}"\n' +
     '       ng-model="componentCtrl.ref.model"\n' +
     '       ng-required="componentCtrl.field.required"\n' +
+    '       required-message = "\'{{componentCtrl.field.requiredMsg}}\'"\n' +
     '       ng-maxlength="{{componentCtrl.field.maxlength}}"\n' +
     '       ng-minlength="{{componentCtrl.field.minlength}}"\n' +
-    '       required-message="\'{{componentCtrl.field.requireMsg}}\'"\n' +
-    '        invalid-message="\'{{componentCtrl.field.invalidMsg}}\'"\n' +
+    '       ng-pattern="{{componentCtrl.field.pattern}}"\n' +
     '       validate-on="{{componentCtrl.field.validateOn}}"\n' +
-    '              validator = "{{componentCtrl.field.validator}}"\n' +
-    '              invalid-message = "{{componentCtrl.field.validator}}"\n' +
+    '        validator = "{{componentCtrl.field.validator}}"\n' +
+    '        invalid-message = "{{componentCtrl.field.validator}}"\n' +
     '       class="form-control" \n' +
     '       ng-disabled="componentCtrl.field.disabled"\n' +
     '       ng-attr-placeholder="{{componentCtrl.field.placeholder}}" \n' +
@@ -581,16 +551,22 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('templates/textarea.html',
-    '<textarea ng-model="componentCtrl.ref.model"\n' +
-    '            name="{{componentCtrl.field.name}}"\n' +
-    '            id="{{componentCtrl.field.name}}"\n' +
-    '          ng-required="componentCtrl.field.required"\n' +
-    '                 ng-maxlength="{{componentCtrl.field.maxlength}}"\n' +
+    '<textarea id="{{componentCtrl.field.name}}"\n' +
+    '        name="{{componentCtrl.field.name}}"\n' +
+    '       ng-model="componentCtrl.ref.model"\n' +
+    '       ng-required="componentCtrl.field.required"\n' +
+    '       ng-maxlength="{{componentCtrl.field.maxlength}}"\n' +
     '       ng-minlength="{{componentCtrl.field.minlength}}"\n' +
+    '       ng-pattern="{{componentCtrl.field.pattern}}"\n' +
     '       required-message="\'{{componentCtrl.field.requireMsg}}\'"\n' +
     '        invalid-message="\'{{componentCtrl.field.invalidMsg}}\'"\n' +
     '       validate-on="{{componentCtrl.field.validateOn}}"\n' +
-    '          class="form-control">\n' +
+    '        validator = "{{componentCtrl.field.validator}}"\n' +
+    '        invalid-message = "{{componentCtrl.field.validator}}"\n' +
+    '       class="form-control" \n' +
+    '       ng-disabled="componentCtrl.field.disabled"\n' +
+    '       ng-attr-placeholder="{{componentCtrl.field.placeholder}}" \n' +
+    '       ng-style="componentCtrl.field.style">\n' +
     '</textarea>\n' +
     '');
 }]);
