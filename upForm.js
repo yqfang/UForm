@@ -61,7 +61,7 @@
 	});
 	self.directive("uForm", function($rootScope) {
 		return {
-			templateUrl: './form-templates/myForm.html',
+			templateUrl: 'templates/myForm.html',
 			transclude: true,
 			restrict: "EA",
 			controller: function($scope, $attrs, $rootScope) {
@@ -142,13 +142,13 @@
 		.directive(directiveSelector, function() {
 		  return {
 		  	restrict: 'EA',
-		    controller: function($scope, $attrs) {
+		    controller: ["$scope", "$attrs",function($scope, $attrs) {
 			    var directiveScope = $scope.$parent;
 			    this.field = directiveScope.$eval('field');
 			    this.ref = $scope;		     		   
-  			},
+  			}],
 		    controllerAs: 'componentCtrl',
-		    templateUrl : './field-templates/' + tpl + '.html',
+		    templateUrl : 'templates/' + tpl + '.html',
 		    scope: {"model": '='},
 		    replace: true,
 		    require: ['?^uForm'],

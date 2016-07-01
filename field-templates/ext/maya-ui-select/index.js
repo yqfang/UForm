@@ -1,4 +1,4 @@
-(function() {
+;(function() {
     angular.module("uForm")
     	.directive('mayaUiSelect', function() {
 		return {
@@ -11,7 +11,7 @@
 			},
 			scope: {},
 			controllerAs: 'vm',
-			templateUrl: './field-templates/ext/maya-ui-select/maya-ui-select.html',
+			templateUrl: 'templates/maya-ui-select.html',
 			link: function(scope, elem, attr, ctrls) {
 		    	var form = ctrls[0];
 				var me = ctrls[1];
@@ -29,4 +29,4 @@
 		    }
 		}
 	})
-})()
+})();
