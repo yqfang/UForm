@@ -1,7 +1,7 @@
 /*!
  * uform
  * https://github.com/yqfang/UForm#readme
- * Version: 1.0.0 - 2016-07-02T18:31:29.585Z
+ * Version: 1.0.0 - 2016-07-02T18:33:38.405Z
  * License: ISC
  */
 
@@ -313,7 +313,6 @@ angular.forEach({
     'input-date': 'appInputDateComponent',
     'input-time': 'appInputTimeComponent',
     'input-datetime': 'appInputDatetimeComponent',
-    'input-multiple': 'appInputMultipleComponent',
     'input-password': 'appInputPasswordComponent',
     'input-checkbox': 'appInputCheckboxComponent',
     'input-radio': 'appInputRadioComponent',

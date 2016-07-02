@@ -3,7 +3,6 @@ angular.forEach({
     'input-date': 'appInputDateComponent',
     'input-time': 'appInputTimeComponent',
     'input-datetime': 'appInputDatetimeComponent',
-    'input-multiple': 'appInputMultipleComponent',
     'input-password': 'appInputPasswordComponent',
     'input-checkbox': 'appInputCheckboxComponent',
     'input-radio': 'appInputRadioComponent',
