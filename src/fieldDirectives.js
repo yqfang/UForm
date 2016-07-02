@@ -20,7 +20,7 @@ angular.forEach({
                 this.ref = $scope;
             }],
             controllerAs: 'componentCtrl',
-            templateUrl: 'templates/' + tpl + '.html',
+            templateUrl: tpl + '.html',
             scope: { "model": '=' },
             replace: true,
             require: ['?^uForm'],

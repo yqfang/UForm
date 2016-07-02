@@ -1,6 +1,6 @@
 uf.directive("uForm", function ($rootScope) {
     return {
-        templateUrl: 'templates/form.html',
+        templateUrl: 'form.html',
         transclude: true,
         restrict: "EA",
         controller: function ($scope, $attrs, $rootScope) {
