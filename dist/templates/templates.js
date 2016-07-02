@@ -324,8 +324,12 @@ try {
   module = angular.module('uForm', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('templates/maya-config-menu.html',
-    '<button class="btn btn-default" ng-click="vm.config($event)">{{vm.field.model.btnName}}</button>');
+  $templateCache.put('templates/maya-config-group.html',
+    '<div style="inline-block" ng-style="vm.field.style">\n' +
+    '    <button class="btn btn-primary" ng-click="vm.execute($event)">{{vm.field.model.btn1}}</button>\n' +
+    '    <button class="btn btn-warning" ng-click="vm.save($event)">{{vm.field.model.btn2}}</button>\n' +
+    '    <button class="btn btn-danger" ng-click="vm.clear($event)">{{vm.field.model.btn3}}</button>\n' +
+    '</div> ');
 }]);
 })();
 
@@ -367,11 +371,7 @@ try {
   module = angular.module('uForm', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('templates/maya-config-group.html',
-    '<div style="inline-block" ng-style="vm.field.style">\n' +
-    '    <button class="btn btn-primary" ng-click="vm.execute($event)">{{vm.field.model.btn1}}</button>\n' +
-    '    <button class="btn btn-warning" ng-click="vm.save($event)">{{vm.field.model.btn2}}</button>\n' +
-    '    <button class="btn btn-danger" ng-click="vm.clear($event)">{{vm.field.model.btn3}}</button>\n' +
-    '</div> ');
+  $templateCache.put('templates/maya-config-menu.html',
+    '<button class="btn btn-default" ng-click="vm.config($event)">{{vm.field.model.btnName}}</button>');
 }]);
 })();

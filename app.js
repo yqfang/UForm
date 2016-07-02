@@ -1,6 +1,6 @@
 ;(function() {
 
-	angular.module("myApp", ["uForm", 'ngSanitize', "ui.select", 'ui.bootstrap', 'ui.router', 'ngPrettyJson'])
+	angular.module("myApp", ["uForm", 'ngSanitize', "ui.select", 'ui.bootstrap', 'ui.router', 'ngPrettyJson', 'dialogs.services'])
 		.run(function ($rootScope, $state, $stateParams) {
 			   $rootScope.monitor = {};
 			   $rootScope.monitor.$state = $state;
