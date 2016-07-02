@@ -1,7 +1,7 @@
 /*!
  * uform
  * https://github.com/yqfang/UForm#readme
- * Version: 1.0.0 - 2016-07-02T18:14:47.399Z
+ * Version: 1.0.0 - 2016-07-02T18:31:29.585Z
  * License: ISC
  */
 
@@ -330,7 +330,7 @@ angular.forEach({
                 this.ref = $scope;
             }],
             controllerAs: 'componentCtrl',
-            templateUrl: 'templates/' + tpl + '.html',
+            templateUrl: tpl + '.html',
             scope: { "model": '=' },
             replace: true,
             require: ['?^uForm'],
@@ -382,7 +382,7 @@ uf.directive("upFieldHide", ["$parse", function ($parse) {
 
 uf.directive("uForm", ["$rootScope", function ($rootScope) {
     return {
-        templateUrl: 'templates/form.html',
+        templateUrl: 'form.html',
         transclude: true,
         restrict: "EA",
         controller: ["$scope", "$attrs", "$rootScope", function ($scope, $attrs, $rootScope) {
