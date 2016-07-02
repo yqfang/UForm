@@ -42,6 +42,7 @@ gulp.task('scripts', ['clean'], function () {
             .pipe($.plumber({
                 errorHandler: handleError
             }))
+            .pipe($.ngAnnotate())
             .pipe($.concat('uform_without_templates.js'))
             .pipe($.header('(function() { \n"user strict";\n'))
             .pipe($.footer('\n}());'))

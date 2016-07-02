@@ -1,7 +1,7 @@
 /*!
  * uform
  * https://github.com/yqfang/UForm#readme
- * Version: 1.0.0 - 2016-07-02T17:43:08.181Z
+ * Version: 1.0.0 - 2016-07-02T18:14:47.399Z
  * License: ISC
  */
 
@@ -11,8 +11,8 @@
 var uf = angular.module('up.uform', ['ui.bootstrap', 'ng.shims.placeholder', 'ngLocale', 'ui.select'])
 
 
-uf.config(function ($provide) {
-    $provide.decorator('ngModelDirective', function ($delegate) {
+uf.config(["$provide", function ($provide) {
+    $provide.decorator('ngModelDirective', ["$delegate", function ($delegate) {
         var ngModel = $delegate[0], controller = ngModel.controller;
         ngModel.controller = ['$scope', '$element', '$attrs', '$injector', function (scope, element, attrs, $injector) {
             var $interpolate = $injector.get('$interpolate');
@@ -25,10 +25,10 @@ uf.config(function ($provide) {
             });
         }];
         return $delegate;
-    });
+    }]);
 
     angular.forEach({ 'ng-form': 'ngFormDirective', 'form': 'formDirective' }, function (directive) {
-        $provide.decorator(directive, function ($delegate) {
+        $provide.decorator(directive, ["$delegate", function ($delegate) {
             var form = $delegate[0], controller = form.controller;
             form.controller = ['$scope', '$element', '$attrs', '$injector', function (scope, element, attrs, $injector) {
                 var $interpolate = $injector.get('$interpolate');
@@ -41,9 +41,9 @@ uf.config(function ($provide) {
                 });
             }];
             return $delegate;
-        });
+        }]);
     })
-});
+}]);
 
 
 
@@ -359,7 +359,7 @@ uf.filter('orderById', function () {
     };
 });
 
-uf.directive("upFieldHide", function ($parse) {
+uf.directive("upFieldHide", ["$parse", function ($parse) {
     return {
         require: "?^uForm",
         restrict: 'A',
@@ -378,20 +378,20 @@ uf.directive("upFieldHide", function ($parse) {
             }
         }
     }
-})
+}])
 
-uf.directive("uForm", function ($rootScope) {
+uf.directive("uForm", ["$rootScope", function ($rootScope) {
     return {
         templateUrl: 'templates/form.html',
         transclude: true,
         restrict: "EA",
-        controller: function ($scope, $attrs, $rootScope) {
+        controller: ["$scope", "$attrs", "$rootScope", function ($scope, $attrs, $rootScope) {
             var $parent = $scope.$parent;
             this.fields = $parent.$eval($attrs.fields);
             this.option = $parent.$eval($attrs.option);
             this.result = $parent.$eval($attrs.result) || $parent.$eval($attrs.result + "={}");
             this.ref = $scope;
-        },
+        }],
         scope: {},
         controllerAs: "form",
         require: ['?^uFormGroup'],
@@ -402,14 +402,14 @@ uf.directive("uForm", function ($rootScope) {
         }
 
     }
-});
+}]);
 
 uf.directive("uFormGroup", function () {
     return {
-        controller: function ($scope, $attrs) {
+        controller: ["$scope", "$attrs", function ($scope, $attrs) {
             this.fields = $scope.$parent.$eval($attrs.fields) || $scope.$parent.$eval($attrs.fields + "=[]");;
             this.result = $scope.$parent.$eval($attrs.result) || $scope.$parent.$eval($attrs.result + "=[]");;
-        },
+        }],
         scope: {},
         template: '<div ng-transclude></div>',
         controllerAs: "uFormGroup",
