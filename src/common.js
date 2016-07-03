@@ -1,4 +1,4 @@
-var uf = angular.module('up.uform', ['ui.bootstrap', 'ng.shims.placeholder', 'ngLocale', 'ui.select'])
+var uf = angular.module('up.uform', ['ui.bootstrap'])
 
 
 uf.config(function ($provide) {

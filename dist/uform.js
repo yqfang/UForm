@@ -1,14 +1,14 @@
 /*!
  * uform
  * https://github.com/yqfang/UForm#readme
- * Version: 1.0.0 - 2016-07-03T02:55:20.219Z
+ * Version: 1.0.0 - 2016-07-03T03:01:29.746Z
  * License: ISC
  */
 
 
 (function() { 
 "use strict";
-var uf = angular.module('up.uform', ['ui.bootstrap', 'ng.shims.placeholder', 'ngLocale', 'ui.select'])
+var uf = angular.module('up.uform', ['ui.bootstrap'])
 
 
 uf.config(["$provide", function ($provide) {
