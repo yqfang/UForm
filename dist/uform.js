@@ -1,17 +1,17 @@
 /*!
  * uform
  * https://github.com/yqfang/UForm#readme
- * Version: 1.0.0 - 2016-07-03T03:01:29.746Z
+ * Version: 1.0.0 - 2016-07-03T03:09:09.397Z
  * License: ISC
  */
 
 
 (function() { 
 "use strict";
-var uf = angular.module('up.uform', ['ui.bootstrap'])
+var uf = angular.module('up.uform', ['ui.bootstrap']);
 
-
-uf.config(["$provide", function ($provide) {
+uf.config(["$provide", "datepickerConfig", function ($provide, datepickerConfig) {
+    datepickerConfig.showWeeks = false;
     $provide.decorator('ngModelDirective', ["$delegate", function ($delegate) {
         var ngModel = $delegate[0], controller = ngModel.controller;
         ngModel.controller = ['$scope', '$element', '$attrs', '$injector', function (scope, element, attrs, $injector) {

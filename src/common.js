@@ -1,7 +1,7 @@
-var uf = angular.module('up.uform', ['ui.bootstrap'])
+var uf = angular.module('up.uform', ['ui.bootstrap']);
 
-
-uf.config(function ($provide) {
+uf.config(function ($provide, datepickerConfig) {
+    datepickerConfig.showWeeks = false;
     $provide.decorator('ngModelDirective', function ($delegate) {
         var ngModel = $delegate[0], controller = ngModel.controller;
         ngModel.controller = ['$scope', '$element', '$attrs', '$injector', function (scope, element, attrs, $injector) {
