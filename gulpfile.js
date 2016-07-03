@@ -12,6 +12,7 @@ var config = {
       '/*!\n' +
       ' * <%= pkg.name %>\n' +
       ' * <%= pkg.homepage %>\n' +
+      ' * <%= pkg.author %>\n' +
       ' * Version: <%= pkg.version %> - <%= timestamp %>\n' +
       ' * License: <%= pkg.license %>\n' +
       ' */\n\n\n'
@@ -23,11 +24,11 @@ gulp.task('build', ['scripts']);
 gulp.task('watch', ['build'], function() {
   gulp.watch(['src/**/*.{js,html}'], ['build']);
 });
-gulp.task('clean', function() {
-  return del.sync('dist');
+gulp.task('clean:uform', function() {
+  return del.sync('dist/lib/uform');
 });
 
-gulp.task('scripts', ['clean'], function () {
+gulp.task('scripts', ['clean:uform'], function () {
     var buildTemplates = function() {
         return gulp.src('src/templates/*.html')
             .pipe($.minifyHtml({
@@ -55,12 +56,12 @@ gulp.task('scripts', ['clean'], function () {
         .pipe($.header(config.banner, {
             timestamp: (new Date()).toISOString(), pkg: config.pkg
         }))
-        .pipe(gulp.dest('dist'))
+        .pipe(gulp.dest('dist/lib/uform'))
         .pipe($.sourcemaps.init())
         .pipe($.uglify({preserveComments: 'some'}))
         .pipe($.concat('uform.min.js'))
         .pipe($.sourcemaps.write('./'))
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('dist/lib/uform'));
 });
 var handleError = function (err) {
   console.log(err.toString());
