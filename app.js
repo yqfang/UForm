@@ -1,6 +1,6 @@
 ;(function() {
 
-	angular.module("myApp", ["uForm", 'ngSanitize', "ui.select", 'ui.bootstrap', 'ui.router', 'ngPrettyJson', 'dialogs.services'])
+	angular.module("myApp", ["up.uform", 'ngSanitize', "ui.select", 'ui.bootstrap', 'ui.router', 'ngPrettyJson', 'dialogs.services'])
 		.run(function ($rootScope, $state, $stateParams) {
 			   $rootScope.monitor = {};
 			   $rootScope.monitor.$state = $state;
@@ -30,7 +30,7 @@
 			});
 		})
 		.config(function($stateProvider, $urlRouterProvider) {
-			
+
 			$urlRouterProvider
 				.when('/', '/form/common/horizontal')
 				.otherwise('/form/common/horizontal');
@@ -64,7 +64,7 @@
 							controllerAs: 'vm'
 				        }
 					}
-					
+
 				})
 				.state('form.inline', {
 					url: '/common/inline',
@@ -88,7 +88,7 @@
 					}
 
 				})
-				
+
 		})
 
 		.factory('jsonHelper', function($http) {
@@ -102,13 +102,13 @@
 			function loadInline() {
 				return $http.get("demo/form-inline.json")
 			}
-					
+
 		})
 
 		.controller("formHorizontalController", function($timeout, $interval, json, $scope, $rootScope, $stateParams) {
 			var vm = this;
 			$rootScope.monitor.form = json["horizontal"];
-			this.fields = json["horizontal"].fields;			
+			this.fields = json["horizontal"].fields;
 			this.option = json["horizontal"].option;
 			this.result = {
 				username: "方宇卿",
@@ -151,7 +151,7 @@
 			$timeout(function() {
 				$rootScope.monitor.uform = $scope.uform;
 			}, 1);
-			
+
 
 			this.submit = function(form, result) {
 				$rootScope.monitor.uform = {};
@@ -160,7 +160,7 @@
 				console.info($scope.uform);
 			}, 1000);
 				if(form.$valid){
-					
+
 					console.info(result);
 				}
 			}
@@ -187,9 +187,9 @@
 			$rootScope.monitor.form = {
 				group1: json["inline"],
 				group2: json["horizontal"]
-			} 
+			}
 
-			
+
 			this.group1 = {
 				fields: json['inline'].fields,
 				option: json['inline'].option,
@@ -235,7 +235,7 @@
 					console.info(result);
 				}
 			}
-			
+
 		})
 		.controller("selectController", function($scope) {
 			var vm = this;
