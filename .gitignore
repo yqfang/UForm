@@ -1,4 +1,3 @@
 node_modules
-lib
+demo/up-lib
 **/*/.DS_Store
-

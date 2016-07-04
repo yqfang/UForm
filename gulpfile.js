@@ -30,7 +30,7 @@ gulp.task('clean:uform', function() {
 
 gulp.task('scripts', ['clean:uform'], function () {
     var buildTemplates = function() {
-        return gulp.src('templates/*.html')
+        return gulp.src('src/templates/*.html')
             .pipe($.minifyHtml({
                 empty: true,
                 spare: true,
