@@ -2,7 +2,7 @@
  * uform
  * https://github.com/yqfang/UForm#readme
  * yqfang,qianzhixiang
- * Version: 1.0.0 - 2016-07-04T11:55:56.690Z
+ * Version: 1.0.0 - 2016-07-04T12:34:33.767Z
  * License: ISC
  */
 

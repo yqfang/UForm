@@ -108,8 +108,13 @@
 
             ]
 		},
-		"group":{
+        "employNum": {
             "id": 14,
+            "label": "员工编号",
+            "type": "maya-http-select"
+        },
+		"group":{
+            "id": 15,
 			"type": "maya-config-group",
             "style": {
                 "textAlign": "right"
@@ -119,12 +124,7 @@
                 "btn2": "收藏",
                 "btn3": "清空"
             }
-		},
-        "employNum": {
-            "id": 15,
-            "label": "员工编号",
-            "type": "maya-http-select"
-        }
+		}
     },
     "option": {
         "formClass": "form-horizontal",
