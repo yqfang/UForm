@@ -1,5 +1,5 @@
 ;(function() {
-    angular.module("uForm")
+    angular.module("up.uform")
     	.directive('mayaConfigGroup', function($state, $timeout, dialogs) {
 		return {
 			restrict: 'EA',
@@ -21,7 +21,7 @@
                         $timeout(function(){
                            dialogs.success("", "清空成功！")
                         }, 0)
-                        
+
                     })
                 }
 		    }

@@ -1,5 +1,5 @@
 ;(function() {
-    angular.module("uForm")
+    angular.module("up.uform")
     	.directive('mayaConfigMenu', function($state, $timeout, dialogs) {
 		return {
 			restrict: 'EA',
@@ -21,7 +21,7 @@
                         size: "sm"
                     });
                 }
-                
+
 		    }
 		}
 	})

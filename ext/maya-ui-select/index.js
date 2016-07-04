@@ -1,5 +1,5 @@
 ;(function() {
-    angular.module("uForm")
+    angular.module("up.uform")
     	.directive('mayaUiSelect', function() {
 		return {
 			restrict: 'EA',

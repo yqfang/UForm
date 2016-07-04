@@ -2,7 +2,7 @@
     "fields": {
        "username": {
             "id": 1,
-            "label": "用户名", 
+            "label": "用户名",
             "maxlength": 10,
             "minlength": 3,
             "style": {
@@ -54,62 +54,6 @@
                 }
             ]
         },
-       "city": {
-            "id": 8,
-            "type": "input:multiple",
-            "label": "城市",
-            "required": true,
-            "candidates": [
-                {
-                    "name": "上海",
-                    "value": "1"
-                },
-                {
-                    "name": "北京",
-                    "value": "2"
-                },
-                {
-                    "name": "西安",
-                    "value": "3"
-                },
-                {
-                    "name": "上海1",
-                    "value": "4"
-                },
-                {
-                    "name": "北京1",
-                    "value": "5"
-                },
-                {
-                    "name": "西安1",
-                    "value": "6"
-                },
-                {
-                    "name": "上海1",
-                    "value": "7"
-                },
-                {
-                    "name": "北京1",
-                    "value": "8"
-                },
-                {
-                    "name": "西安1",
-                    "value": "9"
-                },
-                {
-                    "name": "上海1",
-                    "value": "10"
-                },
-                {
-                    "name": "北京1",
-                    "value": "11"
-                },
-                {
-                    "name": "西安1",
-                    "value": "12"
-                }
-            ]
-        },
         "menu":{
             "id": 9,
             "type": "maya-config-menu",
@@ -139,7 +83,7 @@
                     "label": "女性"
                 }
 
-            ],            
+            ],
             "required": true
         },
 		"color":{
@@ -162,7 +106,7 @@
 				{"id": 9, "name": "white"},
 				{"id": 10, "name": "black"}
 
-            ]           
+            ]
 		},
 		"group":{
             "id": 14,
@@ -174,7 +118,7 @@
                 "btn1": "提交",
                 "btn2": "收藏",
                 "btn3": "清空"
-            }        
+            }
 		},
         "employNum": {
             "id": 15,
@@ -182,7 +126,7 @@
             "type": "maya-http-select"
         }
     },
-    "option": {        
+    "option": {
         "formClass": "form-horizontal",
         "labelClass": "col-xs-2",
         "inputClass": "col-xs-7"

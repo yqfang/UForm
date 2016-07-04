@@ -1,5 +1,5 @@
 ;(function() {
-    angular.module("uForm")
+    angular.module("up.uform")
     	.directive('mayaHttpSelect', function($http) {
 		return {
 			restrict: 'EA',
