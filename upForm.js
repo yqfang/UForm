@@ -46,6 +46,7 @@
 			return filtered;
 		};
 	});
+
 	self.directive("uFormGroup", function() {
 		return {
 			controller: function($scope, $attrs) {
@@ -60,7 +61,7 @@
 	});
 	self.directive("uForm", function($rootScope) {
 		return {
-			templateUrl: './form-templates/myForm.html',
+			templateUrl: 'templates/myForm.html',
 			transclude: true,
 			restrict: "EA",
 			controller: function($scope, $attrs, $rootScope) {
@@ -68,6 +69,7 @@
 				this.fields = $parent.$eval($attrs.fields);
 				this.option = $parent.$eval($attrs.option);
 				this.result = $parent.$eval($attrs.result) || $parent.$eval($attrs.result + "={}");
+				this.ref = $scope;
 			},
 			scope: {},
 			controllerAs: "form",
@@ -80,6 +82,26 @@
 			
 		}
 	});
+	self.directive("upFieldHide", function($parse) {
+		return {
+			require: "?^uForm",
+			restrict: 'A',
+			link: function(scope, element, attr, uform) {
+				var exp;
+				if('hide' in scope.field) {
+					scope.$watch(function() {
+					var res =  $parse(attr.upFieldHide)(uform.result);
+					return res;
+				}, function(value) {
+						// hide the element
+						element.css('display', value ? 'none' : '');
+						// delete the hide element from resutl
+						if(value) {delete uform.result[scope.field.name];}
+					})
+				}
+			}
+		}
+	})
 	self.directive('bindDirectiveCompile', ['$compile', function ($compile) {
             return {
                 restrict: 'A',
@@ -102,7 +124,6 @@
         }])
 	angular.forEach({
 		'input-text': 'appInputTextComponent',
-		'input-email': 'appInputEmailComponent',
 		'input-date': 'appInputDateComponent',
 		'input-time': 'appInputTimeComponent',
 		'input-datetime': 'appInputDatetimeComponent',
@@ -118,13 +139,13 @@
 		.directive(directiveSelector, function() {
 		  return {
 		  	restrict: 'EA',
-		    controller: function($scope, $attrs) {
+		    controller: ["$scope", "$attrs",function($scope, $attrs) {
 			    var directiveScope = $scope.$parent;
 			    this.field = directiveScope.$eval('field');
 			    this.ref = $scope;		     		   
-  			},
+  			}],
 		    controllerAs: 'componentCtrl',
-		    templateUrl : './field-templates/' + tpl + '.html',
+		    templateUrl : 'templates/' + tpl + '.html',
 		    scope: {"model": '='},
 		    replace: true,
 		    require: ['?^uForm'],

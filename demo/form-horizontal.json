@@ -4,26 +4,24 @@
             "id": 1,
             "type": "input",
             "label": "用户名", 
-            "requireMsg": "请输入用户名啊！！！",
-            "invalidMsg": "> 3 and < 10",
             "maxlength": 10,
             "minlength": 3,
             "style": {
                 "width": "200px"
             },
             "required": true,
+            "requiredMsg": "用户名一定要填哦！",
             "placeholder": "请输入用户名"
         },
         "password":{
             "id": 2,
             "type": "input:password",
-            "label": "密码"
+            "label": "密码",
+            "hide": "username!='yqfang'|| write!='hello'"
         },
         "write": {
             "id": 3,
             "type": "textarea",
-            "maxlength": 10,
-            "minlength": 3,
             "label": "备注"
         },
         "datefor":{
