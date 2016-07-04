@@ -16,15 +16,14 @@
 		    	var form = ctrls[0];
 				var me = ctrls[1];
 				scope.$watch(function() {
-					return me.result
-                   
+					return me.result;
 				}, function(newValue, oldValue) {
 					if( newValue !== oldValue) {
 						form.result[me.field.name] = [];
 						angular.forEach(me.result, function(item) {
 							form.result[me.field.name].push(item.id);
 						})
-					}	
+					}
 				}, true)
 		    }
 		}

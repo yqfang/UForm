@@ -324,6 +324,18 @@ try {
   module = angular.module('uForm', []);
 }
 module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('templates/maya-config-menu.html',
+    '<button class="btn btn-default" ng-click="vm.config($event)">{{vm.field.model.btnName}}</button>');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('uForm');
+} catch (e) {
+  module = angular.module('uForm', []);
+}
+module.run(['$templateCache', function($templateCache) {
   $templateCache.put('templates/maya-config-group.html',
     '<div style="inline-block" ng-style="vm.field.style">\n' +
     '    <button class="btn btn-primary" ng-click="vm.execute($event)">{{vm.field.model.btn1}}</button>\n' +
@@ -371,7 +383,14 @@ try {
   module = angular.module('uForm', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('templates/maya-config-menu.html',
-    '<button class="btn btn-default" ng-click="vm.config($event)">{{vm.field.model.btnName}}</button>');
+  $templateCache.put('templates/maya-http-select.html',
+    '<div ng-style="vm.field.style">\n' +
+    '	<input type="text" ng-model="vm.result" placeholder="Locations loaded via $http" typeahead="item.id for item in vm.getLists($viewValue)" typeahead-wait-ms="500" typeahead-on-select="vm.addToResult()" typeahead-loading="ifloading" class="form-control">\n' +
+    '    <i ng-show="ifloading" class="glyphicon glyphicon-refresh"></i>\n' +
+    '</div>\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '');
 }]);
 })();

@@ -175,7 +175,12 @@
                 "btn2": "收藏",
                 "btn3": "清空"
             }        
-		}
+		},
+        "employNum": {
+            "id": 15,
+            "label": "员工编号",
+            "type": "maya-http-select"
+        }
     },
     "option": {        
         "formClass": "form-horizontal",

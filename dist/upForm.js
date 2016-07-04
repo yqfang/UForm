@@ -884,38 +884,6 @@
 })();
 ;(function() {
     angular.module("uForm")
-    	.directive('mayaUiSelect', function() {
-		return {
-			restrict: 'EA',
-			require: ['?^uForm', 'mayaUiSelect'],
-			controller: ["$scope", function($scope) {
-				var $formtplScope = $scope.$parent;
-				this.field = $formtplScope.$eval('field');
-				this.result = [];
-			}],
-			scope: {},
-			controllerAs: 'vm',
-			templateUrl: 'templates/maya-ui-select.html',
-			link: function(scope, elem, attr, ctrls) {
-		    	var form = ctrls[0];
-				var me = ctrls[1];
-				scope.$watch(function() {
-					return me.result
-                   
-				}, function(newValue, oldValue) {
-					if( newValue !== oldValue) {
-						form.result[me.field.name] = [];
-						angular.forEach(me.result, function(item) {
-							form.result[me.field.name].push(item.id);
-						})
-					}	
-				}, true)
-		    }
-		}
-	})
-})();
-;(function() {
-    angular.module("uForm")
     	.directive('mayaConfigMenu', ["$state", "$timeout", "dialogs", function($state, $timeout, dialogs) {
 		return {
 			restrict: 'EA',
@@ -941,6 +909,75 @@
 		    }
 		}
 	}])
+})();
+;(function() {
+    angular.module("uForm")
+    	.directive('mayaHttpSelect', ["$http", function($http) {
+		return {
+			restrict: 'EA',
+			require: ['?^uForm', 'mayaHttpSelect'],
+			controller: ["$scope", function($scope) {
+				var me = this;
+				var $formtplScope = $scope.$parent;
+				this.field = $formtplScope.$eval('field');
+				this.result = null;
+				// config: {url: 100,proName: 'items'}
+				this.getLists = function(val){
+					var url = me.field.url ? me.field.url : "https://api.github.com/search/repositories";
+					var proName = me.field.proName ? me.field.proName : 'items'
+					return $http.get("https://api.github.com/search/repositories",{params:{q: val}}).then(function(res){
+						if(res.data && res.data[proName]) {
+							return res.data[proName];
+						} else {
+							return [];
+						}
+					});
+				};
+				this.addToResult = function(){
+					// console.log(me)
+					me.parentResult[me.field.name] = me.result;
+				}
+			}],
+			scope: {},
+			controllerAs: 'vm',
+			templateUrl: 'templates/maya-http-select.html',
+			link: function(scope, elem, attr, ctrls) {
+		    	var form = ctrls[0];
+		    	ctrls[1].parentResult = ctrls[0].result;
+		    }
+		}
+	}])
+})();
+;(function() {
+    angular.module("uForm")
+    	.directive('mayaUiSelect', function() {
+		return {
+			restrict: 'EA',
+			require: ['?^uForm', 'mayaUiSelect'],
+			controller: ["$scope", function($scope) {
+				var $formtplScope = $scope.$parent;
+				this.field = $formtplScope.$eval('field');
+				this.result = [];
+			}],
+			scope: {},
+			controllerAs: 'vm',
+			templateUrl: 'templates/maya-ui-select.html',
+			link: function(scope, elem, attr, ctrls) {
+		    	var form = ctrls[0];
+				var me = ctrls[1];
+				scope.$watch(function() {
+					return me.result;
+				}, function(newValue, oldValue) {
+					if( newValue !== oldValue) {
+						form.result[me.field.name] = [];
+						angular.forEach(me.result, function(item) {
+							form.result[me.field.name].push(item.id);
+						})
+					}
+				}, true)
+		    }
+		}
+	})
 })();
 (function(module) {
 try {
@@ -1268,12 +1305,8 @@ try {
   module = angular.module('uForm', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('templates/maya-config-group.html',
-    '<div style="inline-block" ng-style="vm.field.style">\n' +
-    '    <button class="btn btn-primary" ng-click="vm.execute($event)">{{vm.field.model.btn1}}</button>\n' +
-    '    <button class="btn btn-warning" ng-click="vm.save($event)">{{vm.field.model.btn2}}</button>\n' +
-    '    <button class="btn btn-danger" ng-click="vm.clear($event)">{{vm.field.model.btn3}}</button>\n' +
-    '</div> ');
+  $templateCache.put('templates/maya-config-menu.html',
+    '<button class="btn btn-default" ng-click="vm.config($event)">{{vm.field.model.btnName}}</button>');
 }]);
 })();
 
@@ -1284,8 +1317,12 @@ try {
   module = angular.module('uForm', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('templates/maya-config-menu.html',
-    '<button class="btn btn-default" ng-click="vm.config($event)">{{vm.field.model.btnName}}</button>');
+  $templateCache.put('templates/maya-config-group.html',
+    '<div style="inline-block" ng-style="vm.field.style">\n' +
+    '    <button class="btn btn-primary" ng-click="vm.execute($event)">{{vm.field.model.btn1}}</button>\n' +
+    '    <button class="btn btn-warning" ng-click="vm.save($event)">{{vm.field.model.btn2}}</button>\n' +
+    '    <button class="btn btn-danger" ng-click="vm.clear($event)">{{vm.field.model.btn3}}</button>\n' +
+    '</div> ');
 }]);
 })();
 
@@ -1312,6 +1349,25 @@ module.run(['$templateCache', function($templateCache) {
     '<button type="button" ng-click="vm.result = undefined" class="btn btn-link" style="margin-top: -3px;display:inline-block;vertical-align:top;color: #000">\n' +
     '    <i class="glyphicon glyphicon-trash"></i>\n' +
     '</button>\n' +
+    '</div>\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('uForm');
+} catch (e) {
+  module = angular.module('uForm', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('templates/maya-http-select.html',
+    '<div ng-style="vm.field.style">\n' +
+    '	<input type="text" ng-model="vm.result" placeholder="Locations loaded via $http" typeahead="item.id for item in vm.getLists($viewValue)" typeahead-wait-ms="500" typeahead-on-select="vm.addToResult()" typeahead-loading="ifloading" class="form-control">\n' +
+    '    <i ng-show="ifloading" class="glyphicon glyphicon-refresh"></i>\n' +
     '</div>\n' +
     '\n' +
     '\n' +
