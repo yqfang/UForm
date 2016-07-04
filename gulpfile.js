@@ -25,7 +25,7 @@ gulp.task('watch', ['build'], function() {
   gulp.watch(['src/**/*.{js,html}'], ['build']);
 });
 gulp.task('clean:uform', function() {
-  return del.sync('dist/lib/uform');
+  return del.sync('dist');
 });
 
 gulp.task('scripts', ['clean:uform'], function () {
@@ -56,12 +56,12 @@ gulp.task('scripts', ['clean:uform'], function () {
         .pipe($.header(config.banner, {
             timestamp: (new Date()).toISOString(), pkg: config.pkg
         }))
-        .pipe(gulp.dest('dist/lib/uform'))
+        .pipe(gulp.dest('dist'))
         .pipe($.sourcemaps.init())
         .pipe($.uglify({preserveComments: 'some'}))
         .pipe($.concat('uform.min.js'))
         .pipe($.sourcemaps.write('./'))
-        .pipe(gulp.dest('dist/lib/uform'));
+        .pipe(gulp.dest('dist'));
 });
 var handleError = function (err) {
   console.log(err.toString());
