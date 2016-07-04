@@ -74,13 +74,6 @@
 					}
 					// Setup $watch on a single formfield
 					function setupWatch(elementToWatch, formInvalidMessage) {
-
-
-						if (! ("validate-on" in elementToWatch.attributes) || elementToWatch.attributes["validate-on"].value === "") {
-							elementToWatch.attributes["validate-on"] = {
-								value: 'dirty'
-							}
-						}
 						// If element is set to validate on blur then update the element on blur
 						if ("validate-on" in elementToWatch.attributes && elementToWatch.attributes["validate-on"].value === "blur") {
 							angular.element(elementToWatch).on('blur', function() {
@@ -697,7 +690,6 @@
 			form.controller = ['$scope', '$element', '$attrs', '$injector', function(scope, element, attrs, $injector) {
 				var $interpolate = $injector.get('$interpolate');
 				attrs.$set('name', $interpolate(attrs.name || attrs.ngForm || '')(scope));
-				attrs.$set('angular-validator', "");
 				$injector.invoke(controller, this, {
 				'$scope': scope,
 				'$element': element,
@@ -736,7 +728,7 @@
 			transclude: true
 		}
 	});
-	self.directive("uForm", function($rootScope) {
+	self.directive("uForm", function($rootScope, ufield) {
 		return {
 			templateUrl: 'templates/myForm.html',
 			transclude: true,
@@ -744,6 +736,10 @@
 			controller: function($scope, $attrs, $rootScope) {
 				var $parent = $scope.$parent;
 				this.fields = $parent.$eval($attrs.fields);
+				angular.forEach(this.fields, function(field) {
+					angular.extend(field, ufield.create(field));
+				})
+				console.info(this.fields);
 				this.option = $parent.$eval($attrs.option);
 				this.result = $parent.$eval($attrs.result) || $parent.$eval($attrs.result + "={}");
 				this.ref = $scope;
@@ -847,6 +843,35 @@
 		  }
 		})
 	});
+
+	self.provider('ufield', [function() {
+		var _tp = 'input'; // type
+		var _vo = 'dirty'; // validateOn
+		var _setOpts = function(opts){
+			var _opts = {};
+			opts = opts || {};
+			_opts.type = (angular.isDefined(opts.type)) ? opts.type : _tp; // type
+			_opts.validateOn = (angular.isDefined(opts.validateOn) && ((opts.validateOn === 'dirty') || (opts.validateOn === 'blur'))) ? opts.validateOn : _vo; // validate_on
+			return _opts;
+		}; // end _setOpts
+		this.useType = function(val) {
+			if(angular.isDefined(val))
+			_tp = val;
+		}
+		this.useValidateOn = function(val) {
+			if(angular.isDefined(val))
+			_vo = val;
+		}
+		this.$get = [function() {
+			return {
+				create : function (opts) {
+					opts = _setOpts(opts);
+					return opts;
+				}
+			}
+		}]
+	}])
+
 })();
 
 
