@@ -2,7 +2,6 @@
     "fields": {
        "username": {
             "id": 1,
-            "type": "input",
             "label": "用户名", 
             "maxlength": 10,
             "minlength": 3,
