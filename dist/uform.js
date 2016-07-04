@@ -2,7 +2,7 @@
  * uform
  * https://github.com/yqfang/UForm#readme
  * yqfang,qianzhixiang
- * Version: 1.0.0 - 2016-07-04T01:34:46.303Z
+ * Version: 1.0.0 - 2016-07-04T06:24:16.086Z
  * License: ISC
  */
 
@@ -119,11 +119,6 @@ uf.directive('angularValidator', ['$injector', '$parse',
                 }
                 // Setup $watch on a single formfield
                 function setupWatch(elementToWatch, formInvalidMessage) {
-                    if (!("validate-on" in elementToWatch.attributes) || elementToWatch.attributes["validate-on"].value === "") {
-                        elementToWatch.attributes["validate-on"] = {
-                            value: 'dirty'
-                        }
-                    }
                     // If element is set to validate on blur then update the element on blur
                     if ("validate-on" in elementToWatch.attributes && elementToWatch.attributes["validate-on"].value === "blur") {
                         angular.element(elementToWatch).on('blur', function () {
@@ -359,6 +354,33 @@ uf.filter('orderById', function () {
     };
 });
 
+uf.provider('ufield', [function() {
+    var _tp = 'input'; // type
+    var _vo = 'dirty'; // validateOn
+    var _setOpts = function(opts){
+        var _opts = {};
+        opts = opts || {};
+        _opts.type = (angular.isDefined(opts.type)) ? opts.type : _tp; // type
+        _opts.validateOn = (angular.isDefined(opts.validateOn) && ((opts.validateOn === 'dirty') || (opts.validateOn === 'blur'))) ? opts.validateOn : _vo; // validate_on
+        return _opts;
+    }; // end _setOpts
+    this.useType = function(val) {
+        if(angular.isDefined(val))
+        _tp = val;
+    }
+    this.useValidateOn = function(val) {
+        if(angular.isDefined(val))
+        _vo = val;
+    }
+    this.$get = [function() {
+        return {
+            create : function (opts) {
+                opts = _setOpts(opts);
+                return opts;
+            }
+        }
+    }]
+}])
 uf.directive("upFieldHide", ["$parse", function ($parse) {
     return {
         require: "?^uForm",
@@ -385,9 +407,12 @@ uf.directive("uForm", ["$rootScope", function ($rootScope) {
         templateUrl: 'form.html',
         transclude: true,
         restrict: "EA",
-        controller: ["$scope", "$attrs", "$rootScope", function ($scope, $attrs, $rootScope) {
+        controller: ["$scope", "$attrs", "$rootScope", "ufield", function ($scope, $attrs, $rootScope, ufield) {
             var $parent = $scope.$parent;
             this.fields = $parent.$eval($attrs.fields);
+            angular.forEach(this.fields, function(field) {
+                angular.extend(field, ufield.create(field));
+            })
             this.option = $parent.$eval($attrs.option);
             this.result = $parent.$eval($attrs.result) || $parent.$eval($attrs.result + "={}");
             this.ref = $scope;

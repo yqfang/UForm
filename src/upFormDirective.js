@@ -3,9 +3,12 @@ uf.directive("uForm", function ($rootScope) {
         templateUrl: 'form.html',
         transclude: true,
         restrict: "EA",
-        controller: function ($scope, $attrs, $rootScope) {
+        controller: function ($scope, $attrs, $rootScope, ufield) {
             var $parent = $scope.$parent;
             this.fields = $parent.$eval($attrs.fields);
+            angular.forEach(this.fields, function(field) {
+                angular.extend(field, ufield.create(field));
+            })
             this.option = $parent.$eval($attrs.option);
             this.result = $parent.$eval($attrs.result) || $parent.$eval($attrs.result + "={}");
             this.ref = $scope;

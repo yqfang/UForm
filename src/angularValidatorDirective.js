@@ -68,11 +68,6 @@ uf.directive('angularValidator', ['$injector', '$parse',
                 }
                 // Setup $watch on a single formfield
                 function setupWatch(elementToWatch, formInvalidMessage) {
-                    if (!("validate-on" in elementToWatch.attributes) || elementToWatch.attributes["validate-on"].value === "") {
-                        elementToWatch.attributes["validate-on"] = {
-                            value: 'dirty'
-                        }
-                    }
                     // If element is set to validate on blur then update the element on blur
                     if ("validate-on" in elementToWatch.attributes && elementToWatch.attributes["validate-on"].value === "blur") {
                         angular.element(elementToWatch).on('blur', function () {
