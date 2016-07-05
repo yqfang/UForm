@@ -2,7 +2,7 @@
  * uform
  * https://github.com/yqfang/UForm#readme
  * yqfang,qianzhixiang
- * Version: 1.0.0 - 2016-07-05T08:36:25.390Z
+ * Version: 1.0.0 - 2016-07-05T12:47:53.429Z
  * License: ISC
  */
 
@@ -292,10 +292,10 @@ uf.directive('customField', ['$compile', function ($compile) {
             this.form = {};
         }],
         require: '?^uForm',
-        controllerAs: 'custom',
+        controllerAs: '$custom',
         scope: {},
         link: function (scope, element, attrs, form) {
-            angular.extend(scope.custom.form, form);
+            angular.extend(scope.$custom.form, form);
             var listener = scope.$watch(function () {
                 return scope.$parent.$eval(attrs.customField);
             }, function (value) {

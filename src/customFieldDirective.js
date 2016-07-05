@@ -7,10 +7,10 @@ uf.directive('customField', ['$compile', function ($compile) {
             this.form = {};
         },
         require: '?^uForm',
-        controllerAs: 'custom',
+        controllerAs: '$custom',
         scope: {},
         link: function (scope, element, attrs, form) {
-            angular.extend(scope.custom.form, form);
+            angular.extend(scope.$custom.form, form);
             var listener = scope.$watch(function () {
                 return scope.$parent.$eval(attrs.customField);
             }, function (value) {

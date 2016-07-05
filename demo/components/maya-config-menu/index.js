@@ -3,8 +3,9 @@
     	.directive('mayaConfigMenu', function($state, $timeout, dialogs) {
 		return {
 			restrict: 'EA',
-			require: '?^customField',
 			controller: function($scope) {
+                var vm = this;
+                angular.extend(vm, $scope.$custom);
 				this.config = function (e) {
                     e.preventDefault();
                     dialogs.notify("点菜", "请点菜", {
@@ -12,12 +13,9 @@
                     });
                 }
 			},
-			scope: {},
-			controllerAs: 'vm',
+            controllerAs: 'vm',
 			templateUrl: 'components/maya-config-menu/main.html',
-			link: function(scope, elem, attr, custom) {
-				angular.extend(scope.vm, custom);
-		    }
+			link: function(scope, elem, attr) {}
 		}
 	})
 })();

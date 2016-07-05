@@ -3,27 +3,24 @@
     	.directive('mayaHttpSelect', function($http, $timeout) {
 		return {
 			restrict: 'EA',
-			require: '?^customField',
 			controller: function($scope) {
-				var me = this;
+                var vm = this;
+                angular.extend(vm, $scope.$custom);
 				this.getLists = function(val){
-					var url = me.field.url ? me.field.url : "https://api.github.com/search/repositories";
-					var proName = me.field.proName ? me.field.proName : 'items';
+					var url = vm.field.url ? vm.field.url : "https://api.github.com/search/repositories";
+					var proName = vm.field.proName ? vm.field.proName : 'items';
 					return $http.get("https://api.github.com/search/repositories",{params:{q: val}}).then(function(res){
 						if(res.data && res.data[proName]) {
 							return res.data[proName];
 						} else {
-							return [];
+							return null;
 						}
 					});
 				};
 			},
-			scope: {},
-			controllerAs: 'vm',
+            controllerAs: 'vm',
 			templateUrl: 'components/maya-http-select/main.html',
-			link: function(scope, ele, attr, custom) {
-				angular.extend(scope.vm, custom);
-		    }
+			link: function(scope, ele, attr) {}
 		}
 	})
 })();
