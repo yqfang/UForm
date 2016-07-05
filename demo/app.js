@@ -96,9 +96,6 @@
 				datefor: new Date()
 			};
 			this.validatepw = function(result, form) {
-				if(form.password.$error.required) {
-					return "必填哦！"
-				}
 				if(form.password.$error.maxlength) {
 					return "不能超过3"
 				}
@@ -186,7 +183,13 @@
 					datetime: new Date()
 				}
 			};
-							this.validate = function(result) {
+			this.validate = function(form, result) {
+                if(form.password.$error.maxlength) {
+					return "不能超过3"
+				}
+				if(form.password.$error.minlength) {
+					return "最少1"
+				}
 				if(result.password === "hello"){
 					return "不能为 hello"
 				}
@@ -198,7 +201,7 @@
 				}
 				return true;
 			}
-			this.group2.fields["password"]["validator"]  = "vm.validate(vm.group2.result)",
+			this.group2.fields["password"]["validator"]  = "vm.validate(uform, vm.group2.result)",
 
 
 

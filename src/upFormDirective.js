@@ -17,8 +17,8 @@ uf.directive("uForm", function ($rootScope) {
         controllerAs: "uform",
         require: '?^uFormGroup',
         link: function (scope, elem, attr, group) {
-            group && group.fields && group.fields.push(scope.form.fields);
-            group && group.result && group.result.push(scope.form.result);
+            group && group.fields && group.fields.push(scope.uform.fields);
+            group && group.result && group.result.push(scope.uform.result);
         }
 
     }
