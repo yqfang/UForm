@@ -1,17 +1,18 @@
 <form u-form-group
 	angular-validator
+    novalidate
 	 name="uform"
 	 fields="vm.fields"
 	 result="vm.result"
 	 angular-validator-submit='vm.submit(uform, vm.result)'>
 	 <div u-form
-	      ng-class="vm.group1.option.formClass"			           
+	      ng-class="vm.group1.option.formClass"
 		  fields="vm.group1.fields"
-		  option="vm.group1.option"		  
+		  option="vm.group1.option"
 		  result="vm.group1.result" style="margin-left: 80px;margin-bottom: 25px"></div>
 		  <hr/>
-	 <div u-form  
-	      ng-class="vm.group2.option.formClass"			           
+	 <div u-form
+	      ng-class="vm.group2.option.formClass"
 		  fields="vm.group2.fields"
 		  option="vm.group2.option"
 		  result="vm.group2.result"></div>
