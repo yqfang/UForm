@@ -24,6 +24,7 @@
 				this.addToResult = function(value){
 					// console.log(me)
 					me.parentResult[me.field.name] = "" + (value ? value : me.result);
+					$scope.$apply();
 				};
 			},
 			scope: {},
