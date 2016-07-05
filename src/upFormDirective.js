@@ -14,12 +14,11 @@ uf.directive("uForm", function ($rootScope) {
             this.ref = $scope;
         },
         scope: {},
-        controllerAs: "form",
-        require: ['?^uFormGroup'],
-        link: function (scope, elem, attr, ctrls) {
-            var uFormGroup = ctrls[0];
-            uFormGroup && uFormGroup.fields && uFormGroup.fields.push(scope.form.fields);
-            uFormGroup && uFormGroup.result && uFormGroup.result.push(scope.form.result);
+        controllerAs: "uform",
+        require: '?^uFormGroup',
+        link: function (scope, elem, attr, group) {
+            group && group.fields && group.fields.push(scope.form.fields);
+            group && group.result && group.result.push(scope.form.result);
         }
 
     }

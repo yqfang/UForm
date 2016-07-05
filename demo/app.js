@@ -18,7 +18,7 @@
 				.state('form', {
 					url: '/form',
 					abstract: true,
-					templateUrl: 'demo.html',
+					templateUrl: 'modules/templates/demo.html',
 					resolve: {
 						json: function($q, jsonHelper) {
 							var defer = $q.defer();
@@ -39,7 +39,7 @@
 					url: '/common/horizontal',
 					views: {
 				        'horizontal@form': {
-				            templateUrl: 'demo/form-common.html',
+				            templateUrl: 'modules/templates/form-common.html',
 							controller: 'formHorizontalController',
 							controllerAs: 'vm'
 				        }
@@ -50,7 +50,7 @@
 					url: '/common/inline',
 					views: {
 				        'inline@form': {
-				        	templateUrl: 'demo/form-common.html',
+				        	templateUrl: 'modules/templates/form-common.html',
 				        	controller: 'formInlineController',
 				        	controllerAs: 'vm'
 				        }
@@ -61,7 +61,7 @@
 					url: '/group',
 					views: {
 				        'group@form': {
-							templateUrl: 'demo/form-group.html',
+							templateUrl: 'modules/templates/form-group.html',
 							controller: 'formGroupController',
 							controllerAs: 'vm'
 				        }
@@ -77,10 +77,10 @@
 				loadInline: loadInline
 			});
 			function loadHorizontal() {
-				return $http.get("demo/form-horizontal.json")
+				return $http.get("data/form-horizontal.json")
 			};
 			function loadInline() {
-				return $http.get("demo/form-inline.json")
+				return $http.get("data/form-inline.json")
 			}
 
 		})

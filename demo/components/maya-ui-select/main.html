@@ -1,5 +1,5 @@
 <div ng-style="vm.field.style">
-<ui-select multiple ng-disabled="vm.field.disabled" close-on-select="false" style="width:85%;display:inline-block" sortable="true" ng-model="vm.result" title="Choose a color">
+<ui-select multiple ng-disabled="vm.field.disabled" close-on-select="false" style="width:85%;display:inline-block" sortable="true" ng-model="vm.result" title="Choose a color" on-select="vm.addToResult()" on-remove="vm.addToResult()">    
     <ui-select-match placeholder="Select colors...">{{$item.name}}: {{$item.id}}</ui-select-match>
         <ui-select-choices repeat="item in (vm.field.model | filter: $select.search)">
             <div ng-bind-html="item.name | highlight: $select.search"></div>
@@ -7,9 +7,9 @@
                 id: {{item.id}}
                 name: <span ng-bind-html="''+item.name | highlight: $select.search"></span>
             </small>
-    </ui-select-choices>
+    </ui-select-choices>          
 </ui-select>
-
+    
 <button type="button" ng-click="vm.result = undefined" class="btn btn-link" style="margin-top: -3px;display:inline-block;vertical-align:top;color: #000">
     <i class="glyphicon glyphicon-trash"></i>
 </button>

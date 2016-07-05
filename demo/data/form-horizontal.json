@@ -111,7 +111,11 @@
         "employNum": {
             "id": 14,
             "label": "员工编号",
-            "type": "maya-http-select"
+            "type": "maya-http-select",
+            "style": {
+                "width": "80%"
+            },
+            "wait": 1000
         },
 		"group":{
             "id": 15,

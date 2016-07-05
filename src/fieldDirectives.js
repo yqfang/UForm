@@ -22,8 +22,7 @@ angular.forEach({
             templateUrl: tpl + '.html',
             scope: { "model": '=' },
             replace: true,
-            require: ['?^uForm'],
-            link: function (scope, elem, attr, ctrl) {
+            link: function (scope, elem, attr) {
             }
         }
     })

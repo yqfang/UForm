@@ -11,7 +11,7 @@
 			},
 			scope: {},
 			controllerAs: 'vm',
-			templateUrl: 'templates/maya-config-group.html',
+			templateUrl: 'components/maya-config-group/main.html',
 			link: function(scope, elem, attr, ctrls) {
                 var form = ctrls[0],
                     self = ctrls[1];
