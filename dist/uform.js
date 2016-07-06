@@ -2,7 +2,7 @@
  * uform
  * https://github.com/yqfang/UForm#readme
  * yqfang,qianzhixiang
- * Version: 1.0.0 - 2016-07-06T17:15:18.439Z
+ * Version: 1.0.0 - 2016-07-06T17:39:12.866Z
  * License: ISC
  */
 
@@ -361,11 +361,13 @@ uf.filter('orderById', function () {
 uf.provider('ufield', [function() {
     var _tp = 'input'; // type
     var _vo = 'dirty'; // validateOn
+    var _pt = /^.*$/; // defaut pattern
     var _setOpts = function(opts){
         var _opts = {};
         opts = opts || {};
         _opts.type = (angular.isDefined(opts.type)) ? opts.type : _tp; // type
         _opts.validateOn = (angular.isDefined(opts.validateOn) && ((opts.validateOn === 'dirty') || (opts.validateOn === 'blur'))) ? opts.validateOn : _vo; // validate_on
+        _opts.pattern = (angular.isDefined(opts.pattern)) ? opts.pattern : _pt;
         return _opts;
     }; // end _setOpts
     this.useType = function(val) {
@@ -376,6 +378,10 @@ uf.provider('ufield', [function() {
         if(angular.isDefined(val))
         _vo = val;
     }
+    this.usePattern = function(val) {
+        if(angular.isDefined(val))
+        _pt = val;
+    }
     this.$get = [function() {
         return {
             create : function (opts) {
@@ -385,6 +391,7 @@ uf.provider('ufield', [function() {
         }
     }]
 }])
+
 uf.directive("upFieldHide", ["$parse", function ($parse) {
     return {
         require: "?^uForm",
