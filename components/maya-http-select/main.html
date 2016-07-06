@@ -1,0 +1,4 @@
+<div ng-style="vm.field.style">
+	<input type="text" ng-model="vm.form.result[vm.field.name]" placeholder="Locations loaded via $http" typeahead-wait-ms="{{vm.field.wait}}" typeahead="item.id for item in vm.getLists($viewValue)" typeahead-on-select="vm.addToResult()" typeahead-loading="ifloading" class="form-control maya-http-select">
+    <i ng-show="ifloading" class="glyphicon glyphicon-refresh"></i>
+</div>

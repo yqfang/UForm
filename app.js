@@ -1,6 +1,6 @@
 ;(function() {
 
-	angular.module("myApp", ["uForm", 'ngSanitize', "ui.select", 'ui.bootstrap', 'ui.router', 'ngPrettyJson'])
+	angular.module("myApp", ["up.uform", 'ng-package', 'ngPrettyJson'])
 		.run(function ($rootScope, $state, $stateParams) {
 			   $rootScope.monitor = {};
 			   $rootScope.monitor.$state = $state;
@@ -8,29 +8,9 @@
 			   $rootScope.$state = $state;
 			   $rootScope.$stateParams = $stateParams;
 		    })
-		.config(function(datepickerConfig, $translateProvider, dialogsProvider) {
-			datepickerConfig.showWeeks = false;
-			dialogsProvider.setSize("md");
-			dialogsProvider.useBackdrop("static");
-			$translateProvider.translations('zh-CN',{
-				DIALOGS_ERROR: "错误",
-				DIALOGS_ERROR_MSG: "出现未知错误。",
-				DIALOGS_CLOSE: "关闭",
-				DIALOGS_PLEASE_WAIT: "请稍候",
-				DIALOGS_PLEASE_WAIT_ELIPS: "请稍候...",
-				DIALOGS_PLEASE_WAIT_MSG: "请等待操作完成。",
-				DIALOGS_PERCENT_COMPLETE: "% 已完成",
-				DIALOGS_NOTIFICATION: "通知",
-				DIALOGS_NOTIFICATION_MSG: "未知应用程序的通知。",
-				DIALOGS_CONFIRMATION: "确认",
-				DIALOGS_CONFIRMATION_MSG: "确认要求。",
-				DIALOGS_OK: "确定",
-				DIALOGS_YES: "确认",
-				DIALOGS_NO: "取消"
-			});
-		})
+
 		.config(function($stateProvider, $urlRouterProvider) {
-			
+
 			$urlRouterProvider
 				.when('/', '/form/common/horizontal')
 				.otherwise('/form/common/horizontal');
@@ -38,7 +18,7 @@
 				.state('form', {
 					url: '/form',
 					abstract: true,
-					templateUrl: 'demo.html',
+					templateUrl: 'modules/templates/demo.html',
 					resolve: {
 						json: function($q, jsonHelper) {
 							var defer = $q.defer();
@@ -59,18 +39,18 @@
 					url: '/common/horizontal',
 					views: {
 				        'horizontal@form': {
-				            templateUrl: 'demo/form-common.html',
+				            templateUrl: 'modules/templates/form-common.html',
 							controller: 'formHorizontalController',
 							controllerAs: 'vm'
 				        }
 					}
-					
+
 				})
 				.state('form.inline', {
 					url: '/common/inline',
 					views: {
 				        'inline@form': {
-				        	templateUrl: 'demo/form-common.html',
+				        	templateUrl: 'modules/templates/form-common.html',
 				        	controller: 'formInlineController',
 				        	controllerAs: 'vm'
 				        }
@@ -81,14 +61,14 @@
 					url: '/group',
 					views: {
 				        'group@form': {
-							templateUrl: 'demo/form-group.html',
+							templateUrl: 'modules/templates/form-group.html',
 							controller: 'formGroupController',
 							controllerAs: 'vm'
 				        }
 					}
 
 				})
-				
+
 		})
 
 		.factory('jsonHelper', function($http) {
@@ -97,18 +77,18 @@
 				loadInline: loadInline
 			});
 			function loadHorizontal() {
-				return $http.get("demo/form-horizontal.json")
+				return $http.get("data/form-horizontal.json")
 			};
 			function loadInline() {
-				return $http.get("demo/form-inline.json")
+				return $http.get("data/form-inline.json")
 			}
-					
+
 		})
 
 		.controller("formHorizontalController", function($timeout, $interval, json, $scope, $rootScope, $stateParams) {
 			var vm = this;
 			$rootScope.monitor.form = json["horizontal"];
-			this.fields = json["horizontal"].fields;			
+			this.fields = json["horizontal"].fields;
 			this.option = json["horizontal"].option;
 			this.result = {
 				username: "方宇卿",
@@ -116,9 +96,6 @@
 				datefor: new Date()
 			};
 			this.validatepw = function(result, form) {
-				if(form.password.$error.required) {
-					return "必填哦！"
-				}
 				if(form.password.$error.maxlength) {
 					return "不能超过3"
 				}
@@ -151,7 +128,7 @@
 			$timeout(function() {
 				$rootScope.monitor.uform = $scope.uform;
 			}, 1);
-			
+
 
 			this.submit = function(form, result) {
 				$rootScope.monitor.uform = {};
@@ -160,7 +137,7 @@
 				console.info($scope.uform);
 			}, 1000);
 				if(form.$valid){
-					
+
 					console.info(result);
 				}
 			}
@@ -187,9 +164,9 @@
 			$rootScope.monitor.form = {
 				group1: json["inline"],
 				group2: json["horizontal"]
-			} 
+			}
 
-			
+
 			this.group1 = {
 				fields: json['inline'].fields,
 				option: json['inline'].option,
@@ -206,7 +183,13 @@
 					datetime: new Date()
 				}
 			};
-							this.validate = function(result) {
+			this.validate = function(form, result) {
+                if(form.password.$error.maxlength) {
+					return "不能超过3"
+				}
+				if(form.password.$error.minlength) {
+					return "最少1"
+				}
 				if(result.password === "hello"){
 					return "不能为 hello"
 				}
@@ -218,7 +201,7 @@
 				}
 				return true;
 			}
-			this.group2.fields["password"]["validator"]  = "vm.validate(vm.group2.result)",
+			this.group2.fields["password"]["validator"]  = "vm.validate(uform, vm.group2.result)",
 
 
 
@@ -235,7 +218,7 @@
 					console.info(result);
 				}
 			}
-			
+
 		})
 		.controller("selectController", function($scope) {
 			var vm = this;
