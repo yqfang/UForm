@@ -4,6 +4,7 @@ var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var runSequence = require('run-sequence');
 var es = require('event-stream');
+var ghPages = require('gulp-gh-pages');
 
 
 var config = {
@@ -26,6 +27,14 @@ gulp.task('watch', ['build'], function() {
 });
 gulp.task('clean:uform', function() {
   return del.sync('dist');
+});
+
+var gulp = require('gulp');
+
+
+gulp.task('deploy', function() {
+  return gulp.src('./demo/**/*')
+    .pipe(ghPages());
 });
 
 gulp.task('scripts', ['clean:uform'], function () {

@@ -109,13 +109,33 @@
             ]
 		},
         "employNum": {
-            "id": 14,
+            "id": 13,
             "label": "员工编号",
             "type": "maya-http-select",
             "style": {
                 "width": "80%"
             },
             "wait": 1000
+        },
+        "schools": {
+            "id": 14,
+            "label": "学校",
+            "type": "maya-checkbox",
+            "style": {
+                "width": "80%"
+            },
+            "inline": true,
+            "lists":[
+                {
+                    "desc": "中国科技大学",
+                    "field": "USTC",
+                    "checked": true
+                },
+                {
+                    "desc": "北京邮电大学",
+                    "field": "BUPT"
+                }
+            ]
         },
 		"group":{
             "id": 15,
@@ -128,7 +148,30 @@
                 "btn2": "收藏",
                 "btn3": "清空"
             }
-		}
+		},
+         "techs": {
+            "id": 16,
+            "label": "专业",
+            "type": "maya-checkbox",
+            "style": {
+                "width": "80%"
+            },
+            "inline": true,
+            "lists":[
+                {
+                    "desc": "通信工程",
+                    "field": "commu"
+                },
+                {
+                    "desc": "电子工程",
+                    "field": "ele"
+                },
+                {
+                    "desc": "计算机技术",
+                    "field": "computer"
+                }
+            ]
+        }
     },
     "option": {
         "formClass": "form-horizontal",
