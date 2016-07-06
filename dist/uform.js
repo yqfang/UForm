@@ -2,7 +2,7 @@
  * uform
  * https://github.com/yqfang/UForm#readme
  * yqfang,qianzhixiang
- * Version: 1.0.0 - 2016-07-05T14:19:19.325Z
+ * Version: 1.0.0 - 2016-07-06T17:39:12.866Z
  * License: ISC
  */
 
@@ -361,11 +361,13 @@ uf.filter('orderById', function () {
 uf.provider('ufield', [function() {
     var _tp = 'input'; // type
     var _vo = 'dirty'; // validateOn
+    var _pt = /^.*$/; // defaut pattern
     var _setOpts = function(opts){
         var _opts = {};
         opts = opts || {};
         _opts.type = (angular.isDefined(opts.type)) ? opts.type : _tp; // type
         _opts.validateOn = (angular.isDefined(opts.validateOn) && ((opts.validateOn === 'dirty') || (opts.validateOn === 'blur'))) ? opts.validateOn : _vo; // validate_on
+        _opts.pattern = (angular.isDefined(opts.pattern)) ? opts.pattern : _pt;
         return _opts;
     }; // end _setOpts
     this.useType = function(val) {
@@ -376,6 +378,10 @@ uf.provider('ufield', [function() {
         if(angular.isDefined(val))
         _vo = val;
     }
+    this.usePattern = function(val) {
+        if(angular.isDefined(val))
+        _pt = val;
+    }
     this.$get = [function() {
         return {
             create : function (opts) {
@@ -385,6 +391,7 @@ uf.provider('ufield', [function() {
         }
     }]
 }])
+
 uf.directive("upFieldHide", ["$parse", function ($parse) {
     return {
         require: "?^uForm",
@@ -451,10 +458,10 @@ $templateCache.put('input-checkbox.html','<div class=checkbox><label><input type
 $templateCache.put('input-date.html','<div><input type=text name={{componentCtrl.field.name}} class="form-control datepicker" datepicker-popup=yyyy-MM-dd ng-model=componentCtrl.ref.model ng-init="componentCtrl.ref.open=false" is-open=componentCtrl.ref.open ng-style=componentCtrl.field.style show-button-bar=false ng-click="componentCtrl.ref.open=!componentCtrl.ref.open"></div>');
 $templateCache.put('input-datetime.html','<div><div class="col-xs-6 control-datepicker"><input type=text name={{componentCtrl.field.name}} class="form-control datepicker" datepicker-popup=yyyy-MM-dd ng-model=componentCtrl.ref.model ng-init="componentCtrl.ref.open=false" is-open=componentCtrl.ref.open show-button-bar=false ng-click="componentCtrl.ref.open=!componentCtrl.ref.open"></div><div><div class=timepicker timepicker="" ng-model=componentCtrl.ref.model></div></div></div>');
 $templateCache.put('input-multiple.html','<select ng-init="componentCtrl.ref.model=componentCtrl.field.candidates[0].value" class=form-control ng-model=componentCtrl.ref.model name={{componentCtrl.field.name}} ng-options="option.value as option.name for option in componentCtrl.field.candidates" multiple="" ng-required=componentCtrl.field.required></select>');
-$templateCache.put('input-password.html','<input type=password id={{componentCtrl.field.name}} name={{componentCtrl.field.name}} ng-model=componentCtrl.ref.model ng-required=componentCtrl.field.required required-message="\'{{componentCtrl.field.requiredMsg}}\'" ng-maxlength={{componentCtrl.field.maxlength}} ng-minlength={{componentCtrl.field.minlength}} ng-pattern={{componentCtrl.field.pattern}} validate-on={{componentCtrl.field.validateOn}} validator={{componentCtrl.field.validator}} invalid-message={{componentCtrl.field.validator}} class=form-control ng-disabled=componentCtrl.field.disabled ng-attr-placeholder={{componentCtrl.field.placeholder}} ng-style=componentCtrl.field.style>');
+$templateCache.put('input-password.html','<input type=password id={{componentCtrl.field.name}} name={{componentCtrl.field.name}} ng-model=componentCtrl.ref.model ng-required=componentCtrl.field.required required-message="\'{{componentCtrl.field.requiredMsg}}\'" ng-maxlength={{componentCtrl.field.maxlength}} ng-minlength={{componentCtrl.field.minlength}} ng-pattern=componentCtrl.field.pattern validate-on={{componentCtrl.field.validateOn}} validator={{componentCtrl.field.validator}} invalid-message={{componentCtrl.field.validator}} class=form-control ng-disabled=componentCtrl.field.disabled ng-attr-placeholder={{componentCtrl.field.placeholder}} ng-style=componentCtrl.field.style>');
 $templateCache.put('input-radio.html','<div><div class=radio-inline ng-repeat="candidate in componentCtrl.field.candidates"><label><input type=radio ng-init="componentCtrl.ref.model=componentCtrl.field.candidates[0].value" ng-model=componentCtrl.ref.model name={{componentCtrl.field.name}} value={{candidate.value}} ng-required=componentCtrl.field.required>{{candidate.label}}</label></div></div>');
 $templateCache.put('input-submit.html','<input class="btn btn-primary" type=submit value={{componentCtrl.field.value}}>');
-$templateCache.put('input-text.html','<input type=text id={{componentCtrl.field.name}} name={{componentCtrl.field.name}} ng-model=componentCtrl.ref.model ng-required=componentCtrl.field.required required-message="\'{{componentCtrl.field.requiredMsg}}\'" ng-maxlength={{componentCtrl.field.maxlength}} ng-minlength={{componentCtrl.field.minlength}} ng-pattern={{componentCtrl.field.pattern}} validate-on={{componentCtrl.field.validateOn}} validator={{componentCtrl.field.validator}} invalid-message={{componentCtrl.field.validator}} class=form-control ng-disabled=componentCtrl.field.disabled ng-attr-placeholder={{componentCtrl.field.placeholder}} ng-style=componentCtrl.field.style>');
+$templateCache.put('input-text.html','<input type=text id={{componentCtrl.field.name}} name={{componentCtrl.field.name}} ng-model=componentCtrl.ref.model ng-required=componentCtrl.field.required required-message="\'{{componentCtrl.field.requiredMsg}}\'" ng-maxlength={{componentCtrl.field.maxlength}} ng-minlength={{componentCtrl.field.minlength}} ng-pattern=componentCtrl.field.pattern validate-on={{componentCtrl.field.validateOn}} validator={{componentCtrl.field.validator}} invalid-message={{componentCtrl.field.validator}} class=form-control ng-disabled=componentCtrl.field.disabled ng-attr-placeholder={{componentCtrl.field.placeholder}} ng-style=componentCtrl.field.style>');
 $templateCache.put('input-time.html','<div><div class=timepicker timepicker="" ng-model=componentCtrl.ref.model></div></div>');
 $templateCache.put('select.html','<select ng-init="componentCtrl.ref.model=componentCtrl.field.candidates[0].value" class=form-control ng-model=componentCtrl.ref.model name={{componentCtrl.field.name}} ng-options="option.value as option.name for option in componentCtrl.field.candidates" ng-required=componentCtrl.field.required></select>');
-$templateCache.put('textarea.html','<textarea id={{componentCtrl.field.name}} name={{componentCtrl.field.name}} ng-model=componentCtrl.ref.model ng-required=componentCtrl.field.required required-message="\'{{componentCtrl.field.requiredMsg}}\'" ng-maxlength={{componentCtrl.field.maxlength}} ng-minlength={{componentCtrl.field.minlength}} ng-pattern={{componentCtrl.field.pattern}} validate-on={{componentCtrl.field.validateOn}} validator={{componentCtrl.field.validator}} invalid-message={{componentCtrl.field.validator}} class=form-control ng-disabled=componentCtrl.field.disabled ng-attr-placeholder={{componentCtrl.field.placeholder}} ng-style=componentCtrl.field.style>\n</textarea>');}]);
+$templateCache.put('textarea.html','<textarea id={{componentCtrl.field.name}} name={{componentCtrl.field.name}} ng-model=componentCtrl.ref.model ng-required=componentCtrl.field.required required-message="\'{{componentCtrl.field.requiredMsg}}\'" ng-maxlength={{componentCtrl.field.maxlength}} ng-minlength={{componentCtrl.field.minlength}} ng-pattern=componentCtrl.field.pattern validate-on={{componentCtrl.field.validateOn}} validator={{componentCtrl.field.validator}} invalid-message={{componentCtrl.field.validator}} class=form-control ng-disabled=componentCtrl.field.disabled ng-attr-placeholder={{componentCtrl.field.placeholder}} ng-style=componentCtrl.field.style>\n</textarea>');}]);
