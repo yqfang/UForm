@@ -8,9 +8,11 @@
             "style": {
                 "width": "200px"
             },
+            "disabled": "write.length > 5",
             "required": true,
             "requiredMsg": "用户名一定要填哦！",
-            "placeholder": "请输入用户名"
+            "placeholder": "请输入用户名",
+            "maxwrite": 5
         },
         "password":{
             "id": 2,
