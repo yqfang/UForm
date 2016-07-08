@@ -19,7 +19,9 @@ var config = {
       ' */\n\n\n'
 };
 
-
+gulp.task('sync',function(){
+  gulp.watch(['src/**.js','src/templates/**.html'], ['default']);
+})
 gulp.task('default', ['build']);
 gulp.task('build', ['scripts']);
 gulp.task('watch', ['build'], function() {

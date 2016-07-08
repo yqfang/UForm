@@ -8,11 +8,23 @@
             "style": {
                 "width": "200px"
             },
-            "disabled": "write.length > 5",
+            "disabled": "write.length > 10",
             "required": true,
             "requiredMsg": "用户名一定要填哦！",
             "placeholder": "请输入用户名",
-            "maxwrite": 5
+            "maxwrite": 6,
+            "bind": {
+                "field": "write",
+                "url": "test.json",
+                "type": "get",
+                "params": {
+                   "username" : "{{username}}"
+                },
+                "data": {
+
+                },
+                "bind": null
+            }
         },
         "password":{
             "id": 2,
