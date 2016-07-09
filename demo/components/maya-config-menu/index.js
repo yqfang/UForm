@@ -4,8 +4,7 @@
 		return {
 			restrict: 'EA',
 			controller: function($scope) {
-                var vm = this;
-                angular.extend(vm, $scope.$custom);
+                angular.extend(this, $scope.$proxy);
 				this.config = function (e) {
                     e.preventDefault();
                     dialogs.notify("点菜", "请点菜", {

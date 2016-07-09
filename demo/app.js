@@ -10,7 +10,6 @@
 		    })
 
 		.config(function($stateProvider, $urlRouterProvider) {
-
 			$urlRouterProvider
 				.when('/', '/form/common/horizontal')
 				.otherwise('/form/common/horizontal');

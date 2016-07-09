@@ -8,39 +8,49 @@
             "style": {
                 "width": "200px"
             },
+            "customs": {
+                "up-max-length": 9,
+                "capitalize": ""
+            },
             "required": true,
             "requiredMsg": "用户名一定要填哦！",
             "placeholder": "请输入用户名"
         },
         "password":{
             "id": 2,
-            "type": "input:password",
+            "type": "up-password",
+                        "customs": {
+                "capitalize": ""
+            },
             "label": "密码",
             "hide": "username!='yqfang'|| write!='hello'"
         },
         "write": {
             "id": 3,
-            "type": "textarea",
+            "type": "up-textarea",
+                        "customs": {
+                "capitalize": ""
+            },
             "label": "备注"
         },
         "datefor":{
             "id": 4,
-            "type": "input:date",
+            "type": "up-date",
             "label": "日期"
         },
         "timefor":{
             "id": 5,
-            "type": "input:time",
+            "type": "up-time",
             "label": "时间"
         },
         "datetime":{
             "id": 6,
-            "type": "input:datetime",
+            "type": "up-datetime",
             "label": "具体时间"
         },
         "country":{
             "id": 7,
-            "type": "select",
+            "type": "up-select",
             "label": "国家",
             "required": true,
             "candidates": [
@@ -64,14 +74,14 @@
         },
         "satisfied":{
             "id": 10,
-            "type": "input:checkbox",
+            "type": "up-checkbox",
             "label": "是否满意"
         },
 
        "sex": {
             "id": 11,
             "label": "性别",
-            "type": "input:radio",
+            "type": "up-radio",
             "hide": true,
             "candidates": [
                 {

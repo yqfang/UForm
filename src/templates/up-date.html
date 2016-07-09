@@ -1,0 +1,13 @@
+<div>
+	<input type="text"
+			name="{{vm.field.name}}"
+		   class="form-control datepicker"
+	       datepicker-popup="yyyy-MM-dd"
+	       ng-model="vm.form.result[vm.field.name]"
+	       ng-init="vm.form.open=false"
+	       is-open="vm.form.open"
+		   ng-style="vm.field.style"
+	       show-button-bar="false"
+	       ng-click="vm.form.open=!vm.form.open"/>
+</div>
+

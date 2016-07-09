@@ -5,7 +5,7 @@
 			restrict: 'EA',
 			controller: function($scope) {
                 var vm = this;
-                angular.extend(vm, $scope.$custom);
+                angular.extend(vm, $scope.$proxy);
 				this.clear = function(e) {
                     e.preventDefault();
                     $state.go($state.current, {}, {reload: true}).then(function(){

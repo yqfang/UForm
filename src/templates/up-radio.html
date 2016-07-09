@@ -1,0 +1,12 @@
+<div>
+	<div class="radio-inline" ng-repeat="candidate in vm.field.candidates">
+		<label >
+			<input type="radio"
+			ng-init="vm.form.result[vm.field.name]=vm.field.candidates[0].value"
+	         ng-model="vm.form.result[vm.field.name]"
+	         name="{{vm.field.name}}"
+	         value="{{candidate.value}}"
+	         ng-required="vm.field.required"/>{{candidate.label}}
+	    </label>
+	</div>
+</div>

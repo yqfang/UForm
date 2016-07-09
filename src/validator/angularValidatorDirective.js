@@ -127,7 +127,7 @@ uf.directive('angularValidator', ['$injector', '$parse',
                             isElementValid = true;
                         }
                         else {
-                            isElementValid = scope.$eval(element.attributes.validator.value += ' === true');
+                            isElementValid = (scope.$eval(element.attributes.validator.value) == true);
                         }
 
                         if (scopeForm[element.name]) {

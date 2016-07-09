@@ -1,5 +1,5 @@
 uf.provider('ufield', [function() {
-    var _tp = 'input'; // type
+    var _tp = 'up-text'; // type
     var _vo = 'dirty'; // validateOn
     var _pt = /^.*$/; // defaut pattern
     var _setOpts = function(opts){
