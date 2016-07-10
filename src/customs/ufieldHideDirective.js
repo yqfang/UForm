@@ -1,4 +1,4 @@
-uf.directive("upFieldHide", function ($parse) {
+uf.directive("ufieldHide", function ($parse) {
     return {
         require: "?^uForm",
         restrict: 'A',
@@ -6,7 +6,7 @@ uf.directive("upFieldHide", function ($parse) {
             var exp;
             if ('hide' in scope.field) {
                 scope.$watch(function () {
-                    var res = $parse(attr.upFieldHide)(form.result);
+                    var res = $parse(attr.ufieldHide)(form.result);
                     return res;
                 }, function (value) {
                     // hide the element

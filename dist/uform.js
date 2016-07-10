@@ -2,7 +2,7 @@
  * uform
  * https://github.com/yqfang/UForm#readme
  * yqfang,qianzhixiang
- * Version: 1.0.0 - 2016-07-09T15:14:13.564Z
+ * Version: 1.0.0 - 2016-07-10T15:37:03.056Z
  * License: ISC
  */
 
@@ -127,7 +127,44 @@ uf
     };
   });
 
-uf.directive("upFieldHide", ["$parse", function ($parse) {
+uf.directive("truncateTo", ["$parse", function ($parse) {
+    return {
+        require: 'ngModel',
+        restrict: 'A',
+        link: function (scope, ele, attrs, modelCtrl) {
+
+            var truncateTo = function(inputValue) {
+                var length = parseInt(attrs['truncateTo']);
+                if (inputValue == undefined) inputValue = '';
+                var truncate = inputValue.substring(0, length);
+                if (truncate !== inputValue) {
+                    modelCtrl.$setViewValue(truncate);
+                    modelCtrl.$render();
+                }
+                return truncate;
+            }
+            modelCtrl.$parsers.push(truncateTo);
+            truncateTo(scope[attrs.ngModel]);
+        }
+    }
+}])
+
+uf.directive("ufieldDisabled", ["$parse", function ($parse) {
+    return {
+        require: "?^uForm",
+        restrict: 'A',
+        link: function (scope, element, attr, form) {
+            scope.$watch(function () {
+                var res = $parse(attr['ufieldDisabled'])(form.result);
+                return res;
+            }, function (value) {
+                element[0].disabled = value;
+            })
+        }
+    }
+}])
+
+uf.directive("ufieldHide", ["$parse", function ($parse) {
     return {
         require: "?^uForm",
         restrict: 'A',
@@ -135,7 +172,7 @@ uf.directive("upFieldHide", ["$parse", function ($parse) {
             var exp;
             if ('hide' in scope.field) {
                 scope.$watch(function () {
-                    var res = $parse(attr.upFieldHide)(form.result);
+                    var res = $parse(attr.ufieldHide)(form.result);
                     return res;
                 }, function (value) {
                     // hide the element
@@ -144,20 +181,6 @@ uf.directive("upFieldHide", ["$parse", function ($parse) {
                     if (value) { delete form.result[scope.field.name]; }
                 })
             }
-        }
-    }
-}])
-
-uf.directive("upMaxLength", ["$parse", function ($parse) {
-    return {
-        require: 'ngModel',
-        restrict: 'A',
-        link: function (scope, ele,attr, model) {
-            model.$viewChangeListeners.push(function(){
-                var value = model.$viewValue;
-                value.length > attr['upMaxLength'] ? model.$setViewValue(value.substring(0,attr['upMaxLength'])) : null;
-                model.$render();
-            });
         }
     }
 }])
@@ -516,15 +539,14 @@ uf.directive('angularValidator', ['$injector', '$parse',
     }]);
 
 }());
-angular.module('up.uform').run(['$templateCache', function($templateCache) {$templateCache.put('form.html','<div><style type=text/css>\n\t\t.form-inline .inline-control {\n\t\t\tdisplay: inline-block;\n\t\t}\n\t\t.form-inline .datepicker {\n\t\t\twidth: 120px;\n\t\t}\n\t\t.form-inline input[type=\'text\'] {\n\t\t\twidth: 120px;\n\t\t}\n\t\t.form-inline .form-group {\n\t\t    display: inline-block;\n\t\t    margin-bottom: 0;\n\t\t    vertical-align: middle;\n\t\t    margin-right: 10px;\n\t\t}\n\t\t.form-horizontal .control-label {\n\t\t\ttext-align: right;\n\t\t}\n\t\t.control-datepicker {\n\t\t\tpadding-left: 0;\n\t\t}\n\t\t.timepicker tr.text-center {\n\t\t\tdisplay: none;\n\t\t}\n\t</style><div class=form-group up-field-hide={{field.hide}} ng-class=field.name ng-repeat="field in (uform.fields | orderById: \'id\')"><label for={{field.name}} ng-class=uform.option.labelClass class=control-label><span ng-show="field.required && field.label">*</span> <span ng-if="field.type!=\'up-checkbox\'">{{ field.label }}</span></label><div compile-field=field.type ng-class=uform.option.inputClass></div></div><div ng-transclude=""></div></div>');
+angular.module('up.uform').run(['$templateCache', function($templateCache) {$templateCache.put('form.html','<div><style type=text/css>\n\t\t.form-inline .inline-control {\n\t\t\tdisplay: inline-block;\n\t\t}\n\t\t.form-inline .datepicker {\n\t\t\twidth: 120px;\n\t\t}\n\t\t.form-inline input[type=\'text\'] {\n\t\t\twidth: 120px;\n\t\t}\n\t\t.form-inline .form-group {\n\t\t    display: inline-block;\n\t\t    margin-bottom: 0;\n\t\t    vertical-align: middle;\n\t\t    margin-right: 10px;\n\t\t}\n\t\t.form-horizontal .control-label {\n\t\t\ttext-align: right;\n\t\t}\n\t\t.control-datepicker {\n\t\t\tpadding-left: 0;\n\t\t}\n\t\t.timepicker tr.text-center {\n\t\t\tdisplay: none;\n\t\t}\n\t</style><div class=form-group ufield-hide={{field.hide}} ng-class=field.name ng-repeat="field in (uform.fields | orderById: \'id\')"><label for={{field.name}} ng-class=uform.option.labelClass class=control-label><span ng-show="field.required && field.label">*</span> <span ng-if="field.type!=\'up-checkbox\'">{{ field.label }}</span></label><div compile-field=field.type ng-class=uform.option.inputClass></div></div><div ng-transclude=""></div></div>');
 $templateCache.put('up-checkbox.html','<div class=checkbox><label><input type=checkbox name={{vm.field.name}} ng-model=vm.form.result[vm.field.name]> {{ vm.field.label }}</label></div>');
-$templateCache.put('up-checklist.html','');
 $templateCache.put('up-date.html','<div><input type=text name={{vm.field.name}} class="form-control datepicker" datepicker-popup=yyyy-MM-dd ng-model=vm.form.result[vm.field.name] ng-init="vm.form.open=false" is-open=vm.form.open ng-style=vm.field.style show-button-bar=false ng-click="vm.form.open=!vm.form.open"></div>');
 $templateCache.put('up-datetime.html','<div><div class="col-xs-6 control-datepicker"><input type=text name={{vm.field.name}} class="form-control datepicker" datepicker-popup=yyyy-MM-dd ng-model=vm.form.result[vm.field.name] ng-init="vm.form.open=false" is-open=vm.form.open show-button-bar=false ng-click="vm.form.open=!vm.form.open"></div><div><div class=timepicker timepicker="" ng-model=vm.form.result[vm.field.name]></div></div></div>');
-$templateCache.put('up-password.html','<input type=password id={{vm.field.name}} name={{vm.field.name}} ng-model=vm.form.result[vm.field.name] ng-required=vm.field.required required-message="\'{{vm.field.requiredMsg}}\'" ng-maxlength={{vm.field.maxlength}} ng-minlength={{vm.field.minlength}} ng-pattern=vm.field.pattern validate-on={{vm.field.validateOn}} validator={{vm.field.validator}} invalid-message={{vm.field.validator}} class=form-control ng-disabled=vm.field.disabled ng-attr-placeholder={{vm.field.placeholder}} ng-style=vm.field.style>');
+$templateCache.put('up-password.html','<input type=password id={{vm.field.name}} name={{vm.field.name}} ng-model=vm.form.result[vm.field.name] ng-required=vm.field.required required-message="\'{{vm.field.requiredMsg}}\'" ng-maxlength={{vm.field.maxlength}} ng-minlength={{vm.field.minlength}} ng-pattern=vm.field.pattern validate-on={{vm.field.validateOn}} validator={{vm.field.validator}} invalid-message={{vm.field.validator}} class=form-control ufield-disabled={{vm.field.disabled}} ng-attr-placeholder={{vm.field.placeholder}} ng-style=vm.field.style>');
 $templateCache.put('up-radio.html','<div><div class=radio-inline ng-repeat="candidate in vm.field.candidates"><label><input type=radio ng-init="vm.form.result[vm.field.name]=vm.field.candidates[0].value" ng-model=vm.form.result[vm.field.name] name={{vm.field.name}} value={{candidate.value}} ng-required=vm.field.required>{{candidate.label}}</label></div></div>');
 $templateCache.put('up-select.html','<select ng-init="vm.form.result[vm.field.name]=vm.field.candidates[0].value" class=form-control ng-model=vm.form.result[vm.field.name] name={{vm.field.name}} ng-options="option.value as option.name for option in vm.field.candidates" ng-required=vm.field.required></select>');
 $templateCache.put('up-submit.html','<input class="btn btn-primary" type=submit value={{vm.field.value}}>');
-$templateCache.put('up-text.html','<input type=text id={{vm.field.name}} name={{vm.field.name}} ng-model=vm.form.result[vm.field.name] ng-required=vm.field.required required-message="\'{{vm.field.requiredMsg}}\'" ng-maxlength={{vm.field.maxlength}} ng-minlength={{vm.field.minlength}} ng-pattern=vm.field.pattern validate-on={{vm.field.validateOn}} validator={{vm.field.validator}} invalid-message={{vm.field.validator}} class=form-control ng-disabled=vm.field.disabled ng-attr-placeholder={{vm.field.placeholder}} ng-style=vm.field.style>');
-$templateCache.put('up-textarea.html','<textarea id={{vm.field.name}} name={{vm.field.name}} ng-model=vm.form.result[vm.field.name] ng-required=vm.field.required required-message="\'{{vm.field.requiredMsg}}\'" ng-maxlength={{vm.field.maxlength}} ng-minlength={{vm.field.minlength}} ng-pattern=vm.field.pattern validate-on={{vm.field.validateOn}} validator={{vm.field.validator}} invalid-message={{vm.field.validator}} class=form-control ng-disabled=vm.field.disabled ng-attr-placeholder={{vm.field.placeholder}} ng-style=vm.field.style>\n</textarea>');
+$templateCache.put('up-text.html','<input type=text id={{vm.field.name}} name={{vm.field.name}} ng-model=vm.form.result[vm.field.name] ng-required=vm.field.required required-message="\'{{vm.field.requiredMsg}}\'" ng-maxlength={{vm.field.maxlength}} ng-minlength={{vm.field.minlength}} ng-pattern=vm.field.pattern validate-on={{vm.field.validateOn}} validator={{vm.field.validator}} invalid-message={{vm.field.validator}} class=form-control ufield-disabled={{vm.field.disabled}} ng-attr-placeholder={{vm.field.placeholder}} ng-style=vm.field.style>');
+$templateCache.put('up-textarea.html','<textarea id={{vm.field.name}} name={{vm.field.name}} ng-model=vm.form.result[vm.field.name] ng-required=vm.field.required required-message="\'{{vm.field.requiredMsg}}\'" ng-maxlength={{vm.field.maxlength}} ng-minlength={{vm.field.minlength}} ng-pattern=vm.field.pattern validate-on={{vm.field.validateOn}} validator={{vm.field.validator}} invalid-message={{vm.field.validator}} class=form-control ufield-disabled={{vm.field.disabled}} ng-attr-placeholder={{vm.field.placeholder}} ng-style=vm.field.style>\n</textarea>');
 $templateCache.put('up-time.html','<div><div class=timepicker timepicker="" ng-model=vm.form.result[vm.field.name]></div></div>');}]);

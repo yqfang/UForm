@@ -9,9 +9,10 @@
                 "width": "200px"
             },
             "customs": {
-                "up-max-length": 9,
+                "truncate-to": 9,
                 "capitalize": ""
             },
+            "disabled": "write=='hello'",
             "required": true,
             "requiredMsg": "用户名一定要填哦！",
             "placeholder": "请输入用户名"
@@ -19,18 +20,38 @@
         "password":{
             "id": 2,
             "type": "up-password",
-                        "customs": {
-                "capitalize": ""
-            },
             "label": "密码",
-            "hide": "username!='yqfang'|| write!='hello'"
+            "hide": "username!='YQFANG'|| write!='hello'"
+        },
+        "roles": {
+            "id": 2.1,
+            "type": "maya-check-list",
+            "label": "角色",
+            "style": {
+                "margin": "6px 10px 0 0"
+            },
+            "candidates": [
+                {
+                    "name": "管理员",
+                    "value": "admin"
+                },
+                {
+                    "name": "顾客",
+                    "value": "customer"
+                },
+                {
+                    "name": "用户",
+                    "value": "user"
+                },
+                {
+                    "name": "客人",
+                    "value": "guest"
+                }
+            ]
         },
         "write": {
             "id": 3,
             "type": "up-textarea",
-                        "customs": {
-                "capitalize": ""
-            },
             "label": "备注"
         },
         "datefor":{

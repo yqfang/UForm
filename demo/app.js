@@ -92,7 +92,8 @@
 			this.result = {
 				username: "方宇卿",
 				datetime: new Date(),
-				datefor: new Date()
+				datefor: new Date(),
+                write: "hello"
 			};
 			this.validatepw = function(result, form) {
 				if(form.password.$error.maxlength) {
