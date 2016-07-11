@@ -8,39 +8,80 @@
             "style": {
                 "width": "200px"
             },
+            "customs": {
+                "truncate-to": 9,
+                "capitalize": ""
+            },
+            "disabled": "write=='hello'",
             "required": true,
             "requiredMsg": "用户名一定要填哦！",
             "placeholder": "请输入用户名"
         },
         "password":{
             "id": 2,
-            "type": "input:password",
+            "type": "up-password",
             "label": "密码",
-            "hide": "username!='yqfang'|| write!='hello'"
+            "hide": "username!='YQFANG'|| write!='hello'"
+        },
+        "linkedA": {
+            "id": 2.01,
+            "label": "联动inputA",
+            "placeholder": "请输入"
+        },
+        "linkedB": {
+            "id": 2.02,
+            "label": "联动inputB",
+            "placeholder": "请输入"
+        },
+        "roles": {
+            "id": 2.1,
+            "type": "maya-check-list",
+            "label": "角色",
+            "style": {
+                "margin": "6px 10px 0 0"
+            },
+            "candidates": [
+                {
+                    "name": "管理员",
+                    "value": "admin"
+                },
+                {
+                    "name": "顾客",
+                    "value": "customer"
+                },
+                {
+                    "name": "用户",
+                    "value": "user"
+                },
+                {
+                    "name": "客人",
+                    "value": "guest"
+                }
+            ]
         },
         "write": {
             "id": 3,
-            "type": "textarea",
+            "type": "up-textarea",
             "label": "备注"
         },
         "datefor":{
             "id": 4,
-            "type": "input:date",
+            "type": "up-date",
             "label": "日期"
         },
         "timefor":{
             "id": 5,
-            "type": "input:time",
+            "type": "up-time",
             "label": "时间"
         },
         "datetime":{
             "id": 6,
-            "type": "input:datetime",
+            "type": "up-datetime",
             "label": "具体时间"
         },
         "country":{
             "id": 7,
-            "type": "select",
+            "type": "up-select",
             "label": "国家",
             "required": true,
             "candidates": [
@@ -64,14 +105,14 @@
         },
         "satisfied":{
             "id": 10,
-            "type": "input:checkbox",
+            "type": "up-checkbox",
             "label": "是否满意"
         },
 
        "sex": {
             "id": 11,
             "label": "性别",
-            "type": "input:radio",
+            "type": "up-radio",
             "hide": true,
             "candidates": [
                 {

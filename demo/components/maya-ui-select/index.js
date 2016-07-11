@@ -5,7 +5,7 @@
 			restrict: 'EA',
 			controller: function($scope) {
                 var vm = this;
-                angular.extend(vm, $scope.$custom);
+                angular.extend(vm, $scope.$proxy);
 				this.addToResult = function(){
 					vm.form.result[vm.field.name] = [];
 					angular.forEach(vm.result, function(item) {

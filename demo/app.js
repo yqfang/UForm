@@ -10,7 +10,6 @@
 		    })
 
 		.config(function($stateProvider, $urlRouterProvider) {
-
 			$urlRouterProvider
 				.when('/', '/form/common/horizontal')
 				.otherwise('/form/common/horizontal');
@@ -93,36 +92,13 @@
 			this.result = {
 				username: "方宇卿",
 				datetime: new Date(),
-				datefor: new Date()
+				datefor: new Date(),
+                write: "hello"
 			};
-			$scope.$on('$value_changed',function(e,data){
-				e.stopPropagation ? e.stopPropagation() : null;
-				if(data.field.name == "schools") {
-					var relation = {
-						"0": 6,
-						"1": 3
-					};
-					relation["0"] = vm.fields.schools.lists[0].checked ? 6 : 0;
-					relation["1"] = vm.fields.schools.lists[1].checked ? 3 : 0;
-					var res = relation["0"] |relation["1"];
-					console.log(res);
-					if(res / 4 >= 1) {
-						vm.fields.techs.lists[0].checked = true;
-					} else {
-						vm.fields.techs.lists[0].checked = false;
-					}
-					res = res % 4;
-					if(res / 2 >= 1) {
-						vm.fields.techs.lists[1].checked = true;
-					} else {
-						vm.fields.techs.lists[1].checked = false;
-					};
-					res = res % 2;
-					if(res >= 1) {
-						vm.fields.techs.lists[2].checked = true;
-					} else {
-						vm.fields.techs.lists[2].checked = false;
-					};
+			$scope.$on('blur', function(e, args) {
+				var field = args.field;
+				if(field.name === 'linkedA') {
+					vm.result.linkedB = 'hello' + vm.result.linkedA;
 				}
 			})
 			this.validatepw = function(result, form) {

@@ -5,7 +5,7 @@
 			restrict: 'EA',
 			controller: function($scope) {
                 var vm = this;
-                angular.extend(vm, $scope.$custom);
+                angular.extend(vm, $scope.$proxy);
 				this.getLists = function(val){
 					var url = vm.field.url ? vm.field.url : "test.json";
 					var proName = vm.field.proName ? vm.field.proName : 'items';
