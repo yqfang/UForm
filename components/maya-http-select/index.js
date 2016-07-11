@@ -7,16 +7,14 @@
                 var vm = this;
                 angular.extend(vm, $scope.$proxy);
 				this.getLists = function(val){
-					var url = vm.field.url ? vm.field.url : "test.json";
+					var url = vm.field.url ? vm.field.url : "https://api.github.com/search/repositories";
 					var proName = vm.field.proName ? vm.field.proName : 'items';
-					return $http.get("test.json",{params:{q: val}}).then(function(res){
+					return $http.get("https://api.github.com/search/repositories",{params:{q: val}}).then(function(res){
 						if(res.data && res.data[proName]) {
 							return res.data[proName];
 						} else {
 							return null;
 						}
-					},function(e){
-						alert(e)
 					});
 				};
 			},
