@@ -10,7 +10,6 @@
 		    })
 
 		.config(function($stateProvider, $urlRouterProvider) {
-
 			$urlRouterProvider
 				.when('/', '/form/common/horizontal')
 				.otherwise('/form/common/horizontal');
@@ -93,8 +92,15 @@
 			this.result = {
 				username: "方宇卿",
 				datetime: new Date(),
-				datefor: new Date()
+				datefor: new Date(),
+                write: "hello"
 			};
+			$scope.$on('blur', function(e, args) {
+				var field = args.field;
+				if(field.name === 'linkedA') {
+					vm.result.linkedB = 'hello' + vm.result.linkedA;
+				}
+			})
 			this.validatepw = function(result, form) {
 				if(form.password.$error.maxlength) {
 					return "不能超过3"

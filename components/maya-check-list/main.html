@@ -1,0 +1,3 @@
+<label ng-repeat="candidate in vm.field.candidates" ng-style="vm.field.style">
+  <input type="checkbox" checklist-model="vm.form.result[vm.field.name]" checklist-value="candidate.value"> {{candidate.name}}
+</label>
