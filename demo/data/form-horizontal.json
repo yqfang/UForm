@@ -23,6 +23,16 @@
             "label": "密码",
             "hide": "username!='YQFANG'|| write!='hello'"
         },
+        "linkedA": {
+            "id": 2.01,
+            "label": "联动inputA",
+            "placeholder": "请输入"
+        },
+        "linkedB": {
+            "id": 2.02,
+            "label": "联动inputB",
+            "placeholder": "请输入"
+        },
         "roles": {
             "id": 2.1,
             "type": "maya-check-list",

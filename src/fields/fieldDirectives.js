@@ -1,5 +1,4 @@
 angular.forEach({
-    upText: "up-text",
     upDate: "up-date",
     upTime: "up-time",
     upDatetime: "up-datetime",

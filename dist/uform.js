@@ -2,7 +2,7 @@
  * uform
  * https://github.com/yqfang/UForm#readme
  * yqfang,qianzhixiang
- * Version: 1.0.0 - 2016-07-10T15:37:03.056Z
+ * Version: 1.0.0 - 2016-07-11T03:19:04.252Z
  * License: ISC
  */
 
@@ -49,6 +49,7 @@ uf.config(["$provide", "datepickerConfig", function ($provide, datepickerConfig)
 
 
 
+
 uf.directive('compileField', ['$compile', function ($compile) {
     return {
         restrict: 'A',
@@ -66,6 +67,42 @@ uf.directive('compileField', ['$compile', function ($compile) {
             $compile(element.contents())(scope);
         }
     };
+}])
+
+uf.directive("ufieldDisabled", ["$parse", function ($parse) {
+    return {
+        require: "?^uForm",
+        restrict: 'A',
+        link: function (scope, element, attr, form) {
+            scope.$watch(function () {
+                var res = $parse(attr['ufieldDisabled'])(form.result);
+                return res;
+            }, function (value) {
+                element[0].disabled = value;
+            })
+        }
+    }
+}])
+
+uf.directive("ufieldHide", ["$parse", function ($parse) {
+    return {
+        require: "?^uForm",
+        restrict: 'A',
+        link: function (scope, element, attr, form) {
+            var exp;
+            if ('hide' in scope.field) {
+                scope.$watch(function () {
+                    var res = $parse(attr.ufieldHide)(form.result);
+                    return res;
+                }, function (value) {
+                    // hide the element
+                    element.css('display', value ? 'none' : '');
+                    // delete the hide element from resutl
+                    if (value) { delete form.result[scope.field.name]; }
+                })
+            }
+        }
+    }
 }])
 
 uf.directive("uForm", ["$rootScope", function ($rootScope) {
@@ -107,86 +144,7 @@ uf.directive("uFormGroup", function () {
     }
 });
 
-uf
-  .directive('capitalize', function() {
-    return {
-      require: 'ngModel',
-      link: function(scope, element, attrs, modelCtrl) {
-        var capitalize = function(inputValue) {
-          if (inputValue == undefined) inputValue = '';
-          var capitalized = inputValue.toUpperCase();
-          if (capitalized !== inputValue) {
-            modelCtrl.$setViewValue(capitalized);
-            modelCtrl.$render();
-          }
-          return capitalized;
-        }
-        modelCtrl.$parsers.push(capitalize);
-        capitalize(scope[attrs.ngModel]); // capitalize initial value
-      }
-    };
-  });
-
-uf.directive("truncateTo", ["$parse", function ($parse) {
-    return {
-        require: 'ngModel',
-        restrict: 'A',
-        link: function (scope, ele, attrs, modelCtrl) {
-
-            var truncateTo = function(inputValue) {
-                var length = parseInt(attrs['truncateTo']);
-                if (inputValue == undefined) inputValue = '';
-                var truncate = inputValue.substring(0, length);
-                if (truncate !== inputValue) {
-                    modelCtrl.$setViewValue(truncate);
-                    modelCtrl.$render();
-                }
-                return truncate;
-            }
-            modelCtrl.$parsers.push(truncateTo);
-            truncateTo(scope[attrs.ngModel]);
-        }
-    }
-}])
-
-uf.directive("ufieldDisabled", ["$parse", function ($parse) {
-    return {
-        require: "?^uForm",
-        restrict: 'A',
-        link: function (scope, element, attr, form) {
-            scope.$watch(function () {
-                var res = $parse(attr['ufieldDisabled'])(form.result);
-                return res;
-            }, function (value) {
-                element[0].disabled = value;
-            })
-        }
-    }
-}])
-
-uf.directive("ufieldHide", ["$parse", function ($parse) {
-    return {
-        require: "?^uForm",
-        restrict: 'A',
-        link: function (scope, element, attr, form) {
-            var exp;
-            if ('hide' in scope.field) {
-                scope.$watch(function () {
-                    var res = $parse(attr.ufieldHide)(form.result);
-                    return res;
-                }, function (value) {
-                    // hide the element
-                    element.css('display', value ? 'none' : '');
-                    // delete the hide element from resutl
-                    if (value) { delete form.result[scope.field.name]; }
-                })
-            }
-        }
-    }
-}])
-
 angular.forEach({
-    upText: "up-text",
     upDate: "up-date",
     upTime: "up-time",
     upDatetime: "up-datetime",
@@ -217,6 +175,21 @@ angular.forEach({
 
 
 
+uf.directive('upText', ['$compile', 'uFormUtil', function ($compile, uFormUtil) {
+    return {
+        restrict: 'EA',
+        controller: ["$scope", function ($scope) {
+            angular.extend(this, $scope.$proxy);
+        }],
+        controllerAs: 'vm',
+        link: function (scope, elem, attr) {
+            uFormUtil.getTemplate('up-text').then(function(textTpl) {
+                elem.html(textTpl.replace(/ng-model/g, uFormUtil.toAttrs(scope.vm.field.customs) + "ng-model"));
+                $compile(elem.contents())(scope);
+            });
+        }
+    }
+}])
 uf.provider('ufield', [function() {
     var _tp = 'up-text'; // type
     var _vo = 'dirty'; // validateOn
@@ -300,6 +273,48 @@ uf.factory('uFormUtil', ["$templateCache", "$q", "$http", "dialogs", function($t
             }, function(response) {
                 dialogs.error("模板错误!", "通过：" + tpath + " 找不到模板");
             })
+        }
+    }
+}])
+
+uf
+  .directive('capitalize', function() {
+    return {
+      require: 'ngModel',
+      link: function(scope, element, attrs, modelCtrl) {
+        var capitalize = function(inputValue) {
+          if (inputValue == undefined) inputValue = '';
+          var capitalized = inputValue.toUpperCase();
+          if (capitalized !== inputValue) {
+            modelCtrl.$setViewValue(capitalized);
+            modelCtrl.$render();
+          }
+          return capitalized;
+        }
+        modelCtrl.$parsers.push(capitalize);
+        capitalize(scope[attrs.ngModel]); // capitalize initial value
+      }
+    };
+  });
+
+uf.directive("truncateTo", ["$parse", function ($parse) {
+    return {
+        require: 'ngModel',
+        restrict: 'A',
+        link: function (scope, ele, attrs, modelCtrl) {
+
+            var truncateTo = function(inputValue) {
+                var length = parseInt(attrs['truncateTo']);
+                if (inputValue == undefined) inputValue = '';
+                var truncate = inputValue.substring(0, length);
+                if (truncate !== inputValue) {
+                    modelCtrl.$setViewValue(truncate);
+                    modelCtrl.$render();
+                }
+                return truncate;
+            }
+            modelCtrl.$parsers.push(truncateTo);
+            truncateTo(scope[attrs.ngModel]);
         }
     }
 }])
@@ -547,6 +562,6 @@ $templateCache.put('up-password.html','<input type=password id={{vm.field.name}}
 $templateCache.put('up-radio.html','<div><div class=radio-inline ng-repeat="candidate in vm.field.candidates"><label><input type=radio ng-init="vm.form.result[vm.field.name]=vm.field.candidates[0].value" ng-model=vm.form.result[vm.field.name] name={{vm.field.name}} value={{candidate.value}} ng-required=vm.field.required>{{candidate.label}}</label></div></div>');
 $templateCache.put('up-select.html','<select ng-init="vm.form.result[vm.field.name]=vm.field.candidates[0].value" class=form-control ng-model=vm.form.result[vm.field.name] name={{vm.field.name}} ng-options="option.value as option.name for option in vm.field.candidates" ng-required=vm.field.required></select>');
 $templateCache.put('up-submit.html','<input class="btn btn-primary" type=submit value={{vm.field.value}}>');
-$templateCache.put('up-text.html','<input type=text id={{vm.field.name}} name={{vm.field.name}} ng-model=vm.form.result[vm.field.name] ng-required=vm.field.required required-message="\'{{vm.field.requiredMsg}}\'" ng-maxlength={{vm.field.maxlength}} ng-minlength={{vm.field.minlength}} ng-pattern=vm.field.pattern validate-on={{vm.field.validateOn}} validator={{vm.field.validator}} invalid-message={{vm.field.validator}} class=form-control ufield-disabled={{vm.field.disabled}} ng-attr-placeholder={{vm.field.placeholder}} ng-style=vm.field.style>');
+$templateCache.put('up-text.html','<input type=text id={{vm.field.name}} name={{vm.field.name}} ng-model=vm.form.result[vm.field.name] ng-required=vm.field.required required-message="\'{{vm.field.requiredMsg}}\'" ng-maxlength={{vm.field.maxlength}} ng-minlength={{vm.field.minlength}} ng-pattern=vm.field.pattern validate-on={{vm.field.validateOn}} validator={{vm.field.validator}} invalid-message={{vm.field.validator}} class=form-control ufield-disabled={{vm.field.disabled}} ng-attr-placeholder={{vm.field.placeholder}} ng-style=vm.field.style ng-change="$emit(\'change\', { field: vm.field })" ng-blur="$emit(\'blur\', { field: vm.field })">');
 $templateCache.put('up-textarea.html','<textarea id={{vm.field.name}} name={{vm.field.name}} ng-model=vm.form.result[vm.field.name] ng-required=vm.field.required required-message="\'{{vm.field.requiredMsg}}\'" ng-maxlength={{vm.field.maxlength}} ng-minlength={{vm.field.minlength}} ng-pattern=vm.field.pattern validate-on={{vm.field.validateOn}} validator={{vm.field.validator}} invalid-message={{vm.field.validator}} class=form-control ufield-disabled={{vm.field.disabled}} ng-attr-placeholder={{vm.field.placeholder}} ng-style=vm.field.style>\n</textarea>');
 $templateCache.put('up-time.html','<div><div class=timepicker timepicker="" ng-model=vm.form.result[vm.field.name]></div></div>');}]);

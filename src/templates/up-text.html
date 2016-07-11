@@ -15,5 +15,11 @@
        ng-attr-placeholder="{{vm.field.placeholder}}"
        ng-style="vm.field.style"
        ng-model="vm.form.result[vm.field.name]"
+       ng-change="$emit('change', {
+                    field: vm.field
+                })"
+       ng-blur="$emit('blur', {
+                    field: vm.field
+                })"
        />
 
