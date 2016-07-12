@@ -99,6 +99,10 @@
 				var field = args.field;
 				if(field.name === 'linkedA') {
 					vm.result.linkedB = 'hello' + vm.result.linkedA;
+                    vm.fields["username"].disabled = true;
+                    vm.fields["username"].style.width = "500px";
+                    vm.fields["username"].placeholder = "500px";
+
 				}
 			})
 			this.validatepw = function(result, form) {
