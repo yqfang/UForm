@@ -95,16 +95,6 @@
 				datefor: new Date(),
                 write: "hello"
 			};
-			$scope.$on('blur', function(e, args) {
-				var field = args.field;
-				if(field.name === 'linkedA') {
-					vm.result.linkedB = 'hello' + vm.result.linkedA;
-                    vm.fields["username"].disabled = true;
-                    vm.fields["username"].style.width = "500px";
-                    vm.fields["username"].placeholder = "500px";
-
-				}
-			})
 			this.validatepw = function(result, form) {
 				if(form.password.$error.maxlength) {
 					return "不能超过3"

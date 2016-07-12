@@ -2,7 +2,7 @@
  * uform
  * https://github.com/yqfang/UForm#readme
  * yqfang,qianzhixiang
- * Version: 1.0.0 - 2016-07-11T03:19:04.252Z
+ * Version: 1.0.0 - 2016-07-12T15:48:27.150Z
  * License: ISC
  */
 
@@ -144,6 +144,48 @@ uf.directive("uFormGroup", function () {
     }
 });
 
+uf
+  .directive('capitalize', function() {
+    return {
+      require: 'ngModel',
+      link: function(scope, element, attrs, modelCtrl) {
+        var capitalize = function(inputValue) {
+          if (inputValue == undefined) inputValue = '';
+          var capitalized = inputValue.toUpperCase();
+          if (capitalized !== inputValue) {
+            modelCtrl.$setViewValue(capitalized);
+            modelCtrl.$render();
+          }
+          return capitalized;
+        }
+        modelCtrl.$parsers.push(capitalize);
+        capitalize(""); // capitalize initial value
+      }
+    };
+  });
+
+uf.directive("truncateTo", ["$parse", function ($parse) {
+    return {
+        require: 'ngModel',
+        restrict: 'A',
+        link: function (scope, ele, attrs, modelCtrl) {
+
+            var truncateTo = function(inputValue) {
+                var length = parseInt(attrs['truncateTo']);
+                if (inputValue == undefined) inputValue = '';
+                var truncate = inputValue.substring(0, length);
+                if (truncate !== inputValue) {
+                    modelCtrl.$setViewValue(truncate);
+                    modelCtrl.$render();
+                }
+                return truncate;
+            }
+            modelCtrl.$parsers.push(truncateTo);
+            truncateTo("");
+        }
+    }
+}])
+
 angular.forEach({
     upDate: "up-date",
     upTime: "up-time",
@@ -222,101 +264,6 @@ uf.provider('ufield', [function() {
             }
         }
     }]
-}])
-
-// 把对象变为数组，并按照 id 排序
-uf.filter('orderById', function () {
-    return function (items, field, reverse) {
-        var filtered = [];
-        angular.forEach(items, function (item, name) {
-            item["name"] = name;
-            filtered.push(item);
-        });
-        filtered.sort(function (a, b) {
-            return (a[field] > b[field] ? 1 : -1);
-        });
-        if (reverse) filtered.reverse();
-        return filtered;
-    };
-});
-
-uf.factory('uFormUtil', ["$templateCache", "$q", "$http", "dialogs", function($templateCache, $q, $http, dialogs) {
-    return {
-        toAttrs: toAttrs,
-        getTemplate: getTemplate
-    }
-    function toAttrs(obj) {
-        if(!obj) {
-            return "";
-        }
-        var str = "";
-        for(var o in obj) {
-            var next;
-            if(!obj[o]) {
-                next = o;
-            }else {
-                next = (o + '=' + obj[o])
-            }
-            str += (next + ' ')
-        }
-        return str;
-    }
-    function getTemplate (name) {
-        var tpath = name + '.html';
-        var tpl = $templateCache.get(tpath);
-        if(tpl) {
-            return $q.when(tpl);
-        }else {
-            return $http.get(tpath, {cache: true}).then(function(html) {
-                $templateCache.put(tpath, html);
-                return html.data;
-            }, function(response) {
-                dialogs.error("模板错误!", "通过：" + tpath + " 找不到模板");
-            })
-        }
-    }
-}])
-
-uf
-  .directive('capitalize', function() {
-    return {
-      require: 'ngModel',
-      link: function(scope, element, attrs, modelCtrl) {
-        var capitalize = function(inputValue) {
-          if (inputValue == undefined) inputValue = '';
-          var capitalized = inputValue.toUpperCase();
-          if (capitalized !== inputValue) {
-            modelCtrl.$setViewValue(capitalized);
-            modelCtrl.$render();
-          }
-          return capitalized;
-        }
-        modelCtrl.$parsers.push(capitalize);
-        capitalize(scope[attrs.ngModel]); // capitalize initial value
-      }
-    };
-  });
-
-uf.directive("truncateTo", ["$parse", function ($parse) {
-    return {
-        require: 'ngModel',
-        restrict: 'A',
-        link: function (scope, ele, attrs, modelCtrl) {
-
-            var truncateTo = function(inputValue) {
-                var length = parseInt(attrs['truncateTo']);
-                if (inputValue == undefined) inputValue = '';
-                var truncate = inputValue.substring(0, length);
-                if (truncate !== inputValue) {
-                    modelCtrl.$setViewValue(truncate);
-                    modelCtrl.$render();
-                }
-                return truncate;
-            }
-            modelCtrl.$parsers.push(truncateTo);
-            truncateTo(scope[attrs.ngModel]);
-        }
-    }
 }])
 
 uf.directive('angularValidator', ['$injector', '$parse',
@@ -552,6 +499,59 @@ uf.directive('angularValidator', ['$injector', '$parse',
             }
         };
     }]);
+
+// 把对象变为数组，并按照 id 排序
+uf.filter('orderById', function () {
+    return function (items, field, reverse) {
+        var filtered = [];
+        angular.forEach(items, function (item, name) {
+            item["name"] = name;
+            filtered.push(item);
+        });
+        filtered.sort(function (a, b) {
+            return (a[field] > b[field] ? 1 : -1);
+        });
+        if (reverse) filtered.reverse();
+        return filtered;
+    };
+});
+
+uf.factory('uFormUtil', ["$templateCache", "$q", "$http", "dialogs", function($templateCache, $q, $http, dialogs) {
+    return {
+        toAttrs: toAttrs,
+        getTemplate: getTemplate
+    }
+    function toAttrs(obj) {
+        if(!obj) {
+            return "";
+        }
+        var str = "";
+        for(var o in obj) {
+            var next;
+            if(!obj[o]) {
+                next = o;
+            }else {
+                next = (o + '=' + obj[o])
+            }
+            str += (next + ' ')
+        }
+        return str;
+    }
+    function getTemplate (name) {
+        var tpath = name + '.html';
+        var tpl = $templateCache.get(tpath);
+        if(tpl) {
+            return $q.when(tpl);
+        }else {
+            return $http.get(tpath, {cache: true}).then(function(html) {
+                $templateCache.put(tpath, html);
+                return html.data;
+            }, function(response) {
+                dialogs.error("模板错误!", "通过：" + tpath + " 找不到模板");
+            })
+        }
+    }
+}])
 
 }());
 angular.module('up.uform').run(['$templateCache', function($templateCache) {$templateCache.put('form.html','<div><style type=text/css>\n\t\t.form-inline .inline-control {\n\t\t\tdisplay: inline-block;\n\t\t}\n\t\t.form-inline .datepicker {\n\t\t\twidth: 120px;\n\t\t}\n\t\t.form-inline input[type=\'text\'] {\n\t\t\twidth: 120px;\n\t\t}\n\t\t.form-inline .form-group {\n\t\t    display: inline-block;\n\t\t    margin-bottom: 0;\n\t\t    vertical-align: middle;\n\t\t    margin-right: 10px;\n\t\t}\n\t\t.form-horizontal .control-label {\n\t\t\ttext-align: right;\n\t\t}\n\t\t.control-datepicker {\n\t\t\tpadding-left: 0;\n\t\t}\n\t\t.timepicker tr.text-center {\n\t\t\tdisplay: none;\n\t\t}\n\t</style><div class=form-group ufield-hide={{field.hide}} ng-class=field.name ng-repeat="field in (uform.fields | orderById: \'id\')"><label for={{field.name}} ng-class=uform.option.labelClass class=control-label><span ng-show="field.required && field.label">*</span> <span ng-if="field.type!=\'up-checkbox\'">{{ field.label }}</span></label><div compile-field=field.type ng-class=uform.option.inputClass></div></div><div ng-transclude=""></div></div>');

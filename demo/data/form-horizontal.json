@@ -26,7 +26,10 @@
         "linkedA": {
             "id": 2.01,
             "label": "联动inputA",
-            "placeholder": "请输入"
+            "placeholder": "请输入",
+            "customs": {
+                "maya-link-a-to-b": ""
+            }
         },
         "linkedB": {
             "id": 2.02,

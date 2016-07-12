@@ -15,7 +15,7 @@ uf.directive("truncateTo", function ($parse) {
                 return truncate;
             }
             modelCtrl.$parsers.push(truncateTo);
-            truncateTo(scope[attrs.ngModel]);
+            truncateTo("");
         }
     }
 })
