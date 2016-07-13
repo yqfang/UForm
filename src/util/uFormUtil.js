@@ -26,7 +26,7 @@ uf.factory('uFormUtil', function($templateCache, $q, $http, dialogs) {
             return $q.when(tpl);
         }else {
             return $http.get(tpath, {cache: true}).then(function(html) {
-                $templateCache.put(tpath, html);
+                $templateCache.put(tpath, html.data);
                 return html.data;
             }, function(response) {
                 dialogs.error("模板错误!", "通过：" + tpath + " 找不到模板");
