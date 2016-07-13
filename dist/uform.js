@@ -2,7 +2,7 @@
  * uform
  * https://github.com/yqfang/UForm#readme
  * yqfang,qianzhixiang
- * Version: 1.0.0 - 2016-07-08T02:52:45.815Z
+ * Version: 1.0.0 - 2016-07-12T15:48:27.150Z
  * License: ISC
  */
 
@@ -60,6 +60,223 @@ uf.config(["$provide", "datepickerConfig", function ($provide, datepickerConfig)
 
 
 
+
+
+uf.directive('compileField', ['$compile', function ($compile) {
+    return {
+        restrict: 'A',
+        controller: ["$scope", function($scope) {
+            var vm = this;
+            this.field = $scope.$parent.$eval('field');
+            this.form = {};
+        }],
+        require: '?^uForm',
+        controllerAs: '$proxy',
+        scope: {},
+        link: function (scope, element, attrs, form) {
+            angular.extend(scope.$proxy.form, form);
+            element.html('<div ' + scope.$parent.$eval(attrs.compileField) + ' />');
+            $compile(element.contents())(scope);
+        }
+    };
+}])
+
+uf.directive("ufieldDisabled", ["$parse", function ($parse) {
+    return {
+        require: "?^uForm",
+        restrict: 'A',
+        link: function (scope, element, attr, form) {
+            scope.$watch(function () {
+                var res = $parse(attr['ufieldDisabled'])(form.result);
+                return res;
+            }, function (value) {
+                element[0].disabled = value;
+            })
+        }
+    }
+}])
+
+uf.directive("ufieldHide", ["$parse", function ($parse) {
+    return {
+        require: "?^uForm",
+        restrict: 'A',
+        link: function (scope, element, attr, form) {
+            var exp;
+            if ('hide' in scope.field) {
+                scope.$watch(function () {
+                    var res = $parse(attr.ufieldHide)(form.result);
+                    return res;
+                }, function (value) {
+                    // hide the element
+                    element.css('display', value ? 'none' : '');
+                    // delete the hide element from resutl
+                    if (value) { delete form.result[scope.field.name]; }
+                })
+            }
+        }
+    }
+}])
+
+uf.directive("uForm", ["$rootScope", function ($rootScope) {
+    return {
+        templateUrl: 'form.html',
+        transclude: true,
+        restrict: "EA",
+        controller: ["$scope", "$attrs", "$rootScope", "ufield", function ($scope, $attrs, $rootScope, ufield) {
+            var $parent = $scope.$parent;
+            this.fields = $parent.$eval($attrs.fields);
+            angular.forEach(this.fields, function(field) {
+                angular.extend(field, ufield.create(field));
+            })
+            this.option = $parent.$eval($attrs.option);
+            this.result = $parent.$eval($attrs.result) || $parent.$eval($attrs.result + "={}");
+        }],
+        scope: {},
+        controllerAs: "uform",
+        require: '?^uFormGroup',
+        link: function (scope, elem, attr, group) {
+            scope.uform.$form = scope.$parent.$eval(attr.name);
+            group && group.fields && group.fields.push(scope.uform.fields);
+            group && group.result && group.result.push(scope.uform.result);
+        }
+
+    }
+}]);
+
+uf.directive("uFormGroup", function () {
+    return {
+        controller: ["$scope", "$attrs", function ($scope, $attrs) {
+            this.fields = $scope.$parent.$eval($attrs.fields) || $scope.$parent.$eval($attrs.fields + "=[]");;
+            this.result = $scope.$parent.$eval($attrs.result) || $scope.$parent.$eval($attrs.result + "=[]");;
+        }],
+        scope: {},
+        template: '<div ng-transclude></div>',
+        controllerAs: "uFormGroup",
+        transclude: true
+    }
+});
+
+uf
+  .directive('capitalize', function() {
+    return {
+      require: 'ngModel',
+      link: function(scope, element, attrs, modelCtrl) {
+        var capitalize = function(inputValue) {
+          if (inputValue == undefined) inputValue = '';
+          var capitalized = inputValue.toUpperCase();
+          if (capitalized !== inputValue) {
+            modelCtrl.$setViewValue(capitalized);
+            modelCtrl.$render();
+          }
+          return capitalized;
+        }
+        modelCtrl.$parsers.push(capitalize);
+        capitalize(""); // capitalize initial value
+      }
+    };
+  });
+
+uf.directive("truncateTo", ["$parse", function ($parse) {
+    return {
+        require: 'ngModel',
+        restrict: 'A',
+        link: function (scope, ele, attrs, modelCtrl) {
+
+            var truncateTo = function(inputValue) {
+                var length = parseInt(attrs['truncateTo']);
+                if (inputValue == undefined) inputValue = '';
+                var truncate = inputValue.substring(0, length);
+                if (truncate !== inputValue) {
+                    modelCtrl.$setViewValue(truncate);
+                    modelCtrl.$render();
+                }
+                return truncate;
+            }
+            modelCtrl.$parsers.push(truncateTo);
+            truncateTo("");
+        }
+    }
+}])
+
+angular.forEach({
+    upDate: "up-date",
+    upTime: "up-time",
+    upDatetime: "up-datetime",
+    upPassword: "up-password",
+    upCheckbox: "up-checkbox",
+    upRadio: "up-radio",
+    upSubmit: "up-submit",
+    upSelect: "up-select",
+    upTextarea: "up-textarea",
+}, function (tpl, direct) {
+    uf.directive(direct, ['$compile', 'uFormUtil', function ($compile, uFormUtil) {
+        return {
+            restrict: 'EA',
+            controller: ["$scope", function ($scope) {
+                angular.extend(this, $scope.$proxy);
+            }],
+            controllerAs: 'vm',
+            link: function (scope, elem, attr) {
+                 uFormUtil.getTemplate(tpl).then(function(textTpl) {
+                        elem.html(textTpl.replace(/ng-model/g, uFormUtil.toAttrs(scope.vm.field.customs) + "ng-model"));
+                        $compile(elem.contents())(scope);
+                    })
+            }
+        }
+    }])
+});
+
+
+
+
+uf.directive('upText', ['$compile', 'uFormUtil', function ($compile, uFormUtil) {
+    return {
+        restrict: 'EA',
+        controller: ["$scope", function ($scope) {
+            angular.extend(this, $scope.$proxy);
+        }],
+        controllerAs: 'vm',
+        link: function (scope, elem, attr) {
+            uFormUtil.getTemplate('up-text').then(function(textTpl) {
+                elem.html(textTpl.replace(/ng-model/g, uFormUtil.toAttrs(scope.vm.field.customs) + "ng-model"));
+                $compile(elem.contents())(scope);
+            });
+        }
+    }
+}])
+uf.provider('ufield', [function() {
+    var _tp = 'up-text'; // type
+    var _vo = 'dirty'; // validateOn
+    var _pt = /^.*$/; // defaut pattern
+    var _setOpts = function(opts){
+        var _opts = {};
+        opts = opts || {};
+        _opts.type = (angular.isDefined(opts.type)) ? opts.type : _tp; // type
+        _opts.validateOn = (angular.isDefined(opts.validateOn) && ((opts.validateOn === 'dirty') || (opts.validateOn === 'blur'))) ? opts.validateOn : _vo; // validate_on
+        _opts.pattern = (angular.isDefined(opts.pattern)) ? opts.pattern : _pt;
+        return _opts;
+    }; // end _setOpts
+    this.useType = function(val) {
+        if(angular.isDefined(val))
+        _tp = val;
+    }
+    this.useValidateOn = function(val) {
+        if(angular.isDefined(val))
+        _vo = val;
+    }
+    this.usePattern = function(val) {
+        if(angular.isDefined(val))
+        _pt = val;
+    }
+    this.$get = [function() {
+        return {
+            create : function (opts) {
+                opts = _setOpts(opts);
+                return opts;
+            }
+        }
+    }]
+}])
 
 uf.directive('angularValidator', ['$injector', '$parse',
     function ($injector, $parse) {
@@ -190,7 +407,7 @@ uf.directive('angularValidator', ['$injector', '$parse',
                             isElementValid = true;
                         }
                         else {
-                            isElementValid = scope.$eval(element.attributes.validator.value += ' === true');
+                            isElementValid = (scope.$eval(element.attributes.validator.value) == true);
                         }
 
                         if (scopeForm[element.name]) {
@@ -295,91 +512,6 @@ uf.directive('angularValidator', ['$injector', '$parse',
         };
     }]);
 
-uf.directive('mayaCheckbox', ["$state", "$timeout", "dialogs", function($state, $timeout, dialogs) {
-    return {
-        restrict: 'EA',
-        controller: ["$scope", function($scope) {
-            var vm = this;
-            vm.check = function(item){
-                item.checked = !item.checked;
-                $scope.$emit("$value_changed",{
-                    item: item,
-                    field: vm.field
-                })
-            }
-            var init = function (){
-                angular.extend(vm, $scope.$custom);
-                $scope.$emit("$value_changed",{
-                    field: vm.field
-                })
-            }
-            init();
-        }],
-        controllerAs: 'vm',
-        templateUrl: 'input-checkbox.html',
-        link: function(scope, elem, attr) {
-
-        }
-    }
-}])
-uf.directive('customField', ['$compile', function ($compile) {
-    return {
-        restrict: 'A',
-        controller: ["$scope", function($scope) {
-            var vm = this;
-            this.field = $scope.$parent.$eval('field');
-            this.form = {};
-        }],
-        require: '?^uForm',
-        controllerAs: '$custom',
-        scope: {},
-        link: function (scope, element, attrs, form) {
-            angular.extend(scope.$custom.form, form);
-            var listener = scope.$watch(function () {
-                return scope.$parent.$eval(attrs.customField);
-            }, function (value) {
-                value = '<div ' + value + ' />';
-                element.html(value && value.toString());
-                var compileScope = scope;
-                $compile(element.contents())(compileScope);
-                listener(); //you don't need to watch the directive once it is compiled
-            });
-        }
-    };
-}])
-
-angular.forEach({
-    'input-text': 'appInputTextComponent',
-    'input-date': 'appInputDateComponent',
-    'input-time': 'appInputTimeComponent',
-    'input-datetime': 'appInputDatetimeComponent',
-    'input-password': 'appInputPasswordComponent',
-    'input-radio': 'appInputRadioComponent',
-    'input-submit': 'appInputSubmitComponent',
-    'select': 'appSelectComponent',
-    'textarea': 'appTextareaComponent'
-}, function (directiveSelector, tpl) {
-    uf.directive(directiveSelector, function () {
-        return {
-            restrict: 'EA',
-            controller: ["$scope", "$attrs", function ($scope, $attrs) {
-                var directiveScope = $scope.$parent;
-                this.field = directiveScope.$eval('field');
-                this.ref = $scope;
-            }],
-            controllerAs: 'componentCtrl',
-            templateUrl: tpl + '.html',
-            scope: { "model": '=' },
-            replace: true,
-            link: function (scope, elem, attr) {
-            }
-        }
-    })
-});
-
-
-
-
 // 把对象变为数组，并按照 id 排序
 uf.filter('orderById', function () {
     return function (items, field, reverse) {
@@ -396,166 +528,52 @@ uf.filter('orderById', function () {
     };
 });
 
-uf.provider('ufield', [function() {
-    var _tp = 'input'; // type
-    var _vo = 'dirty'; // validateOn
-    var _pt = /^.*$/; // defaut pattern
-    var _setOpts = function(opts){
-        var _opts = {};
-        opts = opts || {};
-        _opts.type = (angular.isDefined(opts.type)) ? opts.type : _tp; // type
-        _opts.validateOn = (angular.isDefined(opts.validateOn) && ((opts.validateOn === 'dirty') || (opts.validateOn === 'blur'))) ? opts.validateOn : _vo; // validate_on
-        _opts.pattern = (angular.isDefined(opts.pattern)) ? opts.pattern : _pt;
-        return _opts;
-    }; // end _setOpts
-    this.useType = function(val) {
-        if(angular.isDefined(val))
-        _tp = val;
+uf.factory('uFormUtil', ["$templateCache", "$q", "$http", "dialogs", function($templateCache, $q, $http, dialogs) {
+    return {
+        toAttrs: toAttrs,
+        getTemplate: getTemplate
     }
-    this.useValidateOn = function(val) {
-        if(angular.isDefined(val))
-        _vo = val;
-    }
-    this.usePattern = function(val) {
-        if(angular.isDefined(val))
-        _pt = val;
-    }
-    this.$get = [function() {
-        return {
-            create : function (opts) {
-                opts = _setOpts(opts);
-                return opts;
+    function toAttrs(obj) {
+        if(!obj) {
+            return "";
+        }
+        var str = "";
+        for(var o in obj) {
+            var next;
+            if(!obj[o]) {
+                next = o;
+            }else {
+                next = (o + '=' + obj[o])
             }
+            str += (next + ' ')
         }
-    }]
-}])
-
-uf.directive("upDisabled", ["$parse", function ($parse) {
-    return {
-        require: "?^uForm",
-        restrict: 'A',
-        link: function (scope, element, attr, form) {
-            scope.$watch(function () {
-                var res = $parse(attr['upDisabled'])(form.result);
-                return res;
-            }, function (value) {
-                element[0].disabled = value;
+        return str;
+    }
+    function getTemplate (name) {
+        var tpath = name + '.html';
+        var tpl = $templateCache.get(tpath);
+        if(tpl) {
+            return $q.when(tpl);
+        }else {
+            return $http.get(tpath, {cache: true}).then(function(html) {
+                $templateCache.put(tpath, html);
+                return html.data;
+            }, function(response) {
+                dialogs.error("模板错误!", "通过：" + tpath + " 找不到模板");
             })
-        }
-    }
-}])
-
-uf.directive("upFieldHide", ["$parse", function ($parse) {
-    return {
-        require: "?^uForm",
-        restrict: 'A',
-        link: function (scope, element, attr, form) {
-            var exp;
-            if ('hide' in scope.field) {
-                scope.$watch(function () {
-                    var res = $parse(attr.upFieldHide)(form.result);
-                    return res;
-                }, function (value) {
-                    // hide the element
-                    element.css('display', value ? 'none' : '');
-                    // delete the hide element from resutl
-                    if (value) { delete form.result[scope.field.name]; }
-                })
-            }
-        }
-    }
-}])
-
-uf.directive("uForm", ["$rootScope", function ($rootScope) {
-    return {
-        templateUrl: 'form.html',
-        transclude: true,
-        restrict: "EA",
-        controller: ["$scope", "$attrs", "$rootScope", "ufield", function ($scope, $attrs, $rootScope, ufield) {
-            var $parent = $scope.$parent;
-            this.fields = $parent.$eval($attrs.fields);
-            angular.forEach(this.fields, function(field) {
-                angular.extend(field, ufield.create(field));
-            })
-            this.option = $parent.$eval($attrs.option);
-            this.result = $parent.$eval($attrs.result) || $parent.$eval($attrs.result + "={}");
-            this.ref = $scope;
-        }],
-        scope: {},
-        controllerAs: "uform",
-        require: '?^uFormGroup',
-        link: function (scope, elem, attr, group) {
-            group && group.fields && group.fields.push(scope.uform.fields);
-            group && group.result && group.result.push(scope.uform.result);
-        }
-    }
-}]);
-
-uf.directive("uFormGroup", function () {
-    return {
-        controller: ["$scope", "$attrs", function ($scope, $attrs) {
-            this.fields = $scope.$parent.$eval($attrs.fields) || $scope.$parent.$eval($attrs.fields + "=[]");;
-            this.result = $scope.$parent.$eval($attrs.result) || $scope.$parent.$eval($attrs.result + "=[]");;
-        }],
-        scope: {},
-        template: '<div ng-transclude></div>',
-        controllerAs: "uFormGroup",
-        transclude: true
-    }
-});
-
-uf.directive("upHttpBind", ["$parse", "$http", function ($parse,$http) {
-    function up_transform(form,params) {
-        var res = {};
-        for(var i in params) {
-            var value = params[i];
-            var value_ = $parse(value)(form.result);
-            res[i] = !value_ ? value : value_;
-        };
-        return res;
-    }
-    return {
-        require: ["?^uForm","?ngModel"],
-        restrict: 'A',
-        link: function (scope, ele,attr, ctrls) {
-            var model = ctrls[1];
-            var form = ctrls[0];
-            var bind_config = JSON.parse(attr['upHttpBind']);
-            console.log(form,model);
-            model.$viewChangeListeners.push(function(){
-                $http({
-                    method: bind_config.type.toUpperCase(),
-                    url: bind_config.url,
-                    params: up_transform(form,bind_config.params),
-                    data: up_transform(form,bind_config.data)
-                }).then(function(data){
-                    //绑定的域
-                    var field = bind_config.field;
-                    var field_model = form.ref.$parent.uform[field];
-                    var res = data.data;
-                    var value = field_model.$viewValue;
-                    field_model.$setViewValue(bind_config.bind ? (res[bind_config.bind] ? res[bind_config.bind] : null) : res)
-                    field_model.$render();
-                })
-            });
-        }
-    }
-}])
-
-uf.directive("upMaxLength", ["$parse", function ($parse) {
-    return {
-        require: ["?^uForm","?ngModel"],
-        restrict: 'A',
-        link: function (scope, ele,attr, ctrls) {
-            var model = ctrls[1];
-            var form = ctrls[0];
-            model.$viewChangeListeners.push(function(){
-                var value = model.$viewValue;
-                value.length > attr['upMaxLength'] ? model.$setViewValue(value.substring(0,attr['upMaxLength'])) : null;
-                model.$render();
-            });
         }
     }
 }])
 
 }());
+angular.module('up.uform').run(['$templateCache', function($templateCache) {$templateCache.put('form.html','<div><style type=text/css>\n\t\t.form-inline .inline-control {\n\t\t\tdisplay: inline-block;\n\t\t}\n\t\t.form-inline .datepicker {\n\t\t\twidth: 120px;\n\t\t}\n\t\t.form-inline input[type=\'text\'] {\n\t\t\twidth: 120px;\n\t\t}\n\t\t.form-inline .form-group {\n\t\t    display: inline-block;\n\t\t    margin-bottom: 0;\n\t\t    vertical-align: middle;\n\t\t    margin-right: 10px;\n\t\t}\n\t\t.form-horizontal .control-label {\n\t\t\ttext-align: right;\n\t\t}\n\t\t.control-datepicker {\n\t\t\tpadding-left: 0;\n\t\t}\n\t\t.timepicker tr.text-center {\n\t\t\tdisplay: none;\n\t\t}\n\t</style><div class=form-group ufield-hide={{field.hide}} ng-class=field.name ng-repeat="field in (uform.fields | orderById: \'id\')"><label for={{field.name}} ng-class=uform.option.labelClass class=control-label><span ng-show="field.required && field.label">*</span> <span ng-if="field.type!=\'up-checkbox\'">{{ field.label }}</span></label><div compile-field=field.type ng-class=uform.option.inputClass></div></div><div ng-transclude=""></div></div>');
+$templateCache.put('up-checkbox.html','<div class=checkbox><label><input type=checkbox name={{vm.field.name}} ng-model=vm.form.result[vm.field.name]> {{ vm.field.label }}</label></div>');
+$templateCache.put('up-date.html','<div><input type=text name={{vm.field.name}} class="form-control datepicker" datepicker-popup=yyyy-MM-dd ng-model=vm.form.result[vm.field.name] ng-init="vm.form.open=false" is-open=vm.form.open ng-style=vm.field.style show-button-bar=false ng-click="vm.form.open=!vm.form.open"></div>');
+$templateCache.put('up-datetime.html','<div><div class="col-xs-6 control-datepicker"><input type=text name={{vm.field.name}} class="form-control datepicker" datepicker-popup=yyyy-MM-dd ng-model=vm.form.result[vm.field.name] ng-init="vm.form.open=false" is-open=vm.form.open show-button-bar=false ng-click="vm.form.open=!vm.form.open"></div><div><div class=timepicker timepicker="" ng-model=vm.form.result[vm.field.name]></div></div></div>');
+$templateCache.put('up-password.html','<input type=password id={{vm.field.name}} name={{vm.field.name}} ng-model=vm.form.result[vm.field.name] ng-required=vm.field.required required-message="\'{{vm.field.requiredMsg}}\'" ng-maxlength={{vm.field.maxlength}} ng-minlength={{vm.field.minlength}} ng-pattern=vm.field.pattern validate-on={{vm.field.validateOn}} validator={{vm.field.validator}} invalid-message={{vm.field.validator}} class=form-control ufield-disabled={{vm.field.disabled}} ng-attr-placeholder={{vm.field.placeholder}} ng-style=vm.field.style>');
+$templateCache.put('up-radio.html','<div><div class=radio-inline ng-repeat="candidate in vm.field.candidates"><label><input type=radio ng-init="vm.form.result[vm.field.name]=vm.field.candidates[0].value" ng-model=vm.form.result[vm.field.name] name={{vm.field.name}} value={{candidate.value}} ng-required=vm.field.required>{{candidate.label}}</label></div></div>');
+$templateCache.put('up-select.html','<select ng-init="vm.form.result[vm.field.name]=vm.field.candidates[0].value" class=form-control ng-model=vm.form.result[vm.field.name] name={{vm.field.name}} ng-options="option.value as option.name for option in vm.field.candidates" ng-required=vm.field.required></select>');
+$templateCache.put('up-submit.html','<input class="btn btn-primary" type=submit value={{vm.field.value}}>');
+$templateCache.put('up-text.html','<input type=text id={{vm.field.name}} name={{vm.field.name}} ng-model=vm.form.result[vm.field.name] ng-required=vm.field.required required-message="\'{{vm.field.requiredMsg}}\'" ng-maxlength={{vm.field.maxlength}} ng-minlength={{vm.field.minlength}} ng-pattern=vm.field.pattern validate-on={{vm.field.validateOn}} validator={{vm.field.validator}} invalid-message={{vm.field.validator}} class=form-control ufield-disabled={{vm.field.disabled}} ng-attr-placeholder={{vm.field.placeholder}} ng-style=vm.field.style ng-change="$emit(\'change\', { field: vm.field })" ng-blur="$emit(\'blur\', { field: vm.field })">');
+$templateCache.put('up-textarea.html','<textarea id={{vm.field.name}} name={{vm.field.name}} ng-model=vm.form.result[vm.field.name] ng-required=vm.field.required required-message="\'{{vm.field.requiredMsg}}\'" ng-maxlength={{vm.field.maxlength}} ng-minlength={{vm.field.minlength}} ng-pattern=vm.field.pattern validate-on={{vm.field.validateOn}} validator={{vm.field.validator}} invalid-message={{vm.field.validator}} class=form-control ufield-disabled={{vm.field.disabled}} ng-attr-placeholder={{vm.field.placeholder}} ng-style=vm.field.style>\n</textarea>');
+$templateCache.put('up-time.html','<div><div class=timepicker timepicker="" ng-model=vm.form.result[vm.field.name]></div></div>');}]);

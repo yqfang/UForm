@@ -11,12 +11,12 @@ uf.directive("uForm", function ($rootScope) {
             })
             this.option = $parent.$eval($attrs.option);
             this.result = $parent.$eval($attrs.result) || $parent.$eval($attrs.result + "={}");
-            this.ref = $scope;
         },
         scope: {},
         controllerAs: "uform",
         require: '?^uFormGroup',
         link: function (scope, elem, attr, group) {
+            scope.uform.$form = scope.$parent.$eval(attr.name);
             group && group.fields && group.fields.push(scope.uform.fields);
             group && group.result && group.result.push(scope.uform.result);
         }

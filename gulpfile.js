@@ -5,6 +5,7 @@ var $ = require('gulp-load-plugins')();
 var runSequence = require('run-sequence');
 var es = require('event-stream');
 var ghPages = require('gulp-gh-pages');
+var streamqueue = require('streamqueue');
 
 
 var config = {
@@ -47,10 +48,12 @@ gulp.task('scripts', ['clean:uform'], function () {
                 spare: true,
                 quote: true
             }))
-            .pipe($.angularTemplatecache({module: 'up.uform'}))
+            .pipe($.angularTemplatecache({
+                module: 'up.uform'
+            }))
     };
     var buildLib = function() {
-        return gulp.src(['src/common.js', 'src/*.js'])
+        return gulp.src(['src/main.js', 'src/**/*.js', '!src/templates/*'])
             .pipe($.plumber({
                 errorHandler: handleError
             }))
@@ -59,7 +62,9 @@ gulp.task('scripts', ['clean:uform'], function () {
             .pipe($.header('(function() { \n"use strict";\n'))
             .pipe($.footer('\n}());'))
     };
-    return es.merge(buildLib(), buildTemplates())
+    return streamqueue({ objectMode: true },
+            buildLib(),
+            buildTemplates())
         .pipe($.plumber({
              errorHandler: handleError
         }))

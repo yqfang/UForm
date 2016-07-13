@@ -10,7 +10,6 @@
 		    })
 
 		.config(function($stateProvider, $urlRouterProvider) {
-
 			$urlRouterProvider
 				.when('/', '/form/common/horizontal')
 				.otherwise('/form/common/horizontal');
@@ -93,7 +92,8 @@
 			this.result = {
 				username: "方宇卿",
 				datetime: new Date(),
-				datefor: new Date()
+				datefor: new Date(),
+                write: "hello"
 			};
 			$scope.$on('$value_changed',function(e,data){
 				e.stopPropagation ? e.stopPropagation() : null;
