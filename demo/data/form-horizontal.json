@@ -15,7 +15,20 @@
             "disabled": "write=='hello'",
             "required": true,
             "requiredMsg": "用户名一定要填哦！",
-            "placeholder": "请输入用户名"
+            "placeholder": "请输入用户名",
+            "maxwrite": 6,
+            "bind": {
+                "field": "write",
+                "url": "test.json",
+                "type": "get",
+                "params": {
+                   "username" : "{{username}}"
+                },
+                "data": {
+
+                },
+                "bind": null
+            }
         },
         "password":{
             "id": 2,
@@ -161,26 +174,6 @@
             },
             "wait": 1000
         },
-        "schools": {
-            "id": 14,
-            "label": "学校",
-            "type": "maya-checkbox",
-            "style": {
-                "width": "80%"
-            },
-            "inline": true,
-            "lists":[
-                {
-                    "desc": "中国科技大学",
-                    "field": "USTC",
-                    "checked": true
-                },
-                {
-                    "desc": "北京邮电大学",
-                    "field": "BUPT"
-                }
-            ]
-        },
 		"group":{
             "id": 15,
 			"type": "maya-config-group",
@@ -193,28 +186,28 @@
                 "btn3": "清空"
             }
 		},
-         "techs": {
+        "contact": {
             "id": 16,
-            "label": "专业",
-            "type": "maya-checkbox",
+            "label": "联系人",
+            "type": "maya-ui-select-single-tagging",
             "style": {
-                "width": "80%"
+                "width": "100%"
             },
-            "inline": true,
-            "lists":[
+            "model": [
                 {
-                    "desc": "通信工程",
-                    "field": "commu"
+                    "name": "小明",
+                    "email": "adasd@asd.com"
                 },
                 {
-                    "desc": "电子工程",
-                    "field": "ele"
+                     "name": "小❀花",
+                     "email": "xiaolei@asd.com"
                 },
                 {
-                    "desc": "计算机技术",
-                    "field": "computer"
+                     "name": "小雷",
+                     "email": "xiaolei@asd.com"
                 }
             ]
+
         }
     },
     "option": {
