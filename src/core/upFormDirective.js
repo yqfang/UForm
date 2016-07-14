@@ -20,5 +20,6 @@ uf.directive("uForm", function ($rootScope) {
             group && group.fields && group.fields.push(scope.uform.fields);
             group && group.result && group.result.push(scope.uform.result);
         }
+
     }
 });
