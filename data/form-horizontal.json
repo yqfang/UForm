@@ -153,7 +153,7 @@
             ]
 		},
         "employNum": {
-            "id": 14,
+            "id": 13,
             "label": "员工编号",
             "type": "maya-http-select",
             "style": {
@@ -172,7 +172,30 @@
                 "btn2": "收藏",
                 "btn3": "清空"
             }
-		}
+		},
+        "contact": {
+            "id": 16,
+            "label": "联系人",
+            "type": "maya-ui-select-single-tagging",
+            "style": {
+                "width": "100%"
+            },
+            "model": [
+                {
+                    "name": "小明",
+                    "email": "adasd@asd.com"
+                },
+                {
+                     "name": "小❀花",
+                     "email": "xiaolei@asd.com"
+                },
+                {
+                     "name": "小雷",
+                     "email": "xiaolei@asd.com"
+                }
+            ]
+
+        }
     },
     "option": {
         "formClass": "form-horizontal",
