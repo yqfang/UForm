@@ -160,6 +160,41 @@
                 "width": "80%"
             },
             "wait": 1000
+        },
+		"group":{
+            "id": 15,
+			"type": "maya-config-group",
+            "style": {
+                "textAlign": "right"
+            },
+            "model": {
+                "btn1": "提交",
+                "btn2": "收藏",
+                "btn3": "清空"
+            }
+		},
+        "contact": {
+            "id": 16,
+            "label": "联系人",
+            "type": "maya-ui-select-single-tagging",
+            "style": {
+                "width": "100%"
+            },
+            "model": [
+                {
+                    "name": "小明",
+                    "email": "adasd@asd.com"
+                },
+                {
+                     "name": "小❀花",
+                     "email": "xiaolei@asd.com"
+                },
+                {
+                     "name": "小雷",
+                     "email": "xiaolei@asd.com"
+                }
+            ]
+
         }
     },
     "option": {
