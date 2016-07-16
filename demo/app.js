@@ -1,6 +1,6 @@
 ;(function() {
 
-	angular.module("myApp", ["up.uform", 'ng-package', 'ngPrettyJson'])
+	angular.module("myApp", ["up.uform", 'ngPrettyJson'])
 		.run(function ($rootScope, $state, $stateParams) {
 			   $rootScope.monitor = {};
 			   $rootScope.monitor.$state = $state;

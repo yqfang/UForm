@@ -1,20 +1,36 @@
 ;(function() {
+
     angular.module("up.uform")
-    	.directive('mayaConfigMenu', function($state, $timeout, dialogs) {
-		return {
-			restrict: 'EA',
-			controller: function($scope) {
-                angular.extend(this, $scope.$proxy);
-				this.config = function (e) {
-                    e.preventDefault();
-                    dialogs.notify("点菜", "请点菜", {
-                        size: "sm"
-                    });
+    .controller('mayaSqlEditorDialogController', function(data, $scope, $modalInstance) {
+        var vm = this;
+        angular.extend(this, {
+            header: data.field.header,
+            body: data.field.body,
+            result: {
+                editor: data.form.result[data.field.name]
+            },
+            fields: {
+                editor:{
+                    id: 1,
+                    style: {
+                        height: "300px"
+                    },
+                    syntax: 'sql',
+                    type: "up-editor"
                 }
-			},
-            controllerAs: 'vm',
-			templateUrl: 'components/maya-config-menu/main.html',
-			link: function(scope, elem, attr) {}
-		}
-	})
+            },
+            option: {
+                "formClass": "form-horizontal",
+                "labelClass": "col-xs-0",
+                "inputClass": "col-xs-12"
+            },
+            ok: function() {
+                $modalInstance.close(vm.result.editor);
+            },
+            cancel: function() {
+                $modalInstance.dismiss('Canceled');
+            }
+    })
+
+    })
 })();

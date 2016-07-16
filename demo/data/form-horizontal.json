@@ -98,13 +98,15 @@
                 }
             ]
         },
-        "menu":{
+        "sql":{
             "id": 9,
-            "type": "maya-config-menu",
-            "label": "点菜",
-            "model": {
-                "btnName": "编辑"
-            }
+            "header": "<i>编辑 SQL</i>",
+            "body": "<div normal-form name='sqlConfiger'/>",
+            "controller": "mayaSqlEditorDialogController",
+            "size": "lg",
+            "type": "up-dialog",
+            "label": "高级 SQL",
+            "button": "编辑"
         },
         "satisfied":{
             "id": 10,
@@ -161,20 +163,8 @@
             },
             "wait": 1000
         },
-		"group":{
-            "id": 15,
-			"type": "maya-config-group",
-            "style": {
-                "textAlign": "right"
-            },
-            "model": {
-                "btn1": "提交",
-                "btn2": "收藏",
-                "btn3": "清空"
-            }
-		},
         "contact": {
-            "id": 16,
+            "id": 14,
             "label": "联系人",
             "type": "maya-ui-select-single-tagging",
             "style": {
@@ -195,7 +185,28 @@
                 }
             ]
 
-        }
+        },
+        "editor": {
+            "label": "编辑 sql",
+            "id": 15,
+            "style": {
+                "height": "200px"
+            },
+            "syntax": "sql",
+            "type": "up-editor"
+        },
+		"group":{
+            "id": 16,
+			"type": "maya-config-group",
+            "style": {
+                "textAlign": "right"
+            },
+            "model": {
+                "btn1": "提交",
+                "btn2": "收藏",
+                "btn3": "清空"
+            }
+		}
     },
     "option": {
         "formClass": "form-horizontal",

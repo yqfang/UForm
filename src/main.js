@@ -1,4 +1,4 @@
-var uf = angular.module('up.uform', ['ui.bootstrap']);
+var uf = angular.module('up.uform', ['ng-package']);
 
 uf.config(function ($provide, datepickerConfig) {
     datepickerConfig.showWeeks = false;
