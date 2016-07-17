@@ -1,5 +1,4 @@
-;(function() {
-    angular.module("up.uform")
+angular.module("up.uform")
     	.directive('mayaCheckList', [function() {
             return {
                 restrict: 'EA',
@@ -12,5 +11,4 @@
                 }
             }
 	    }])
-})();
 

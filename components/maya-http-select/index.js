@@ -1,5 +1,4 @@
-;(function() {
-    angular.module("up.uform")
+angular.module("up.uform")
     	.directive('mayaHttpSelect', function($http, $timeout) {
 		return {
 			restrict: 'EA',
@@ -25,4 +24,3 @@
 			link: function(scope, ele, attr) {}
 		}
 	})
-})();

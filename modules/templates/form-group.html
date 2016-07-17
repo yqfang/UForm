@@ -1,10 +1,9 @@
 <form u-form-group
-	angular-validator
     novalidate
-	 name="uform"
+	 name="{{vm.name}}"
 	 fields="vm.fields"
 	 result="vm.result"
-	 angular-validator-submit='vm.submit(uform, vm.result)'>
+	 ng-submit='vm.submit()'>
 	 <div u-form
 	      ng-class="vm.group1.option.formClass"
 		  fields="vm.group1.fields"

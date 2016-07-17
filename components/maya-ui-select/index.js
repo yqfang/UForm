@@ -1,5 +1,4 @@
-;(function() {
-    angular.module("up.uform")
+angular.module("up.uform")
     	.directive('mayaUiSelect', function() {
 		return {
 			restrict: 'EA',
@@ -20,4 +19,3 @@
 		    }
 		}
 	})
-})();
