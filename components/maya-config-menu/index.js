@@ -7,7 +7,8 @@ angular.module("up.uform")
         , {data: data, $modalInstance: $modalInstance, $scope: $scope, uform: uform}));
         angular.extend(this,
             uform.buildForm('sqlConfiger', 'form-horizontal', 'col-xs-0', 'col-xs-12')
-                .addField(1, 'editor', 'up-editor', null, {height: "400px"}, {syntax:'sql'}, data.form.result[data.field.name])
+                .addField('name', 'up-text', null, null, {placeholder: 'username'}, data.form.result[data.field.name])
+                .addField('editor', 'up-editor', null, {height: "400px"}, {syntax:'sql'}, data.form.result[data.field.name])
                 .end());
         angular.extend(this, {
             ok: function() {
