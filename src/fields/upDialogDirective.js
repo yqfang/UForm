@@ -5,8 +5,11 @@ uf
         controller: function($scope) {
             var vm = this;
             angular.extend(this, $scope.$proxy);
+            vm.header = vm.field.header;
+            vm.body = vm.field.body;
+            vm.footer = vm.field.footer;
             this.open = function (e) {
-                dialogs.create('up-normal-dialog.html', vm.field.controller + ' as vm', vm, {size: vm.field.size})
+                dialogs.create('up-normal-dialog.html', (vm.field.controller || 'commonDialogController') + ' as vm', vm, {size: vm.field.size})
                     .result.then(function(data) {
                         vm.form.result[vm.field.name] = data;
                     })

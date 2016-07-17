@@ -101,7 +101,8 @@
         "sql":{
             "id": 9,
             "header": "<i>编辑 SQL</i>",
-            "body": "<div normal-form name='sqlConfiger'/>",
+            "body": "<div up-normal-form/>",
+            "footer": "<div up-normal-dialog-footer ok='提交' cancel='撤销'/>",
             "controller": "mayaSqlEditorDialogController",
             "size": "lg",
             "type": "up-dialog",
@@ -209,6 +210,7 @@
 		}
     },
     "option": {
+        "name": "demo1",
         "formClass": "form-horizontal",
         "labelClass": "col-xs-2",
         "inputClass": "col-xs-7"

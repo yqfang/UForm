@@ -1,5 +1,4 @@
 
-;(function() {
     angular.module("up.uform")
     	.directive('mayaConfigGroup', function($state, $timeout, dialogs) {
 		return {
@@ -22,4 +21,3 @@
 			link: function(scope, elem, attr) {}
 		}
 	})
-})();

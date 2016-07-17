@@ -1,5 +1,4 @@
-;(function() {
-    angular.module("up.uform")
+angular.module("up.uform")
     	.directive('mayaUiSelectSingleTagging', function($parse) {
 		return {
 			restrict: 'EA',
@@ -24,4 +23,3 @@
 		    }
 		}
 	})
-})();

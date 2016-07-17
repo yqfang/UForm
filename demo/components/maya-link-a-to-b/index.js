@@ -1,5 +1,4 @@
-;(function() {
-    angular.module("up.uform")
+angular.module("up.uform")
   .directive('mayaLinkAToB', function() {
     return {
       require: 'ngModel',
@@ -19,4 +18,3 @@
       }
     };
   });
-})();

@@ -8,7 +8,6 @@
 			   $rootScope.$state = $state;
 			   $rootScope.$stateParams = $stateParams;
 		    })
-
 		.config(function($stateProvider, $urlRouterProvider) {
 			$urlRouterProvider
 				.when('/', '/form/common/horizontal')
@@ -89,86 +88,28 @@
 			$rootScope.monitor.form = json["horizontal"];
 			this.fields = json["horizontal"].fields;
 			this.option = json["horizontal"].option;
+            var formName = vm.option.name;
 			this.result = {
 				username: "方宇卿",
 				datetime: new Date(),
 				datefor: new Date(),
                 write: "hello"
 			};
-			$scope.$on('$value_changed',function(e,data){
-				e.stopPropagation ? e.stopPropagation() : null;
-				// if(data.field.name == "schools") {
-				// 	var relation = {
-				// 		"0": 6,
-				// 		"1": 3
-				// 	};
-				// 	relation["0"] = vm.fields.schools.lists[0].checked ? 6 : 0;
-				// 	relation["1"] = vm.fields.schools.lists[1].checked ? 3 : 0;
-				// 	var res = relation["0"] |relation["1"];
-				// 	console.log(res);
-				// 	if(res / 4 >= 1) {
-				// 		vm.fields.techs.lists[0].checked = true;
-				// 	} else {
-				// 		vm.fields.techs.lists[0].checked = false;
-				// 	}
-				// 	res = res % 4;
-				// 	if(res / 2 >= 1) {
-				// 		vm.fields.techs.lists[1].checked = true;
-				// 	} else {
-				// 		vm.fields.techs.lists[1].checked = false;
-				// 	};
-				// 	res = res % 2;
-				// 	if(res >= 1) {
-				// 		vm.fields.techs.lists[2].checked = true;
-				// 	} else {
-				// 		vm.fields.techs.lists[2].checked = false;
-				// 	};
-				// }
-			})
-			this.validatepw = function(result, form) {
-				if(form.password.$error.maxlength) {
-					return "不能超过3"
-				}
-				if(form.password.$error.minlength) {
-					return "最少1"
-				}
-				if(result.password === "hello"){
-					return "不能为 hello"
-				}
-				if(result.password === "world"){
-					return "不能为 world"
-				}
-				if(result.password === result.username) {
-					return "不能和用户名一样"
-				}
-				return true;
-			}
-			this.fields["password"]["validator"]  = "vm.validatepw(vm.result, uform)";
-			this.validateun = function(result, form) {
-				if(form.username.$error.maxlength) {
-					return "最大10"
-				}
-				if(form.username.$error.minlength) {
-					return "最小3"
-				}
-				return true;
-			}
-			this.fields["username"]["validator"]  = "vm.validateun(vm.result, uform)";
 			$rootScope.monitor.result = this.result;
 			$timeout(function() {
-				$rootScope.monitor.uform = $scope.uform;
+				$rootScope.monitor.uform = $scope[formName];
 			}, 1);
 
 
-			this.submit = function(form, result) {
+			this.submit = function() {
 				$rootScope.monitor.uform = {};
 				$timeout(function() {
-				$rootScope.monitor.uform = $scope.uform;
-				console.info($scope.uform);
+				$rootScope.monitor.uform = $scope[formName];
+				console.info($scope[formName]);
 			}, 1000);
 				if(form.$valid){
 
-					console.info(result);
+					console.info(vm.result);
 				}
 			}
 		})
@@ -213,27 +154,6 @@
 					datetime: new Date()
 				}
 			};
-			this.validate = function(form, result) {
-                if(form.password.$error.maxlength) {
-					return "不能超过3"
-				}
-				if(form.password.$error.minlength) {
-					return "最少1"
-				}
-				if(result.password === "hello"){
-					return "不能为 hello"
-				}
-				if(result.password === "world"){
-					return "不能为 world"
-				}
-				if(result.password === result.username) {
-					return "不能和用户名一样"
-				}
-				return true;
-			}
-			this.group2.fields["password"]["validator"]  = "vm.validate(uform, vm.group2.result)",
-
-
 
 			$rootScope.monitor.result = {
 				result1: this.group1.result,

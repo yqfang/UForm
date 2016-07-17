@@ -7,7 +7,6 @@ uf.config(function ($provide, datepickerConfig) {
         ngModel.controller = ['$scope', '$element', '$attrs', '$injector', function (scope, element, attrs, $injector) {
             var $interpolate = $injector.get('$interpolate');
             attrs.$set('name', $interpolate(attrs.name || '')(scope));
-            attrs.$set('validator', $interpolate(attrs.validator || '')(scope));
             $injector.invoke(controller, this, {
                 '$scope': scope,
                 '$element': element,
@@ -23,7 +22,6 @@ uf.config(function ($provide, datepickerConfig) {
             form.controller = ['$scope', '$element', '$attrs', '$injector', function (scope, element, attrs, $injector) {
                 var $interpolate = $injector.get('$interpolate');
                 attrs.$set('name', $interpolate(attrs.name || attrs.ngForm || '')(scope));
-                attrs.$set('angular-validator', "");
                 $injector.invoke(controller, this, {
                     '$scope': scope,
                     '$element': element,
