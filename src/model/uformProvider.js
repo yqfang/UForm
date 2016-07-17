@@ -7,6 +7,7 @@ uf.provider('uform', function() {
         }
     }
     function _buildForm(name, formClass, labelClass, fieldClass) {
+        var _id = 1;
         var form = {
             option: {
                 name: name || "",
@@ -26,15 +27,16 @@ uf.provider('uform', function() {
         }
         var fields = form.fields;
         var result = form.result;
-        function _addField(id, name, type, label, style, opts, init) {
+        function _addField(name, type, label, style, opts, init) {
             fields[name] = {
                 type: type,
-                id: id,
+                id: _id,
                 label: label,
                 style: style
             };
             angular.extend(fields[name], opts);
             result[name] = init;
+            _id ++;
             return {
                 addField: _addField,
                 end: _end
