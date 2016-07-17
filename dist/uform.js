@@ -2,7 +2,7 @@
  * uform
  * https://github.com/yqfang/UForm#readme
  * yqfang,qianzhixiang
- * Version: 1.0.0 - 2016-07-17T16:55:05.928Z
+ * Version: 1.0.0 - 2016-07-17T17:07:40.791Z
  * License: ISC
  */
 
@@ -183,6 +183,33 @@ uf.directive("truncateTo", ["$parse", function ($parse) {
     }
 }])
 
+uf.controller('commonDialogController', commonDialogController);
+commonDialogController.$inject = ['data', '$modalInstance', 'uform'];
+function commonDialogController(data, $modalInstance, uform) {
+    var vm = this;
+    angular.extend(this, uform.buildDialog(data.header, data.body, data.footer));
+    angular.extend(this, {
+        ok: function() {
+            $modalInstance.close("");
+        },
+        cancel: function() {
+            $modalInstance.dismiss('Canceled');
+        }
+    })
+}
+
+uf.directive('upNormalDialogFooter', ['$compile', 'uFormUtil', function ($compile, uFormUtil) {
+    return {
+        restrict: 'EA',
+        link: function (scope, elem, attr) {
+            uFormUtil.getTemplate('up-normal-dialog-footer').then(function(textTpl) {
+                elem.html(textTpl.replace(/DIALOG_OK/g , attr.ok || '确定').replace(/DIALOG_CANCEL/g , attr.cancel || '取消'));
+                $compile(elem.contents())(scope);
+            });
+        }
+    }
+}])
+
 angular.forEach({
     upDate: "up-date",
     upTime: "up-time",
@@ -282,33 +309,6 @@ uf.directive('upText', ['$compile', 'uFormUtil', function ($compile, uFormUtil) 
         }
     }
 }])
-uf.controller('commonDialogController', commonDialogController);
-commonDialogController.$inject = ['data', '$modalInstance', 'uform'];
-function commonDialogController(data, $modalInstance, uform) {
-    var vm = this;
-    angular.extend(this, uform.buildDialog(data.header, data.body, data.footer));
-    angular.extend(this, {
-        ok: function() {
-            $modalInstance.close("");
-        },
-        cancel: function() {
-            $modalInstance.dismiss('Canceled');
-        }
-    })
-}
-
-uf.directive('upNormalDialogFooter', ['$compile', 'uFormUtil', function ($compile, uFormUtil) {
-    return {
-        restrict: 'EA',
-        link: function (scope, elem, attr) {
-            uFormUtil.getTemplate('up-normal-dialog-footer').then(function(textTpl) {
-                elem.html(textTpl.replace(/DIALOG_OK/g , attr.ok || '确定').replace(/DIALOG_CANCEL/g , attr.cancel || '取消'));
-                $compile(elem.contents())(scope);
-            });
-        }
-    }
-}])
-
 uf.directive('upNormalForm', ['$compile', 'uFormUtil', function ($compile, uFormUtil) {
     return {
         restrict: 'EA',
@@ -323,13 +323,11 @@ uf.directive('upNormalForm', ['$compile', 'uFormUtil', function ($compile, uForm
 
 uf.provider('ufield', [function() {
     var _tp = 'up-text'; // type
-    var _vo = 'dirty'; // validateOn
     var _pt = /^.*$/; // defaut pattern
     var _setOpts = function(opts){
         var _opts = {};
         opts = opts || {};
         _opts.type = (angular.isDefined(opts.type)) ? opts.type : _tp; // type
-        _opts.validateOn = (angular.isDefined(opts.validateOn) && ((opts.validateOn === 'dirty') || (opts.validateOn === 'blur'))) ? opts.validateOn : _vo; // validate_on
         _opts.pattern = (angular.isDefined(opts.pattern)) ? opts.pattern : _pt;
         return _opts;
     }; // end _setOpts
