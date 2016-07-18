@@ -21,7 +21,7 @@ uf.directive('upEditor', ['$compile', 'uFormUtil', function ($compile, uFormUtil
         controllerAs: 'vm',
         link: function (scope, elem, attr) {
             uFormUtil.getTemplate('up-editor').then(function(textTpl) {
-                elem.html(textTpl.replace(/ng-model/g, uFormUtil.toAttrs(scope.vm.field.customs) + "ng-model"));
+                elem.html(textTpl.replace(/ng-model/g, uFormUtil.toAttrs(scope.vm.field.extend) + "ng-model"));
                 $compile(elem.contents())(scope);
             });
         }

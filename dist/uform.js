@@ -2,7 +2,7 @@
  * uform
  * https://github.com/yqfang/UForm#readme
  * yqfang,qianzhixiang
- * Version: 1.0.0 - 2016-07-18T08:05:57.107Z
+ * Version: 1.0.0 - 2016-07-18T12:05:24.938Z
  * License: ISC
  */
 
@@ -208,18 +208,6 @@ uf.directive('upNormalDialogFooter', ['$compile', 'uFormUtil', function ($compil
     }
 }])
 
-uf.directive('upNormalForm', ['$compile', 'uFormUtil', function ($compile, uFormUtil) {
-    return {
-        restrict: 'EA',
-        link: function (scope, elem, attr) {
-            uFormUtil.getTemplate('up-normal-form').then(function(textTpl) {
-                elem.html(textTpl.replace(/FORM_NAME/g, attr.name));
-                $compile(elem.contents())(scope);
-            });
-        }
-    }
-}])
-
 angular.forEach({
     upText: "up-text",
     upDate: "up-date",
@@ -298,7 +286,19 @@ uf.directive('upEditor', ['$compile', 'uFormUtil', function ($compile, uFormUtil
         controllerAs: 'vm',
         link: function (scope, elem, attr) {
             uFormUtil.getTemplate('up-editor').then(function(textTpl) {
-                elem.html(textTpl.replace(/ng-model/g, uFormUtil.toAttrs(scope.vm.field.customs) + "ng-model"));
+                elem.html(textTpl.replace(/ng-model/g, uFormUtil.toAttrs(scope.vm.field.extend) + "ng-model"));
+                $compile(elem.contents())(scope);
+            });
+        }
+    }
+}])
+
+uf.directive('upNormalForm', ['$compile', 'uFormUtil', function ($compile, uFormUtil) {
+    return {
+        restrict: 'EA',
+        link: function (scope, elem, attr) {
+            uFormUtil.getTemplate('up-normal-form').then(function(textTpl) {
+                elem.html(textTpl.replace(/FORM_NAME/g, attr.name));
                 $compile(elem.contents())(scope);
             });
         }
@@ -438,7 +438,7 @@ uf.directive('upBindCompile', ['$compile', function ($compile) {
 }])
 
 }());
-angular.module('up.uform').run(['$templateCache', function($templateCache) {$templateCache.put('form.html','<div><style type=text/css>\n\t\t.form-inline .inline-control {\n\t\t\tdisplay: inline-block;\n\t\t}\n\t\t.form-inline .datepicker {\n\t\t\twidth: 120px;\n\t\t}\n\t\t.form-inline input[type=\'text\'] {\n\t\t\twidth: 120px;\n\t\t}\n\t\t.form-inline .form-group {\n\t\t    display: inline-block;\n\t\t    margin-bottom: 0;\n\t\t    vertical-align: middle;\n\t\t    margin-right: 10px;\n\t\t}\n\t\t.form-horizontal .control-label {\n\t\t\ttext-align: right;\n\t\t}\n\t\t.control-datepicker {\n\t\t\tpadding-left: 0;\n\t\t}\n\t\t.timepicker tr.text-center {\n\t\t\tdisplay: none;\n\t\t}\n\t</style><div class=form-group ng-class="{ \'has-error\': uform.$form[field.name].$dirty && uform.$form[field.name].$invalid }" ufield-hide={{field.hide}} ng-repeat="field in (uform.fields | orderById: \'id\')"><label for={{field.name}} ng-class=uform.option.labelClass class=control-label><span ng-show="field.customs[\'ng-required\'] && field.label">*</span> <span ng-if="field.type!=\'up-checkbox\'">{{ field.label }}</span></label><div compile-field=field.type ng-class=uform.option.inputClass></div></div><div ng-transclude=""></div></div>');
+angular.module('up.uform').run(['$templateCache', function($templateCache) {$templateCache.put('form.html','<div><style type=text/css>\n\t\t.form-inline .inline-control {\n\t\t\tdisplay: inline-block;\n\t\t}\n\t\t.form-inline .datepicker {\n\t\t\twidth: 120px;\n\t\t}\n\t\t.form-inline input[type=\'text\'] {\n\t\t\twidth: 120px;\n\t\t}\n\t\t.form-inline .form-group {\n\t\t    display: inline-block;\n\t\t    margin-bottom: 0;\n\t\t    vertical-align: middle;\n\t\t    margin-right: 10px;\n\t\t}\n\t\t.form-horizontal .control-label {\n\t\t\ttext-align: right;\n\t\t}\n\t\t.control-datepicker {\n\t\t\tpadding-left: 0;\n\t\t}\n\t\t.timepicker tr.text-center {\n\t\t\tdisplay: none;\n\t\t}\n\t</style><div class=form-group ng-class="{ \'has-error\': uform.$form[field.name].$dirty && uform.$form[field.name].$invalid }" ufield-hide={{field.hide}} ng-repeat="field in (uform.fields | orderById: \'id\')"><label for={{field.name}} ng-class=uform.option.labelClass class=control-label><span ng-show="field.extend[\'ng-required\'] && field.label">*</span> <span ng-if="field.type!=\'up-checkbox\'">{{ field.label }}</span></label><div compile-field=field.type ng-class=uform.option.inputClass></div></div><div ng-transclude=""></div></div>');
 $templateCache.put('up-checkbox.html','<div class=checkbox><label><input type=checkbox name={{vm.field.name}} ng-model=vm.form.result[vm.field.name]> {{ vm.field.label }}</label></div>');
 $templateCache.put('up-date.html','<div><input type=text name={{vm.field.name}} class="form-control datepicker" datepicker-popup=yyyy-MM-dd ng-model=vm.form.result[vm.field.name] ng-init="vm.form.open=false" is-open=vm.form.open ng-style=vm.field.style show-button-bar=false ng-click="vm.form.open=!vm.form.open"></div>');
 $templateCache.put('up-datetime.html','<div><div class="col-xs-6 control-datepicker"><input type=text name={{vm.field.name}} class="form-control datepicker" datepicker-popup=yyyy-MM-dd ng-model=vm.form.result[vm.field.name] ng-init="vm.form.open=false" is-open=vm.form.open show-button-bar=false ng-click="vm.form.open=!vm.form.open"></div><div><div class=timepicker timepicker="" ng-model=vm.form.result[vm.field.name]></div></div></div>');

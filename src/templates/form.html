@@ -27,7 +27,7 @@
 	</style>
 <div class="form-group" ng-class="{ 'has-error': uform.$form[field.name].$dirty && uform.$form[field.name].$invalid }" ufield-hide="{{field.hide}}" ng-class="field.name" ng-repeat="field in (uform.fields | orderById: 'id')">
 	<label for="{{field.name}}" ng-class="uform.option.labelClass" class="control-label">
-	  <span ng-show="field.customs['ng-required'] && field.label">*</span>
+	  <span ng-show="field.extend['ng-required'] && field.label">*</span>
 	  <span ng-if="field.type!='up-checkbox'">{{ field.label }}</span>
 	</label>
     <div compile-field="field.type" ng-class="uform.option.inputClass">
