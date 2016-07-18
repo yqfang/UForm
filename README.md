@@ -1,78 +1,56 @@
 # UForm
 
-UForm is Directive for data-driven form for various field
+UForm 是基于 AngularJs 的一套模型驱动表单框架。特点是：模型化、高兼容、易拓展。
 
-## UForm v1.5 Feature
+## UForm v3.0 changelog
 
-1. supports 14 kinds of fields for form
-2. support both horizontal and inline form in one template
-3. support require validation
-4. support bootstrap ui
-5. extraordinary slim, 60 line of code only
-6. completely support ie8
-7. JSON driven form
-8. Support Grouped form (new in v1.5)
+### 配置优化
+- field 的 customs 配置更名为 `extend` 意为**拓展的**
+- ng 自带的验证指令：ng-pattern, ng-minlength, ng-maxlength 配置挪到 `extend` 中
 
+### 更好的构造函数
 
-## Example:
-
-You can simply use Uform as a directive, just like:
+除了通过 json 大对象的方式构造 uform之外，现在提供了更好的构造函数：
 
 ```
-	<form u-form 
-	      ng-controller="pageController as pageCtrl"
-		  name="moduleForm"          
-		  config="pageCtrl.config" 
-		  ng-submit='pageCtrl.submit(moduleForm.$valid, pageCtrl.result)' 
-		  btn-handler="pageCtrl.click(field)" 
-		  result="pageCtrl.result">
-		  <input type="submit"/>
-	</form>
-
+uform.buildForm('sqlConfiger', 'form-horizontal', 'col-xs-0', 'col-xs-12')
+    .addField('name', 'up-text', null, null, {placeholder: 'username'}, "hello")
+    .addField('editor', 'up-editor', null, {height: "400px"}, {syntax:'sql'}, "world"])
+    .end());
 ```
 
-and your can try demo just clone the repository and use http-server by type:
+uform 是一个 service
+buidForm 方法分别接收 uform 的 name, formClass, labelClass, fieldClass 四个参数
+addField 方法分别接受 field 的 name, type, label, style, opts(其他配置), init(初始值) 六个参数
+end 方法返回配置完成的 form 对象。
 
-```
-http-server -p 8080
-```
+### 更多的 field 组件支持
 
-## api:
+- upText
+- upDate
+- upTime
+- upDatetime
+- upPassword
+- upCheckbox
+- upRadio
+- upSubmit
+- upSelect
+- upTextarea
+- upEditor(*New!*)
+- upDialog(*New!*)
 
-- u-form
-
-the directive name, which can be used as an attr of a form element
-
-- ng-controller
-
-the controller which fetch the essential field data and some config data of the form,
-
-and it also hold an result object, which would be send to the server once submitted.
-
-- config
-
-hold the essential config object, you can see example from `/json/form.json`
-
-- ng-submit
-
-trigger once submitted
-
-- btn-handler
-
-Your form may has some label-button list, which could also be treated as form field,
-
-so it's convinient to give all button a common proxy handler 
-
-- result
-
-the result object, you can define it in the controller scope, or it would be automatically created according your `result` attr
+本着万物皆表单的原则，upField 家族新增了 *upEditor* 和 *upDialog* 两大组件
+前者为 code 富文本编辑器，目前定制为支持 `sql` 和 `json` 两种语法高亮
+后者为对 （dialog service)[https://github.com/m-e-conroy/angular-dialog-service] 的又一层封装。能够更加方便地使用 dialog 组件。
 
 
-## What will next in v2.0 ?
+### 其他
 
+1. 去除 angular-validator 和其相关的 glue
+2. field 存在 $error 且为 $dirty 时，会自动加上 `has-error` 的样式
+3. 其他细微的修改
 
-1. field watcher (important)
 
 ## Contact me:
 
-any question, please email me: 404762352@qq.com
+如有使用方面的问题，请发送邮件到 404762352@qq.com 与我沟通
