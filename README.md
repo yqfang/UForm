@@ -41,7 +41,7 @@ end 方法返回配置完成的 form 对象。
 
 本着万物皆表单的原则，upField 家族新增了 *upEditor* 和 *upDialog* 两大组件
 前者为 code 富文本编辑器，目前定制为支持 `sql` 和 `json` 两种语法高亮
-后者为对 （dialog service)[https://github.com/m-e-conroy/angular-dialog-service] 的又一层封装。能够更加方便地使用 dialog 组件。
+后者为对 [dialog service](https://github.com/m-e-conroy/angular-dialog-service) 的又一层封装。能够更加方便地使用 dialog 组件。
 
 
 ### 其他
