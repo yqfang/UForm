@@ -218,7 +218,7 @@
         "name": "demo1",
         "formClass": "form-horizontal",
         "labelClass": "col-xs-2",
-        "inputClass": "col-xs-7"
+        "inputClass": "col-xs-8"
     }
 
 }
