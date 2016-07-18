@@ -1,4 +1,5 @@
 angular.forEach({
+    upText: "up-text",
     upDate: "up-date",
     upTime: "up-time",
     upDatetime: "up-datetime",
@@ -18,9 +19,9 @@ angular.forEach({
             controllerAs: 'vm',
             link: function (scope, elem, attr) {
                  uFormUtil.getTemplate(tpl).then(function(textTpl) {
-                        elem.html(textTpl.replace(/ng-model/g, uFormUtil.toAttrs(scope.vm.field.customs) + "ng-model"));
+                        elem.html(textTpl.replace(/ng-model/g, uFormUtil.toAttrs(scope.vm.field.extend) + "ng-model"));
                         $compile(elem.contents())(scope);
-                    })
+                 })
             }
         }
     }])

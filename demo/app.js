@@ -107,7 +107,7 @@
 				$rootScope.monitor.uform = $scope[formName];
 				console.info($scope[formName]);
 			}, 1000);
-				if(form.$valid){
+				if($scope[formName].$valid){
 
 					console.info(vm.result);
 				}

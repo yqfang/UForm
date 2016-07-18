@@ -1,6 +1,5 @@
 <select ng-init="vm.form.result[vm.field.name]=vm.field.candidates[0].value"        class="form-control"
         ng-model="vm.form.result[vm.field.name]"
         name="{{vm.field.name}}"
-        ng-options="option.value as option.name for option in vm.field.candidates"
-        ng-required="vm.field.required">
+        ng-options="option.value as option.name for option in vm.field.candidates">
 </select>

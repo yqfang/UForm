@@ -27,6 +27,14 @@ uf.provider('uform', function() {
         }
         var fields = form.fields;
         var result = form.result;
+        /**
+         * name: field name
+         * type: field type
+         * label: label, null if not exist
+         * style: field style
+         * opts: additional opts(depends on your fields)
+         * init: the init value of your field.
+         */
         function _addField(name, type, label, style, opts, init) {
             fields[name] = {
                 type: type,

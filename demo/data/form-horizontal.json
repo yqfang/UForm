@@ -3,18 +3,16 @@
        "username": {
             "id": 1,
             "label": "用户名",
-            "maxlength": 10,
-            "minlength": 3,
             "style": {
                 "width": "200px"
             },
-            "customs": {
-                "truncate-to": 9,
-                "capitalize": ""
+            "extend": {
+                "truncate-to": 15,
+                "capitalize": "",
+                "ng-minlength": 3,
+                "ng-required": true
             },
-            "disabled": "write=='hello'",
-            "required": true,
-            "requiredMsg": "用户名一定要填哦！",
+
             "placeholder": "请输入用户名"
         },
         "password":{
@@ -27,14 +25,18 @@
             "id": 2.01,
             "label": "联动inputA",
             "placeholder": "请输入",
-            "customs": {
-                "maya-link-a-to-b": ""
+            "extend": {
+                "maya-link-a-to-b": "",
+                "ng-pattern": "/^[0-9]*$/"
             }
         },
         "linkedB": {
             "id": 2.02,
             "label": "联动inputB",
-            "placeholder": "请输入"
+            "placeholder": "请输入",
+            "extend": {
+                "ng-required": true
+            }
         },
         "roles": {
             "id": 2.1,
@@ -65,7 +67,10 @@
         "write": {
             "id": 3,
             "type": "up-textarea",
-            "label": "备注"
+            "label": "备注",
+            "extend": {
+                "ng-pattern": "/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/i"
+            }
         },
         "datefor":{
             "id": 4,

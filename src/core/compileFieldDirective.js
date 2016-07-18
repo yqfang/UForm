@@ -11,7 +11,8 @@ uf.directive('compileField', ['$compile', function ($compile) {
         scope: {},
         link: function (scope, element, attrs, form) {
             angular.extend(scope.$proxy.form, form);
-            element.html('<div ' + scope.$parent.$eval(attrs.compileField) + ' />');
+            var type = scope.$parent.$eval(attrs.compileField) || 'up-text';
+            element.html('<div ' + type + ' />');
             $compile(element.contents())(scope);
         }
     };
