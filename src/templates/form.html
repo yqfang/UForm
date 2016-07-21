@@ -1,20 +1,5 @@
-<div form-wrapper>
+<div form_layout>
 	<style type="text/css">
-		.form-inline .inline-control {
-			display: inline-block;
-		}
-		.form-inline .datepicker {
-			width: 120px;
-		}
-		.form-inline input[type='text'] {
-			width: 120px;
-		}
-		.form-inline .form-group {
-		    display: inline-block;
-		    margin-bottom: 0;
-		    vertical-align: middle;
-		    margin-right: 10px;
-		}
 		.form-horizontal .control-label {
 			text-align: right;
 		}
@@ -25,13 +10,8 @@
 			display: none;
 		}
 	</style>
-    <div class="form-group" transclude-to="{{field.name}}" ng-class="{ 'has-error': uform.$form[field.name].$dirty && uform.$form[field.name].$invalid }" ufield-hide="{{field.hide}}" ng-class="field.name" ng-repeat="field in (uform.fields | orderById: 'id')">
-        <label for="{{field.name}}" ng-class="uform.option.labelClass" class="control-label">
-        <span ng-show="field.extend['ng-required'] && field.label">*</span>
-        <span ng-if="field.type!='up-checkbox'">{{ field.label }}</span>
-        </label>
-        <div compile-field="field.type" ng-class="uform.option.inputClass">
+    <div ng-repeat="field in (uform.fields | orderById: 'id')">
+        <div compile-field="field.type" >
         </div>
-
     </div>
 </div>

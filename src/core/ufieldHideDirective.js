@@ -4,7 +4,7 @@ uf.directive("ufieldHide", function ($parse) {
         restrict: 'A',
         link: function (scope, element, attr, form) {
             var exp;
-            if ('hide' in scope.field) {
+            if ('hide' in scope.$proxy.field) {
                 scope.$watch(function () {
                     var res = $parse(attr.ufieldHide)(form.result);
                     return res;
@@ -12,7 +12,7 @@ uf.directive("ufieldHide", function ($parse) {
                     // hide the element
                     element.css('display', value ? 'none' : '');
                     // delete the hide element from resutl
-                    if (value) { delete form.result[scope.field.name]; }
+                    if (value) { delete form.result[scope.$proxy.field.name]; }
                 })
             }
         }

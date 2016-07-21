@@ -51,8 +51,7 @@
         "password":{
             "id": 2,
             "type": "up-password",
-            "label": "密码",
-            "hide": "username!='YQFANG'|| write!='hello'"
+            "label": "密码"
         },
         "linkedA": {
             "id": 2.01,
@@ -113,8 +112,9 @@
     },
     "option": {
         "name": "demo1",
+        "layout": "up-layout",
         "formClass": "form-horizontal",
-        "labelClass": "col-xs-4",
+        "labelClass": "col-xs-8",
         "inputClass": "col-xs-14"
     }
 

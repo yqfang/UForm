@@ -2,7 +2,7 @@
  * uform
  * https://github.com/yqfang/UForm#readme
  * yqfang,qianzhixiang
- * Version: 1.0.0 - 2016-07-20T01:23:10.235Z
+ * Version: 1.0.0 - 2016-07-21T16:43:55.904Z
  * License: ISC
  */
 
@@ -47,7 +47,7 @@ uf.config(["$provide", "datepickerConfig", function ($provide, datepickerConfig)
 
 
 
-uf.directive('compileField', ['$compile', function ($compile) {
+uf.directive('compileField', ['$compile', 'uFormUtil', function ($compile, uFormUtil) {
     return {
         restrict: 'A',
         controller: ["$scope", function($scope) {
@@ -61,8 +61,19 @@ uf.directive('compileField', ['$compile', function ($compile) {
         link: function (scope, element, attrs, form) {
             angular.extend(scope.$proxy.form, form);
             var type = scope.$parent.$eval(attrs.compileField) || 'up-text';
-            element.html('<div ' + type + ' />');
-            $compile(element.contents())(scope);
+            var formEle = element.closest("[u-form]");
+            var targetName = scope.$proxy.field.name;
+            var slot = formEle.find("[transclude-id='" + targetName + "']");
+            uFormUtil.getTemplate('field').then(function(textTpl) {
+                var actpl = textTpl.replace(/tmptype/i, type);
+                if(slot.length){
+                    slot.html(actpl);
+                    $compile(slot.contents())(scope);
+                }else {
+                    element.html(actpl);
+                    $compile(element.contents())(scope);
+                }
+            })
         }
     };
 }])
@@ -88,7 +99,7 @@ uf.directive("ufieldHide", ["$parse", function ($parse) {
         restrict: 'A',
         link: function (scope, element, attr, form) {
             var exp;
-            if ('hide' in scope.field) {
+            if ('hide' in scope.$proxy.field) {
                 scope.$watch(function () {
                     var res = $parse(attr.ufieldHide)(form.result);
                     return res;
@@ -96,19 +107,17 @@ uf.directive("ufieldHide", ["$parse", function ($parse) {
                     // hide the element
                     element.css('display', value ? 'none' : '');
                     // delete the hide element from resutl
-                    if (value) { delete form.result[scope.field.name]; }
+                    if (value) { delete form.result[scope.$proxy.field.name]; }
                 })
             }
         }
     }
 }])
 
-uf.directive("uForm", ["$rootScope", function ($rootScope) {
+uf.directive("uForm", ["$rootScope", "uFormUtil", "$compile", function ($rootScope, uFormUtil, $compile) {
     return {
-        templateUrl: 'form.html',
-        transclude: true,
         restrict: "EA",
-        controller: ["$scope", "$attrs", "$rootScope", "$timeout", function ($scope, $attrs, $rootScope, $timeout) {
+        controller: ["$scope", "$attrs", "$rootScope", function ($scope, $attrs, $rootScope) {
             var $parent = $scope.$parent;
             this.fields = $parent.$eval($attrs.fields);
             this.option = $parent.$eval($attrs.option);
@@ -118,6 +127,10 @@ uf.directive("uForm", ["$rootScope", function ($rootScope) {
         controllerAs: "uform",
         require: '?^uFormGroup',
         link: function (scope, elem, attr, group) {
+            uFormUtil.getTemplate('form').then(function(tpl) {
+                elem.html(tpl.replace(/form_layout/i, scope.uform.option.layout || ""));
+                $compile(elem.contents())(scope);
+            })
             scope.uform.$form = scope.$parent.$eval(attr.name);
             group && group.fields && group.fields.push(scope.uform.fields);
             group && group.result && group.result.push(scope.uform.result);
@@ -392,8 +405,7 @@ uf.filter('orderById', function () {
 uf.factory('uFormUtil', ["$templateCache", "$q", "$http", "dialogs", function($templateCache, $q, $http, dialogs) {
     return {
         toAttrs: toAttrs,
-        getTemplate: getTemplate,
-        transclude: transclude
+        getTemplate: getTemplate
     }
     function toAttrs(obj) {
         if(!obj) {
@@ -425,23 +437,6 @@ uf.factory('uFormUtil', ["$templateCache", "$q", "$http", "dialogs", function($t
             })
         }
     }
-    function transclude(elem, transcludeFn) {
-        transcludeFn(function (clone) {
-            angular.forEach(clone, function (cloneEl) {
-                if (cloneEl.nodeName !== "#text") {
-                    var targetName = cloneEl.attributes["transclude-to"].value;
-                    var target = elem.find("[transclude-id='" + targetName + "']");
-                    if (target.length) {
-                        target.append(cloneEl);
-                    } else {
-                        cloneEl.remove();
-                        throw new Error("Target not found. Please specify the correct transclude-to attribute.");
-                    }
-                }
-
-            })
-        })
-    }
 }])
 
 uf.directive('upBindCompile', ['$compile', function ($compile) {
@@ -456,7 +451,8 @@ uf.directive('upBindCompile', ['$compile', function ($compile) {
 }])
 
 }());
-angular.module('up.uform').run(['$templateCache', function($templateCache) {$templateCache.put('form.html','<div form-wrapper=""><style type=text/css>\n\t\t.form-inline .inline-control {\n\t\t\tdisplay: inline-block;\n\t\t}\n\t\t.form-inline .datepicker {\n\t\t\twidth: 120px;\n\t\t}\n\t\t.form-inline input[type=\'text\'] {\n\t\t\twidth: 120px;\n\t\t}\n\t\t.form-inline .form-group {\n\t\t    display: inline-block;\n\t\t    margin-bottom: 0;\n\t\t    vertical-align: middle;\n\t\t    margin-right: 10px;\n\t\t}\n\t\t.form-horizontal .control-label {\n\t\t\ttext-align: right;\n\t\t}\n\t\t.control-datepicker {\n\t\t\tpadding-left: 0;\n\t\t}\n\t\t.timepicker tr.text-center {\n\t\t\tdisplay: none;\n\t\t}\n\t</style><div class=form-group transclude-to={{field.name}} ng-class="{ \'has-error\': uform.$form[field.name].$dirty && uform.$form[field.name].$invalid }" ufield-hide={{field.hide}} ng-repeat="field in (uform.fields | orderById: \'id\')"><label for={{field.name}} ng-class=uform.option.labelClass class=control-label><span ng-show="field.extend[\'ng-required\'] && field.label">*</span> <span ng-if="field.type!=\'up-checkbox\'">{{ field.label }}</span></label><div compile-field=field.type ng-class=uform.option.inputClass></div></div></div>');
+angular.module('up.uform').run(['$templateCache', function($templateCache) {$templateCache.put('field.html','<div class=form-group ufield-hide={{$proxy.field.hide}} ng-class="{\'has-error\': $proxy.form.$form[$proxy.field.name].$dirty && $proxy.form.$form[$proxy.field.name].$invalid}"><label for={{$proxy.field.name}} ng-class=$proxy.form.option.labelClass class=control-label><span ng-show="$proxy.field.extend[\'ng-required\'] && $proxy.field.label">*</span> <span ng-if="$proxy.field.type!=\'up-checkbox\'">{{ $proxy.field.label }}</span></label><div ng-class="[$proxy.field.name, $proxy.form.option.inputClass]" tmptype=""></div></div>');
+$templateCache.put('form.html','<div form_layout=""><style type=text/css>\n\t\t.form-horizontal .control-label {\n\t\t\ttext-align: right;\n\t\t}\n\t\t.control-datepicker {\n\t\t\tpadding-left: 0;\n\t\t}\n\t\t.timepicker tr.text-center {\n\t\t\tdisplay: none;\n\t\t}\n\t</style><div ng-repeat="field in (uform.fields | orderById: \'id\')"><div compile-field=field.type></div></div></div>');
 $templateCache.put('up-checkbox.html','<div class=checkbox><label><input type=checkbox name={{vm.field.name}} ng-model=vm.form.result[vm.field.name]> {{ vm.field.label }}</label></div>');
 $templateCache.put('up-date.html','<div><input type=text name={{vm.field.name}} class="form-control datepicker" datepicker-popup=yyyy-MM-dd ng-model=vm.form.result[vm.field.name] ng-init="vm.form.open=false" is-open=vm.form.open ng-style=vm.field.style show-button-bar=false ng-click="vm.form.open=!vm.form.open"></div>');
 $templateCache.put('up-datetime.html','<div><div class="col-xs-6 control-datepicker"><input type=text name={{vm.field.name}} class="form-control datepicker" datepicker-popup=yyyy-MM-dd ng-model=vm.form.result[vm.field.name] ng-init="vm.form.open=false" is-open=vm.form.open show-button-bar=false ng-click="vm.form.open=!vm.form.open"></div><div><div class=timepicker timepicker="" ng-model=vm.form.result[vm.field.name]></div></div></div>');
