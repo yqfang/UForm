@@ -1,5 +1,5 @@
 <div class="row-fliud" style="margin-top: 20px">
-	<div class="col-xs-3" >
+	<!--<div class="col-xs-6" >
 		<div class="well" style="border:none;">
 			<ul class="nav nav-list">
 				<li class="nav-header">表单示例</li>
@@ -9,16 +9,16 @@
 			</ul>
 		</div>
 
-		<pre pretty-json="monitor.uform" />		
-	</div>
-	<div class="col-xs-6 well" ui-view="horizontal" ng-show="$state.includes('form.horizontal')" style="border:none;"></div>
-	<div class="col-xs-6 well" ui-view="inline" ng-show="$state.includes('form.inline')" style="border:none;"></div>
-	<div class="col-xs-6 well" ui-view="group" ng-show="$state.includes('form.group')" style="border:none;"></div>
-	<div class="col-xs-3">
+		<pre pretty-json="monitor.uform" />
+	</div>-->
+	<div class="col-xs-18 well" ui-view="horizontal" ng-show="$state.includes('form.horizontal')" style="border:none;"></div>
+	<div class="col-xs-12 well" ui-view="inline" ng-show="$state.includes('form.inline')" style="border:none;"></div>
+	<div class="col-xs-12 well" ui-view="group" ng-show="$state.includes('form.group')" style="border:none;"></div>
+	<!--<div class="col-xs-6">
 		<!--<pre style="border:none;">result = {{monitor.result | json}}</pre>-->
-		<pre pretty-json="monitor.result" />	
-		<pre pretty-json="monitor.form" />	
+		<pre pretty-json="monitor.result" />
+		<pre pretty-json="monitor.form" />
 		<!--<pre style="border:none;">form = {{monitor.form | json}}</pre>-->
-	</div>
-	
+	</div>-->
+
 </div>
