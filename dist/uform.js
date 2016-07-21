@@ -2,7 +2,7 @@
  * uform
  * https://github.com/yqfang/UForm#readme
  * yqfang,qianzhixiang
- * Version: 1.0.0 - 2016-07-21T16:43:55.904Z
+ * Version: 1.0.0 - 2016-07-21T16:52:26.404Z
  * License: ISC
  */
 
@@ -194,33 +194,6 @@ uf.directive("truncateTo", ["$parse", function ($parse) {
     }
 }])
 
-uf.controller('commonDialogController', commonDialogController);
-commonDialogController.$inject = ['data', '$modalInstance', 'uform'];
-function commonDialogController(data, $modalInstance, uform) {
-    var vm = this;
-    angular.extend(this, uform.buildDialog(data.header, data.body, data.footer));
-    angular.extend(this, {
-        ok: function() {
-            $modalInstance.close("");
-        },
-        cancel: function() {
-            $modalInstance.dismiss('Canceled');
-        }
-    })
-}
-
-uf.directive('upNormalDialogFooter', ['$compile', 'uFormUtil', function ($compile, uFormUtil) {
-    return {
-        restrict: 'EA',
-        link: function (scope, elem, attr) {
-            uFormUtil.getTemplate('up-normal-dialog-footer').then(function(textTpl) {
-                elem.html(textTpl.replace(/DIALOG_OK/g , attr.ok || '确定').replace(/DIALOG_CANCEL/g , attr.cancel || '取消'));
-                $compile(elem.contents())(scope);
-            });
-        }
-    }
-}])
-
 angular.forEach({
     upText: "up-text",
     upDate: "up-date",
@@ -300,6 +273,33 @@ uf.directive('upEditor', ['$compile', 'uFormUtil', function ($compile, uFormUtil
         link: function (scope, elem, attr) {
             uFormUtil.getTemplate('up-editor').then(function(textTpl) {
                 elem.html(textTpl.replace(/ng-model/g, uFormUtil.toAttrs(scope.vm.field.extend) + "ng-model"));
+                $compile(elem.contents())(scope);
+            });
+        }
+    }
+}])
+
+uf.controller('commonDialogController', commonDialogController);
+commonDialogController.$inject = ['data', '$modalInstance', 'uform'];
+function commonDialogController(data, $modalInstance, uform) {
+    var vm = this;
+    angular.extend(this, uform.buildDialog(data.header, data.body, data.footer));
+    angular.extend(this, {
+        ok: function() {
+            $modalInstance.close("");
+        },
+        cancel: function() {
+            $modalInstance.dismiss('Canceled');
+        }
+    })
+}
+
+uf.directive('upNormalDialogFooter', ['$compile', 'uFormUtil', function ($compile, uFormUtil) {
+    return {
+        restrict: 'EA',
+        link: function (scope, elem, attr) {
+            uFormUtil.getTemplate('up-normal-dialog-footer').then(function(textTpl) {
+                elem.html(textTpl.replace(/DIALOG_OK/g , attr.ok || '确定').replace(/DIALOG_CANCEL/g , attr.cancel || '取消'));
                 $compile(elem.contents())(scope);
             });
         }
@@ -455,7 +455,7 @@ angular.module('up.uform').run(['$templateCache', function($templateCache) {$tem
 $templateCache.put('form.html','<div form_layout=""><style type=text/css>\n\t\t.form-horizontal .control-label {\n\t\t\ttext-align: right;\n\t\t}\n\t\t.control-datepicker {\n\t\t\tpadding-left: 0;\n\t\t}\n\t\t.timepicker tr.text-center {\n\t\t\tdisplay: none;\n\t\t}\n\t</style><div ng-repeat="field in (uform.fields | orderById: \'id\')"><div compile-field=field.type></div></div></div>');
 $templateCache.put('up-checkbox.html','<div class=checkbox><label><input type=checkbox name={{vm.field.name}} ng-model=vm.form.result[vm.field.name]> {{ vm.field.label }}</label></div>');
 $templateCache.put('up-date.html','<div><input type=text name={{vm.field.name}} class="form-control datepicker" datepicker-popup=yyyy-MM-dd ng-model=vm.form.result[vm.field.name] ng-init="vm.form.open=false" is-open=vm.form.open ng-style=vm.field.style show-button-bar=false ng-click="vm.form.open=!vm.form.open"></div>');
-$templateCache.put('up-datetime.html','<div><div class="col-xs-6 control-datepicker"><input type=text name={{vm.field.name}} class="form-control datepicker" datepicker-popup=yyyy-MM-dd ng-model=vm.form.result[vm.field.name] ng-init="vm.form.open=false" is-open=vm.form.open show-button-bar=false ng-click="vm.form.open=!vm.form.open"></div><div><div class=timepicker timepicker="" ng-model=vm.form.result[vm.field.name]></div></div></div>');
+$templateCache.put('up-datetime.html','<div><div class="col-xs-12 control-datepicker"><input type=text name={{vm.field.name}} class="form-control datepicker" datepicker-popup=yyyy-MM-dd ng-model=vm.form.result[vm.field.name] ng-init="vm.form.open=false" is-open=vm.form.open show-button-bar=false ng-click="vm.form.open=!vm.form.open"></div><div><div class=timepicker timepicker="" ng-model=vm.form.result[vm.field.name]></div></div></div>');
 $templateCache.put('up-editor.html','<style>\n    .CodeMirror.cm-s-default {\n        border: 1px solid #ccc;;\n        height: 100%;\n        border-radius: 4px;\n    }\n</style><section ng-style=vm.field.style><div ui-codemirror=vm.field.option style="height: 100%;" ng-model=vm.form.result[vm.field.name]></div></section>');
 $templateCache.put('up-normal-dialog-footer.html','<button class="btn btn-primary" type=button ng-click=vm.ok()>DIALOG_OK</button> <button class="btn btn-warning" type=button ng-click=vm.cancel()>DIALOG_CANCEL</button>');
 $templateCache.put('up-normal-dialog.html','<div class=modal-header><h3 class=modal-title up-bind-compile=vm.header></h3></div><div class=modal-body up-bind-compile=vm.body></div><div class=modal-footer up-bind-compile=vm.footer></div>');

@@ -3,42 +3,9 @@
        "username": {
             "id": 1,
             "label": "用户名",
-            "extend": {
-                "truncate-to": 15,
-                "capitalize": "",
-                "ng-minlength": 3,
-                "ng-required": true
+            "style": {
+                "width": "200px"
             },
-
-            "placeholder": "请输入用户名"
-        },
-               "username1": {
-            "id": 1.1,
-            "label": "用户名1",
-            "extend": {
-                "truncate-to": 15,
-                "capitalize": "",
-                "ng-minlength": 3,
-                "ng-required": true
-            },
-
-            "placeholder": "请输入用户名"
-        },
-               "username2": {
-            "id": 1.2,
-            "label": "用户名2",
-            "extend": {
-                "truncate-to": 15,
-                "capitalize": "",
-                "ng-minlength": 3,
-                "ng-required": true
-            },
-
-            "placeholder": "请输入用户名"
-        },
-               "username3": {
-            "id": 1.3,
-            "label": "用户名3",
             "extend": {
                 "truncate-to": 15,
                 "capitalize": "",
@@ -51,7 +18,8 @@
         "password":{
             "id": 2,
             "type": "up-password",
-            "label": "密码"
+            "label": "密码",
+            "hide": "username!='YQFANG'|| write!='hello'"
         },
         "linkedA": {
             "id": 2.01,
@@ -108,14 +76,351 @@
             "id": 4,
             "type": "up-date",
             "label": "日期"
+        },
+        "timefor":{
+            "id": 5,
+            "type": "up-time",
+            "label": "时间"
+        },
+        "datetime":{
+            "id": 6,
+            "type": "up-datetime",
+            "label": "具体时间"
+        },
+        "country":{
+            "id": 7,
+            "type": "up-select",
+            "label": "国家",
+            "required": true,
+            "candidates": [
+                {
+                    "name": "美国",
+                    "value": "American"
+                },
+                {
+                    "name": "英国",
+                    "value": "English"
+                }
+            ]
+        },
+        "sql":{
+            "id": 9,
+            "header": "<i>编辑 SQL</i>",
+            "body": "<div up-normal-form/>",
+            "footer": "<div up-normal-dialog-footer ok='提交' cancel='撤销'/>",
+            "controller": "mayaSqlEditorDialogController",
+            "size": "lg",
+            "type": "up-dialog",
+            "label": "高级 SQL",
+            "button": "编辑"
+        },
+        "satisfied":{
+            "id": 10,
+            "type": "up-checkbox",
+            "label": "是否满意"
+        },
+
+       "sex": {
+            "id": 11,
+            "label": "性别",
+            "type": "up-radio",
+            "hide": true,
+            "candidates": [
+                {
+                    "value": "male",
+                    "label": "男性"
+                },
+                {
+                    "value": "female",
+                    "label": "女性"
+                }
+
+            ],
+            "required": true
+        },
+		"color":{
+            "id": 12,
+            "label": "颜色",
+            "style": {
+                "width": "100%"
+            },
+			"type": "maya-ui-select",
+            "disabled": false,
+            "model": [
+                {"id": 1, "name": "red"},
+				{"id": 2, "name": "black"},
+				{"id": 3, "name": "yello"},
+				{"id": 4, "name": "white"},
+				{"id": 5, "name": "black"},
+                {"id": 6, "name": "red"},
+				{"id": 7, "name": "black"},
+				{"id": 8, "name": "yello"},
+				{"id": 9, "name": "white"},
+				{"id": 10, "name": "black"}
+
+            ]
+		},
+        "employNum": {
+            "id": 13,
+            "label": "员工编号",
+            "type": "maya-http-select",
+            "style": {
+                "width": "80%"
+            },
+            "wait": 1000
+        },
+        "contact": {
+            "id": 14,
+            "label": "联系人",
+            "type": "maya-ui-select-single-tagging",
+            "style": {
+                "width": "100%"
+            },
+            "model": [
+                {
+                    "name": "小明",
+                    "email": "adasd@asd.com"
+                },
+                {
+                     "name": "小❀花",
+                     "email": "xiaolei@asd.com"
+                },
+                {
+                     "name": "小雷",
+                     "email": "xiaolei@asd.com"
+                }
+            ]
+
+        },
+        "editor": {
+            "label": "编辑 sql",
+            "id": 15,
+            "style": {
+                "height": "200px"
+            },
+            "syntax": "sql",
+            "type": "up-editor"
+        },
+		"group":{
+            "id": 16,
+			"type": "maya-config-group",
+            "style": {
+                "textAlign": "right"
+            },
+            "model": {
+                "btn1": "提交",
+                "btn2": "收藏",
+                "btn3": "清空"
+            }
+		},
+        "username1": {
+            "id": 1,
+            "label": "用户名",
+            "style": {
+                "width": "200px"
+            },
+            "extend": {
+                "truncate-to": 15,
+                "capitalize": "",
+                "ng-minlength": 3,
+                "ng-required": true
+            },
+
+            "placeholder": "请输入用户名"
+        },
+        "password1":{
+            "id": 2,
+            "type": "up-password",
+            "label": "密码",
+            "hide": "username!='YQFANG'|| write!='hello'"
+        },
+        "linkedA1": {
+            "id": 2.01,
+            "label": "联动inputA",
+            "placeholder": "请输入",
+            "extend": {
+                "maya-link-a-to-b": "",
+                "ng-pattern": "/^[0-9]*$/"
+            }
+        },
+        "linkedB1": {
+            "id": 2.02,
+            "label": "联动inputB",
+            "placeholder": "请输入",
+            "extend": {
+                "ng-required": true
+            }
+        },
+        "roles1": {
+            "id": 2.1,
+            "type": "maya-check-list",
+            "label": "角色",
+            "style": {
+                "margin": "6px 10px 0 0"
+            },
+            "candidates": [
+                {
+                    "name": "管理员",
+                    "value": "admin"
+                },
+                {
+                    "name": "顾客",
+                    "value": "customer"
+                },
+                {
+                    "name": "用户",
+                    "value": "user"
+                },
+                {
+                    "name": "客人",
+                    "value": "guest"
+                }
+            ]
+        },
+        "write1": {
+            "id": 3,
+            "type": "up-textarea",
+            "label": "备注",
+            "extend": {
+                "ng-pattern": "/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/i"
+            }
+        },
+        "datefor1":{
+            "id": 4,
+            "type": "up-date",
+            "label": "日期"
+        },
+        "timefor1":{
+            "id": 5,
+            "type": "up-time",
+            "label": "时间"
+        },
+        "datetime1":{
+            "id": 6,
+            "type": "up-datetime",
+            "label": "具体时间"
+        },
+        "country1":{
+            "id": 7,
+            "type": "up-select",
+            "label": "国家",
+            "required": true,
+            "candidates": [
+                {
+                    "name": "美国",
+                    "value": "American"
+                },
+                {
+                    "name": "英国",
+                    "value": "English"
+                }
+            ]
+        },
+        "sql1":{
+            "id": 9,
+            "header": "<i>编辑 SQL</i>",
+            "body": "<div up-normal-form/>",
+            "footer": "<div up-normal-dialog-footer ok='提交' cancel='撤销'/>",
+            "controller": "mayaSqlEditorDialogController",
+            "size": "lg",
+            "type": "up-dialog",
+            "label": "高级 SQL",
+            "button": "编辑"
+        },
+        "satisfied1":{
+            "id": 10,
+            "type": "up-checkbox",
+            "label": "是否满意"
+        },
+
+       "sex1": {
+            "id": 11,
+            "label": "性别",
+            "type": "up-radio",
+            "hide": true,
+            "candidates": [
+                {
+                    "value": "male",
+                    "label": "男性"
+                },
+                {
+                    "value": "female",
+                    "label": "女性"
+                }
+
+            ],
+            "required": true
+        },
+		"color1":{
+            "id": 12,
+            "label": "颜色",
+            "style": {
+                "width": "100%"
+            },
+			"type": "maya-ui-select",
+            "disabled": false,
+            "model": [
+                {"id": 1, "name": "red"},
+				{"id": 2, "name": "black"},
+				{"id": 3, "name": "yello"},
+				{"id": 4, "name": "white"},
+				{"id": 5, "name": "black"},
+                {"id": 6, "name": "red"},
+				{"id": 7, "name": "black"},
+				{"id": 8, "name": "yello"},
+				{"id": 9, "name": "white"},
+				{"id": 10, "name": "black"}
+
+            ]
+		},
+        "employNum1": {
+            "id": 13,
+            "label": "员工编号",
+            "type": "maya-http-select",
+            "style": {
+                "width": "80%"
+            },
+            "wait": 1000
+        },
+        "contact1": {
+            "id": 14,
+            "label": "联系人",
+            "type": "maya-ui-select-single-tagging",
+            "style": {
+                "width": "100%"
+            },
+            "model": [
+                {
+                    "name": "小明",
+                    "email": "adasd@asd.com"
+                },
+                {
+                     "name": "小❀花",
+                     "email": "xiaolei@asd.com"
+                },
+                {
+                     "name": "小雷",
+                     "email": "xiaolei@asd.com"
+                }
+            ]
+
+        },
+        "editor1": {
+            "label": "编辑 sql",
+            "id": 15,
+            "style": {
+                "height": "200px"
+            },
+            "syntax": "sql",
+            "type": "up-editor"
         }
     },
     "option": {
         "name": "demo1",
-        "layout": "up-layout",
         "formClass": "form-horizontal",
-        "labelClass": "col-xs-8",
-        "inputClass": "col-xs-14"
+        "layout": "up-layout",
+        "labelClass": "col-xs-6",
+        "inputClass": "col-xs-16"
     }
 
 }
