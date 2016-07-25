@@ -18,8 +18,7 @@
         "password":{
             "id": 2,
             "type": "up-password",
-            "label": "密码",
-            "hide": "username!='YQFANG'|| write!='hello'"
+            "label": "密码"
         },
         "linkedA": {
             "id": 2.01,
@@ -124,7 +123,6 @@
             "id": 11,
             "label": "性别",
             "type": "up-radio",
-            "hide": true,
             "candidates": [
                 {
                     "value": "male",
@@ -231,8 +229,7 @@
         "password1":{
             "id": 2,
             "type": "up-password",
-            "label": "密码",
-            "hide": "username!='YQFANG'|| write!='hello'"
+            "label": "密码"
         },
         "linkedA1": {
             "id": 2.01,
@@ -417,10 +414,10 @@
     },
     "option": {
         "name": "demo1",
-        "formClass": "form-horizontal",
-        "layout": "up-layout",
-        "labelClass": "col-xs-6",
-        "inputClass": "col-xs-16"
+        "layout": [15, null, null],
+        "labelClass": "col-xs-4",
+        "inputClass": "col-xs-18"
     }
+
 
 }

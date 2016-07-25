@@ -1,4 +1,4 @@
-<div form_layout>
+<div up-form-layout>
 	<style type="text/css">
 		.form-horizontal .control-label {
 			text-align: right;
@@ -10,7 +10,7 @@
 			display: none;
 		}
 	</style>
-    <div ng-repeat="field in (uform.fields | orderById: 'id')">
+    <div ng-repeat="field in uform.sfields">
         <div compile-field="field.type" >
         </div>
     </div>

@@ -14,7 +14,7 @@ uf.directive('compileField', ['$compile', 'uFormUtil', function ($compile, uForm
             var type = scope.$parent.$eval(attrs.compileField) || 'up-text';
             var formEle = element.closest("[u-form]");
             var targetName = scope.$proxy.field.name;
-            var slot = formEle.find("[transclude-id='" + targetName + "']");
+            var slot = formEle.find("[transclude-id='" + form.option.name + "." + targetName + "']");
             uFormUtil.getTemplate('field').then(function(textTpl) {
                 var actpl = textTpl.replace(/tmptype/i, type);
                 if(slot.length){

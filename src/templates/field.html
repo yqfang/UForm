@@ -1,7 +1,7 @@
 <div class="form-group" ufield-hide="{{$proxy.field.hide}}" ng-class="{'has-error': $proxy.form.$form[$proxy.field.name].$dirty && $proxy.form.$form[$proxy.field.name].$invalid}">
     <label for="{{$proxy.field.name}}" ng-class="$proxy.form.option.labelClass" class="control-label">
         <span ng-show="$proxy.field.extend['ng-required'] && $proxy.field.label">*</span>
-        <span ng-if="$proxy.field.type!='up-checkbox'">{{ $proxy.field.label }}</span>
+        <span ng-show="$proxy.field.type!='up-checkbox'">{{ $proxy.field.label }}</span>
     </label>
     <div ng-class="[$proxy.field.name, $proxy.form.option.inputClass]"  tmptype />
 </div>
