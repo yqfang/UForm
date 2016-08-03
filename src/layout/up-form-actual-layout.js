@@ -5,7 +5,7 @@ uf
             transclude: true,
             require: '?^uForm',
             link: function(scope, elem, attrs, form) {
-                var colarr = form.option.layout;
+                var colarr = angular.extend({}, form.option.layout);
                 if(!colarr) return;
                 var gap = 24 / colarr.length;
                 var fieldLength = form.sfields.length;
