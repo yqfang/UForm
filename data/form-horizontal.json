@@ -10,7 +10,8 @@
                 "truncate-to": 15,
                 "capitalize": "",
                 "ng-minlength": 3,
-                "ng-required": true
+                "ng-required": true,
+                "up-blocklify": true
             },
 
             "placeholder": "请输入用户名"
@@ -415,7 +416,7 @@
     "option": {
         "name": "demo1",
         "layout": [15, null, null],
-        "labelClass": "col-xs-4",
+        "labelClass": "col-xs-4 fix-two-rows",
         "inputClass": "col-xs-18"
     }
 
