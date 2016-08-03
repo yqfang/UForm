@@ -2,6 +2,57 @@
 
 UForm 是基于 AngularJs 的一套模型驱动表单框架。特点是：模型化、高兼容、易拓展。
 
+## UForm v3.6 changelog
+
+- 新增 layout 配置（自动分列）[demo](http://yqfang.github.io/UForm/#/form/common/horizontal)
+
+layout 接受一个数组，数组长度为列数，数组每个元素为当前列 field 的个数（fied 按照 id 排序后自动分列）
+
+```
+    "option": {
+        "name": "demo1",
+        "layout": [15, 8, null], // 三列，每列为 15， 8， 总列数-15-8
+        "labelClass": "col-xs-4",
+        "inputClass": "col-xs-18"
+    }
+```
+
+如果需要均分每列，只需要给数组的值设为 null，例如
+
+```
+    "option": {
+        "name": "demo1",
+        "layout": [null, null], // 两列，每列为（总 field 数 / 2)
+        "labelClass": "col-xs-4",
+        "inputClass": "col-xs-18"
+    }
+```
+### 备注
+
+1. 为了分列的粒度能够更好地控制，把 bootstrap 原本的栅格系统由 12 cols 变为 24 cols，请更新最新的 [up-lib](https://github.com/yqfang/up-lib)
+2. 参考自动分列[源码](https://github.com/yqfang/UForm/blob/master/src/layout/up-form-actual-layout.js#L2)，用户可以自行实现自动分组+自动分列，无非是拼 dom 的时候再加一层 group 的嵌套，用户可以自行实现。
+
+```
+    "option": {
+        "name": "demo1",
+        "layout": 'grouped',
+        "labelClass": "col-xs-4",
+        "inputClass": "col-xs-18"
+    }
+,
+    "groups": [{
+        "name": "组1",
+        "layout": [2, 2]
+    },{
+        "name": "组2",
+        "layout": [3, 3]
+    }, {
+        "name": "组3",
+        "layout": [null, null]
+    }]
+```
+
+
 ## UForm v3.5 changelog
 
 
