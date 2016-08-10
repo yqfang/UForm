@@ -83,7 +83,7 @@
 
 		})
 
-		.controller("formHorizontalController", function($timeout, $interval, json, $scope, $rootScope, $stateParams) {
+		.controller("formHorizontalController", function($timeout, $scope,$interval, json, $scope, $rootScope, $stateParams) {
 			var vm = this;
 			$rootScope.monitor.form = json["horizontal"];
 			this.fields = json["horizontal"].fields;
@@ -104,13 +104,17 @@
 			this.submit = function() {
 				$rootScope.monitor.uform = {};
 				$timeout(function() {
-				$rootScope.monitor.uform = $scope[formName];
-				console.info($scope[formName]);
-			}, 1000);
+					$rootScope.monitor.uform = $scope[formName];
+					console.info($scope[formName]);
+				}, 1000);
 				if($scope[formName].$valid){
 
 					console.info(vm.result);
 				}
+			};
+			vm.value = true;
+			vm.click = function(e){
+				vm.value = "fyq";
 			}
 		})
 		.controller("formInlineController", function($timeout, $scope, json, $rootScope, $stateParams) {

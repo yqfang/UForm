@@ -10,7 +10,8 @@
                 "truncate-to": 15,
                 "capitalize": "",
                 "ng-minlength": 3,
-                "ng-required": true
+                "ng-required": true,
+                "up-blocklify": true
             },
 
             "placeholder": "请输入用户名"
@@ -18,8 +19,7 @@
         "password":{
             "id": 2,
             "type": "up-password",
-            "label": "密码",
-            "hide": "username!='YQFANG'|| write!='hello'"
+            "label": "密码"
         },
         "linkedA": {
             "id": 2.01,
@@ -117,14 +117,16 @@
         "satisfied":{
             "id": 10,
             "type": "up-checkbox",
-            "label": "是否满意"
+            "label": "是否满casasd意",
+            "extend": {
+                "ng-true-value": "qianzhixiang",
+                "ng-false-value": "fangyuqing"
+            }
         },
-
        "sex": {
             "id": 11,
             "label": "性别",
             "type": "up-radio",
-            "hide": true,
             "candidates": [
                 {
                     "value": "male",
@@ -231,8 +233,7 @@
         "password1":{
             "id": 2,
             "type": "up-password",
-            "label": "密码",
-            "hide": "username!='YQFANG'|| write!='hello'"
+            "label": "密码"
         },
         "linkedA1": {
             "id": 2.01,
@@ -330,7 +331,10 @@
         "satisfied1":{
             "id": 10,
             "type": "up-checkbox",
-            "label": "是否满意"
+            "label": "是否满意",
+            "extend": {
+                "maya-exec": "satisfied='fyq'"
+            }
         },
 
        "sex1": {
@@ -417,10 +421,10 @@
     },
     "option": {
         "name": "demo1",
-        "formClass": "form-horizontal",
-        "layout": "up-layout",
-        "labelClass": "col-xs-6",
-        "inputClass": "col-xs-16"
+        "layout": [15, null, null],
+        "labelClass": "col-xs-4 fix-two-rows",
+        "inputClass": "col-xs-18"
     }
+
 
 }

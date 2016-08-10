@@ -2,7 +2,7 @@
  * uform
  * https://github.com/yqfang/UForm#readme
  * yqfang,qianzhixiang
- * Version: 1.0.0 - 2016-07-21T16:52:26.404Z
+ * Version: 1.0.0 - 2016-07-22T20:16:29.442Z
  * License: ISC
  */
 
@@ -63,7 +63,7 @@ uf.directive('compileField', ['$compile', 'uFormUtil', function ($compile, uForm
             var type = scope.$parent.$eval(attrs.compileField) || 'up-text';
             var formEle = element.closest("[u-form]");
             var targetName = scope.$proxy.field.name;
-            var slot = formEle.find("[transclude-id='" + targetName + "']");
+            var slot = formEle.find("[transclude-id='" + form.option.name + "." + targetName + "']");
             uFormUtil.getTemplate('field').then(function(textTpl) {
                 var actpl = textTpl.replace(/tmptype/i, type);
                 if(slot.length){
@@ -114,30 +114,28 @@ uf.directive("ufieldHide", ["$parse", function ($parse) {
     }
 }])
 
-uf.directive("uForm", ["$rootScope", "uFormUtil", "$compile", function ($rootScope, uFormUtil, $compile) {
+uf.directive("uForm", function () {
     return {
         restrict: "EA",
-        controller: ["$scope", "$attrs", "$rootScope", function ($scope, $attrs, $rootScope) {
+        controller: ["$scope", "$attrs", "$filter", function ($scope, $attrs, $filter) {
             var $parent = $scope.$parent;
             this.fields = $parent.$eval($attrs.fields);
+            this.sfields = $filter('orderById')(this.fields, 'id');
             this.option = $parent.$eval($attrs.option);
             this.result = $parent.$eval($attrs.result) || $parent.$eval($attrs.result + "={}");
         }],
         scope: {},
+        templateUrl: 'form.html',
         controllerAs: "uform",
         require: '?^uFormGroup',
         link: function (scope, elem, attr, group) {
-            uFormUtil.getTemplate('form').then(function(tpl) {
-                elem.html(tpl.replace(/form_layout/i, scope.uform.option.layout || ""));
-                $compile(elem.contents())(scope);
-            })
             scope.uform.$form = scope.$parent.$eval(attr.name);
             group && group.fields && group.fields.push(scope.uform.fields);
             group && group.result && group.result.push(scope.uform.result);
         }
 
     }
-}]);
+});
 
 uf.directive("uFormGroup", function () {
     return {
@@ -190,6 +188,33 @@ uf.directive("truncateTo", ["$parse", function ($parse) {
             }
             modelCtrl.$parsers.push(truncateTo);
             truncateTo("");
+        }
+    }
+}])
+
+uf.controller('commonDialogController', commonDialogController);
+commonDialogController.$inject = ['data', '$modalInstance', 'uform'];
+function commonDialogController(data, $modalInstance, uform) {
+    var vm = this;
+    angular.extend(this, uform.buildDialog(data.header, data.body, data.footer));
+    angular.extend(this, {
+        ok: function() {
+            $modalInstance.close("");
+        },
+        cancel: function() {
+            $modalInstance.dismiss('Canceled');
+        }
+    })
+}
+
+uf.directive('upNormalDialogFooter', ['$compile', 'uFormUtil', function ($compile, uFormUtil) {
+    return {
+        restrict: 'EA',
+        link: function (scope, elem, attr) {
+            uFormUtil.getTemplate('up-normal-dialog-footer').then(function(textTpl) {
+                elem.html(textTpl.replace(/DIALOG_OK/g , attr.ok || '确定').replace(/DIALOG_CANCEL/g , attr.cancel || '取消'));
+                $compile(elem.contents())(scope);
+            });
         }
     }
 }])
@@ -279,33 +304,6 @@ uf.directive('upEditor', ['$compile', 'uFormUtil', function ($compile, uFormUtil
     }
 }])
 
-uf.controller('commonDialogController', commonDialogController);
-commonDialogController.$inject = ['data', '$modalInstance', 'uform'];
-function commonDialogController(data, $modalInstance, uform) {
-    var vm = this;
-    angular.extend(this, uform.buildDialog(data.header, data.body, data.footer));
-    angular.extend(this, {
-        ok: function() {
-            $modalInstance.close("");
-        },
-        cancel: function() {
-            $modalInstance.dismiss('Canceled');
-        }
-    })
-}
-
-uf.directive('upNormalDialogFooter', ['$compile', 'uFormUtil', function ($compile, uFormUtil) {
-    return {
-        restrict: 'EA',
-        link: function (scope, elem, attr) {
-            uFormUtil.getTemplate('up-normal-dialog-footer').then(function(textTpl) {
-                elem.html(textTpl.replace(/DIALOG_OK/g , attr.ok || '确定').replace(/DIALOG_CANCEL/g , attr.cancel || '取消'));
-                $compile(elem.contents())(scope);
-            });
-        }
-    }
-}])
-
 uf.directive('upNormalForm', ['$compile', 'uFormUtil', function ($compile, uFormUtil) {
     return {
         restrict: 'EA',
@@ -317,6 +315,61 @@ uf.directive('upNormalForm', ['$compile', 'uFormUtil', function ($compile, uForm
         }
     }
 }])
+
+uf
+    .directive('upFormActualLayout', ["uFormUtil", "$compile", function(uFormUtil, $compile) {
+        return {
+            restrict: 'EA',
+            transclude: true,
+            require: '?^uForm',
+            link: function(scope, elem, attrs, form) {
+                var colarr = form.option.layout;
+                if(!colarr) return;
+                var gap = 24 / colarr.length;
+                var fieldLength = form.sfields.length;
+                var ecol = '</div>'
+                var templ = "";
+
+                var z = 0;
+                for(var i = 0; i < colarr.length; i++) {
+                    var ttempl = '<div class="col-xs-' + gap + '">';
+                    var strt = [];
+                    colarr[i] || (colarr[i] = form.sfields.length / colarr.length);
+                    if(i == colarr.length - 1) {
+                        var tsum = 0;
+                        for(var a = 0; a < colarr.length -1; a ++) {
+                            tsum += colarr[a];
+                        }
+                        colarr[i] = form.sfields.length - tsum;
+                    }
+                    var tl = colarr[i];
+                    for(var j = 0; (j < tl) && (z < form.sfields.length); j++) {
+                        strt[j] = '<div transclude-id="' + form.option.name + '.' + form.sfields[z].name + '"></div>';
+                        z++;
+                    }
+                    ttempl += strt.join('');
+                    ttempl += ecol;
+                    templ += ttempl;
+                }
+                //  uFormUtil.getTemplate(tpl).then(function(textTpl) {
+                        elem.html(templ);
+                        $compile(elem.contents())(scope);
+                //  })
+            }
+        }
+	}])
+
+uf
+    .directive('upFormLayout', function() {
+        return {
+            restrict: 'EA',
+            transclude: true,
+            templateUrl: 'up-form-layout.html',
+            link: function(scope, elem, attrs) {
+
+            }
+        }
+	})
 
 uf.provider('uform', function() {
     function _buildDialog(header, body, footer){
@@ -451,12 +504,13 @@ uf.directive('upBindCompile', ['$compile', function ($compile) {
 }])
 
 }());
-angular.module('up.uform').run(['$templateCache', function($templateCache) {$templateCache.put('field.html','<div class=form-group ufield-hide={{$proxy.field.hide}} ng-class="{\'has-error\': $proxy.form.$form[$proxy.field.name].$dirty && $proxy.form.$form[$proxy.field.name].$invalid}"><label for={{$proxy.field.name}} ng-class=$proxy.form.option.labelClass class=control-label><span ng-show="$proxy.field.extend[\'ng-required\'] && $proxy.field.label">*</span> <span ng-if="$proxy.field.type!=\'up-checkbox\'">{{ $proxy.field.label }}</span></label><div ng-class="[$proxy.field.name, $proxy.form.option.inputClass]" tmptype=""></div></div>');
-$templateCache.put('form.html','<div form_layout=""><style type=text/css>\n\t\t.form-horizontal .control-label {\n\t\t\ttext-align: right;\n\t\t}\n\t\t.control-datepicker {\n\t\t\tpadding-left: 0;\n\t\t}\n\t\t.timepicker tr.text-center {\n\t\t\tdisplay: none;\n\t\t}\n\t</style><div ng-repeat="field in (uform.fields | orderById: \'id\')"><div compile-field=field.type></div></div></div>');
+angular.module('up.uform').run(['$templateCache', function($templateCache) {$templateCache.put('field.html','<div class=form-group ufield-hide={{$proxy.field.hide}} ng-class="{\'has-error\': $proxy.form.$form[$proxy.field.name].$dirty && $proxy.form.$form[$proxy.field.name].$invalid}"><label for={{$proxy.field.name}} ng-class=$proxy.form.option.labelClass class=control-label><span ng-show="$proxy.field.extend[\'ng-required\'] && $proxy.field.label">*</span> <span ng-show="$proxy.field.type!=\'up-checkbox\'">{{ $proxy.field.label }}</span></label><div ng-class="[$proxy.field.name, $proxy.form.option.inputClass]" tmptype=""></div></div>');
+$templateCache.put('form.html','<div up-form-layout=""><style type=text/css>\n\t\t.form-horizontal .control-label {\n\t\t\ttext-align: right;\n\t\t}\n\t\t.control-datepicker {\n\t\t\tpadding-left: 0;\n\t\t}\n\t\t.timepicker tr.text-center {\n\t\t\tdisplay: none;\n\t\t}\n\t</style><div ng-repeat="field in uform.sfields"><div compile-field=field.type></div></div></div>');
 $templateCache.put('up-checkbox.html','<div class=checkbox><label><input type=checkbox name={{vm.field.name}} ng-model=vm.form.result[vm.field.name]> {{ vm.field.label }}</label></div>');
 $templateCache.put('up-date.html','<div><input type=text name={{vm.field.name}} class="form-control datepicker" datepicker-popup=yyyy-MM-dd ng-model=vm.form.result[vm.field.name] ng-init="vm.form.open=false" is-open=vm.form.open ng-style=vm.field.style show-button-bar=false ng-click="vm.form.open=!vm.form.open"></div>');
 $templateCache.put('up-datetime.html','<div><div class="col-xs-12 control-datepicker"><input type=text name={{vm.field.name}} class="form-control datepicker" datepicker-popup=yyyy-MM-dd ng-model=vm.form.result[vm.field.name] ng-init="vm.form.open=false" is-open=vm.form.open show-button-bar=false ng-click="vm.form.open=!vm.form.open"></div><div><div class=timepicker timepicker="" ng-model=vm.form.result[vm.field.name]></div></div></div>');
 $templateCache.put('up-editor.html','<style>\n    .CodeMirror.cm-s-default {\n        border: 1px solid #ccc;;\n        height: 100%;\n        border-radius: 4px;\n    }\n</style><section ng-style=vm.field.style><div ui-codemirror=vm.field.option style="height: 100%;" ng-model=vm.form.result[vm.field.name]></div></section>');
+$templateCache.put('up-form-layout.html','<div><div up-form-actual-layout=""></div><div ng-transclude=""></div></div>');
 $templateCache.put('up-normal-dialog-footer.html','<button class="btn btn-primary" type=button ng-click=vm.ok()>DIALOG_OK</button> <button class="btn btn-warning" type=button ng-click=vm.cancel()>DIALOG_CANCEL</button>');
 $templateCache.put('up-normal-dialog.html','<div class=modal-header><h3 class=modal-title up-bind-compile=vm.header></h3></div><div class=modal-body up-bind-compile=vm.body></div><div class=modal-footer up-bind-compile=vm.footer></div>');
 $templateCache.put('up-normal-form.html','<form u-form="" novalidate="" name={{vm.option.name}} ng-class=vm.option.formClass fields=vm.fields option=vm.option result=vm.result ng-submit=vm.submit()></form>');

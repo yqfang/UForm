@@ -1,8 +1,9 @@
-<form u-form
-         novalidate
+<form u-form class="form-horizontal" novalidate
 	      name="{{vm.option.name}}"
-	      ng-class="vm.option.formClass"
 		  fields="vm.fields"
 		  option="vm.option"
 		  result="vm.result"
 		  ng-submit='vm.submit()'/>
+	<input type="checkbox" ng-model="vm.value" ng-true-value="qianzhixiang" ng-false-value="fyq">asdas<br/>
+	{{vm.value}}
+	<button ng-click="vm.click()">asdasd </button>
