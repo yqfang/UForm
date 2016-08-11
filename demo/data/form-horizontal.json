@@ -117,9 +117,12 @@
         "satisfied":{
             "id": 10,
             "type": "up-checkbox",
-            "label": "是否满意"
+            "label": "是否满casasd意",
+            "extend": {
+                "ng-true-value": "qianzhixiang",
+                "ng-false-value": "fangyuqing"
+            }
         },
-
        "sex": {
             "id": 11,
             "label": "性别",
@@ -328,7 +331,10 @@
         "satisfied1":{
             "id": 10,
             "type": "up-checkbox",
-            "label": "是否满意"
+            "label": "是否满意",
+            "extend": {
+                "maya-exec": "satisfied='fyq'"
+            }
         },
 
        "sex1": {
